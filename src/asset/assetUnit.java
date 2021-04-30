@@ -1,6 +1,6 @@
 package asset;
 
-public abstract class assetUnit implements asset{
+public class assetUnit implements asset{
     private String assetName;
     private Integer assetID;
 

@@ -1,6 +1,6 @@
 package org;
 
-public abstract class orgUnit implements org{
+public class orgUnit implements org{
 
     private Double orgCredit;
     private String orgName;
