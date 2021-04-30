@@ -1,5 +1,9 @@
 package user;
 
+/**
+ * A Class for Admin Users
+ */
+
 public class adminUser implements user{
     private String name;
     private Integer userID;
