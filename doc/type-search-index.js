@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"user","l":"adminUser"},{"l":"All Classes","u":"allclasses-index.html"},{"p":"asset","l":"asset"},{"p":"asset","l":"assetUnit"},{"p":"<Unnamed>","l":"Main"},{"p":"user","l":"normalUser"},{"p":"org","l":"org"},{"p":"org","l":"orgUnit"},{"p":"user","l":"user"}];updateSearchResults();
