@@ -10,6 +10,7 @@ public class adminUser implements user{
     private Boolean status;
 
     /**
+     * Create an instance of adminUser
      *
      * @param name Name of the user
      * @param userID ID of the user
@@ -17,7 +18,7 @@ public class adminUser implements user{
     public adminUser(String name, Integer userID){
         this.name = name;
         this.userID = userID;
-        this.status = false;
+        this.status = true;
     }
 
     /**
@@ -32,7 +33,7 @@ public class adminUser implements user{
 
     /**
      * Get method for the status of the user
-     *
+     * For admin user this will true
      * @return the status of the user
      */
     @Override
