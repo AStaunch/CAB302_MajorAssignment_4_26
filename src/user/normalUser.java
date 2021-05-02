@@ -6,7 +6,7 @@ package user;
 public class normalUser extends adminUser{
     private String name;
     private Integer userID;
-    private Boolean status;
+    private Boolean isAdmin;
     private Integer orgID;
 
     /**
@@ -18,7 +18,7 @@ public class normalUser extends adminUser{
      */
     public normalUser(String name, Integer userID, Integer orgID){
         super(name, userID);
-        this.status = false;
+        this.isAdmin = false;
         this.orgID = orgID;
     }
 
@@ -58,7 +58,7 @@ public class normalUser extends adminUser{
      * @return status of the user
      */
     @Override
-    public Boolean status() {
-        return status;
+    public Boolean isAdmin() {
+        return isAdmin;
     }
 }

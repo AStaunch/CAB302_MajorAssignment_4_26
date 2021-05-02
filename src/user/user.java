@@ -5,5 +5,5 @@ public interface user {
 
     Integer userID();
 
-    Boolean status();
+    Boolean isAdmin();
 }

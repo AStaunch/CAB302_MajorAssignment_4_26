@@ -7,7 +7,7 @@ package user;
 public class adminUser implements user{
     private String name;
     private Integer userID;
-    private Boolean status;
+    private Boolean isAdmin;
 
     /**
      * Create an instance of adminUser
@@ -18,7 +18,7 @@ public class adminUser implements user{
     public adminUser(String name, Integer userID){
         this.name = name;
         this.userID = userID;
-        this.status = true;
+        this.isAdmin = true;
     }
 
     /**
@@ -37,8 +37,8 @@ public class adminUser implements user{
      * @return the status of the user
      */
     @Override
-    public Boolean status() {
-        return status;
+    public Boolean isAdmin() {
+        return isAdmin;
     }
 
     /**
