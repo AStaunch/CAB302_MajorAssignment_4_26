@@ -26,7 +26,7 @@ public class normalUser extends adminUser {
      * @return ID of the user
      */
     public Integer orgID(){
-        return 0;
+        return null;
     }
 
     /**
@@ -46,7 +46,7 @@ public class normalUser extends adminUser {
      */
     @Override
     public Integer userID() {
-        return 0;
+        return null;
     }
 
     /**

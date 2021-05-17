@@ -26,7 +26,7 @@ public class adminUser implements user {
      */
     @Override
     public Integer userID() {
-        return 0;
+        return null;
     }
 
     /**

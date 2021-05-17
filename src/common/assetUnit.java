@@ -50,12 +50,22 @@ public class assetUnit implements asset{
     }
 
     /**
+     * Get method for price of the asset
+     *
+     * @return Price of the asset
+     */
+    @Override
+    public Double assetPrice() {
+        return null;
+    }
+
+    /**
      * Get method for the ID of the asset
      *
      * @return ID of the asset
      */
     @Override
     public Integer assetID() {
-        return 0;
+        return null;
     }
 }
