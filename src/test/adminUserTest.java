@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class adminUserTest {
-    adminUser user1;
+    private adminUser user1;
 
     @BeforeEach
     public void initAdmin(){

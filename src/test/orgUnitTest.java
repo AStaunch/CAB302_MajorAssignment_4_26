@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class orgUnitTest {
-    orgUnit org;
+    private orgUnit org;
 
     @BeforeEach
     public void initOrg(){
