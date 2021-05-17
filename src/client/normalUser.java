@@ -1,9 +1,9 @@
-package user;
+package client;
 
 /**
  * A class for creating a normal user object
  */
-public class normalUser extends adminUser{
+public class normalUser extends adminUser {
     private String name;
     private Integer userID;
     private Boolean isAdmin;

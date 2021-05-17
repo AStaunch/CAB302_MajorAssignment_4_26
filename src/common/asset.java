@@ -1,4 +1,4 @@
-package asset;
+package common;
 
 public interface asset {
     String assetName();

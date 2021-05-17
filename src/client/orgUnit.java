@@ -1,9 +1,9 @@
-package org;
+package client;
 
 /**
  * A class for creating organisation unit as object
  */
-public class orgUnit implements org{
+public class orgUnit implements org {
 
     private Double orgCredit;
     private String orgName;

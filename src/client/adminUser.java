@@ -1,10 +1,10 @@
-package user;
+package client;
 
 /**
  * A Class for creating admin user as objects
  */
 
-public class adminUser implements user{
+public class adminUser implements user {
     private String name;
     private Integer userID;
     private Boolean isAdmin;

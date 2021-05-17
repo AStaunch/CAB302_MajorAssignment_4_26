@@ -1,4 +1,4 @@
-package user;
+package client;
 
 public interface user {
     String identity();
