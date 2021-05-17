@@ -14,9 +14,6 @@ public class assetUnit implements asset{
      * @param assetID ID of the asset
      */
     public assetUnit(String assetName, Integer assetID){
-        this.assetName = assetName;
-        this.assetID = assetID;
-
     }
 
     /**
@@ -26,7 +23,7 @@ public class assetUnit implements asset{
      */
     @Override
     public String assetName() {
-        return assetName;
+        return null;
     }
 
     /**
@@ -36,6 +33,6 @@ public class assetUnit implements asset{
      */
     @Override
     public Integer assetID() {
-        return assetID;
+        return 0;
     }
 }

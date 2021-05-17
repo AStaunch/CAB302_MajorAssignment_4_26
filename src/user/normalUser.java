@@ -18,8 +18,6 @@ public class normalUser extends adminUser{
      */
     public normalUser(String name, Integer userID, Integer orgID){
         super(name, userID);
-        this.isAdmin = false;
-        this.orgID = orgID;
     }
 
     /**
@@ -28,7 +26,7 @@ public class normalUser extends adminUser{
      * @return ID of the user
      */
     public Integer orgID(){
-        return orgID;
+        return 0;
     }
 
     /**
@@ -38,7 +36,7 @@ public class normalUser extends adminUser{
      */
     @Override
     public String identity() {
-        return name;
+        return null;
     }
 
     /**
@@ -48,7 +46,7 @@ public class normalUser extends adminUser{
      */
     @Override
     public Integer userID() {
-        return userID;
+        return 0;
     }
 
     /**
@@ -59,6 +57,6 @@ public class normalUser extends adminUser{
      */
     @Override
     public Boolean isAdmin() {
-        return isAdmin;
+        return null;
     }
 }
