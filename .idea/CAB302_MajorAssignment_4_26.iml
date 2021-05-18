@@ -33,5 +33,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="org.mariadb.jdbc:mariadb-java-client:2.7.21" level="application" />
   </component>
 </module>
