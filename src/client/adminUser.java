@@ -16,7 +16,9 @@ public class adminUser implements user {
      * @param userID ID of the user
      */
     public adminUser(String name, Integer userID){
-
+        this.name = name;
+        this.userID = userID;
+        this.isAdmin = true;
     }
 
     /**
@@ -26,7 +28,7 @@ public class adminUser implements user {
      */
     @Override
     public Integer userID() {
-        return null;
+        return userID;
     }
 
     /**
@@ -36,7 +38,7 @@ public class adminUser implements user {
      */
     @Override
     public Boolean isAdmin() {
-        return null;
+        return isAdmin;
     }
 
     /**
@@ -46,6 +48,6 @@ public class adminUser implements user {
      */
     @Override
     public String identity() {
-        return null;
+        return name;
     }
 }

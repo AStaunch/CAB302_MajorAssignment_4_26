@@ -6,6 +6,7 @@ package common;
 public class assetUnit implements asset{
     private String assetName;
     private Integer assetID;
+    private Double assetPrice;
 
     /**
      * Create an instance of assetUnit
@@ -15,10 +16,13 @@ public class assetUnit implements asset{
      * @param assetPrice Price of the asset
      */
     public assetUnit(String assetName, Integer assetID, Double assetPrice){
+        this.assetName = assetName;
+        this.assetID = assetID;
+        this.assetPrice = assetPrice;
     }
 
     /**
-     * This method adds the common asset to the database
+     * This method adds the asset to the database
      *
      * @param assetName Name of the asset
      * @param assetID ID of the common asset
@@ -46,7 +50,7 @@ public class assetUnit implements asset{
      */
     @Override
     public String assetName() {
-        return null;
+        return assetName;
     }
 
     /**
@@ -56,7 +60,7 @@ public class assetUnit implements asset{
      */
     @Override
     public Double assetPrice() {
-        return null;
+        return assetPrice;
     }
 
     /**
@@ -66,6 +70,6 @@ public class assetUnit implements asset{
      */
     @Override
     public Integer assetID() {
-        return null;
+        return assetID;
     }
 }

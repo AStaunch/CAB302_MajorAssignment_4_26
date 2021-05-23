@@ -17,6 +17,9 @@ public class orgUnit implements org {
      * @param orgCredit Credit that the organisation have
      */
     public orgUnit(Integer orgID, String orgName, Double orgCredit) {
+        this.orgID = orgID;
+        this.orgName = orgName;
+        this.orgCredit = orgCredit;
     }
 
     /**
@@ -27,7 +30,8 @@ public class orgUnit implements org {
      */
     @Override
     public Double addCredit(Double amount) {
-        return null;
+        orgCredit += amount;
+        return orgCredit;
     }
 
     /**
@@ -38,7 +42,8 @@ public class orgUnit implements org {
      */
     @Override
     public Double removeCredit(Double amount) {
-        return null;
+        orgCredit -= amount;
+        return orgCredit;
     }
 
     /**
@@ -48,7 +53,7 @@ public class orgUnit implements org {
      */
     @Override
     public Double orgCredit() {
-        return null;
+        return orgCredit;
     }
 
     /**
@@ -58,7 +63,7 @@ public class orgUnit implements org {
      */
     @Override
     public String orgName() {
-        return null;
+        return orgName;
     }
 
     /**
@@ -68,6 +73,6 @@ public class orgUnit implements org {
      */
     @Override
     public Integer orgID() {
-        return null;
+        return orgID;
     }
 }

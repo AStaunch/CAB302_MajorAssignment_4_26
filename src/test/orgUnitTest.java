@@ -37,7 +37,7 @@ public class orgUnitTest {
     @Test
     public void testRemoveCredit(){
         org.removeCredit(100.0);
-        assertEquals(0, org.orgCredit());
+        assertEquals(-100.0, org.orgCredit());
     }
 
 }
