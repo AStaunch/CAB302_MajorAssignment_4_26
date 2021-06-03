@@ -1,5 +1,12 @@
 package client;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+
 /**
  * A Class for creating admin user as objects
  */
@@ -8,6 +15,7 @@ public class adminUser implements user {
     private String name;
     private Integer userID;
     private Boolean isAdmin;
+    private String pwd;
 
     /**
      * Create an instance of adminUser
@@ -15,11 +23,13 @@ public class adminUser implements user {
      * @param name Name of the user
      * @param userID ID of the user
      */
-    public adminUser(String name, Integer userID){
+    public adminUser(String name, Integer userID, String pwd){
         this.name = name;
         this.userID = userID;
         this.isAdmin = true;
+        this.pwd = pwd;
     }
+
 
     /**
      * Get method for the ID of the user
@@ -49,5 +59,22 @@ public class adminUser implements user {
     @Override
     public String identity() {
         return name;
+    }
+
+    @Override
+    public byte[] hashPassword(String pwd) throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        //String password = "andre21312";
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        KeySpec spec = new PBEKeySpec(pwd.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        //System.out.println(hash);
+
+        return factory.generateSecret(spec).getEncoded();
     }
 }
