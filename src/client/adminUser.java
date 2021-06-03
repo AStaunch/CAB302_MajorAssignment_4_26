@@ -15,7 +15,6 @@ public class adminUser implements user {
     private String name;
     private Integer userID;
     private Boolean isAdmin;
-    private String pwd;
 
     /**
      * Create an instance of adminUser
@@ -27,9 +26,7 @@ public class adminUser implements user {
         this.name = name;
         this.userID = userID;
         this.isAdmin = true;
-        //this.pwd = pwd;
     }
-
 
     /**
      * Get method for the ID of the user

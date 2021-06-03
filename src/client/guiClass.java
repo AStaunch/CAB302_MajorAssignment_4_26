@@ -66,12 +66,12 @@ public class guiClass {
         btnPanel.add(logIn);
         logIn.addActionListener(e -> {
             frame.dispose();
-            normalUserFrame();
+            adminUserFrame();
         });
         pane.add(btnPanel);
     }
 
-    public JFrame normalUserFrame(){
+    public JFrame adminUserFrame(){
         JFrame frame = new JFrame("Electronic Asset Trading Platform");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
