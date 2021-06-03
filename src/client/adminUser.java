@@ -23,11 +23,11 @@ public class adminUser implements user {
      * @param name Name of the user
      * @param userID ID of the user
      */
-    public adminUser(String name, Integer userID, String pwd){
+    public adminUser(String name, Integer userID){
         this.name = name;
         this.userID = userID;
         this.isAdmin = true;
-        this.pwd = pwd;
+        //this.pwd = pwd;
     }
 
 
