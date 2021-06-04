@@ -5,9 +5,11 @@ package client;
  */
 public class orgUnit implements org {
 
-    private Double orgCredit;
-    private String orgName;
     private Integer orgID;
+    private String orgName;
+    private Double orgCredit;
+
+    public orgUnit(){}
 
     /**
      * Create an instance of orgUnit
@@ -19,6 +21,7 @@ public class orgUnit implements org {
     public orgUnit(Integer orgID, String orgName, Double orgCredit) {
     }
 
+
     /**
      * Adds amount to the credit that the organisation owns
      *
@@ -26,8 +29,9 @@ public class orgUnit implements org {
      * @return credit after adding amount
      */
     @Override
-    public Double addCredit(Double amount) {
-        return null;
+    public Boolean addCredit(Double amount) {
+        this.orgCredit = this.orgCredit + amount;
+        return true;
     }
 
     /**
@@ -37,8 +41,14 @@ public class orgUnit implements org {
      * @return credit after subtracting amount
      */
     @Override
-    public Double removeCredit(Double amount) {
-        return null;
+    public Boolean removeCredit(Double amount) {
+        if (amount > this.orgCredit) {
+            return false;
+        }
+        else {
+            this.orgCredit = this.orgCredit - amount;
+            return true;
+        }
     }
 
     /**
@@ -48,7 +58,7 @@ public class orgUnit implements org {
      */
     @Override
     public Double orgCredit() {
-        return null;
+        return this.orgCredit;
     }
 
     /**
@@ -58,7 +68,7 @@ public class orgUnit implements org {
      */
     @Override
     public String orgName() {
-        return null;
+        return this.orgName;
     }
 
     /**
@@ -68,6 +78,6 @@ public class orgUnit implements org {
      */
     @Override
     public Integer orgID() {
-        return null;
+        return this.orgID;
     }
 }
