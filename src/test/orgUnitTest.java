@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class orgUnitTest {
-    orgUnit org;
+    private orgUnit org;
 
     @BeforeEach
     public void initOrg(){
@@ -37,7 +37,7 @@ public class orgUnitTest {
     @Test
     public void testRemoveCredit(){
         org.removeCredit(100.0);
-        assertEquals(0, org.orgCredit());
+        assertEquals(-100.0, org.orgCredit());
     }
 
 }

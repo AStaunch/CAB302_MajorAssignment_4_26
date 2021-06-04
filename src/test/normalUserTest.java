@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class normalUserTest {
-    normalUser user1;
+    private normalUser user1;
 
     @BeforeEach
     public void initNormal(){

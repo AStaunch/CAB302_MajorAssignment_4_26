@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class assetUnitTest {
-    assetUnit asset1;
+    private assetUnit asset1;
 
     @BeforeEach
     public void initAsset(){

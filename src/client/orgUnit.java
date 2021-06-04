@@ -5,11 +5,9 @@ package client;
  */
 public class orgUnit implements org {
 
-    private Integer orgID;
-    private String orgName;
     private Double orgCredit;
-
-    public orgUnit(){}
+    private String orgName;
+    private Integer orgID;
 
     /**
      * Create an instance of orgUnit
@@ -19,8 +17,10 @@ public class orgUnit implements org {
      * @param orgCredit Credit that the organisation have
      */
     public orgUnit(Integer orgID, String orgName, Double orgCredit) {
+        this.orgID = orgID;
+        this.orgName = orgName;
+        this.orgCredit = orgCredit;
     }
-
 
     /**
      * Adds amount to the credit that the organisation owns
@@ -29,9 +29,9 @@ public class orgUnit implements org {
      * @return credit after adding amount
      */
     @Override
-    public Boolean addCredit(Double amount) {
-        this.orgCredit = this.orgCredit + amount;
-        return true;
+    public Double addCredit(Double amount) {
+        orgCredit += amount;
+        return orgCredit;
     }
 
     /**
@@ -41,14 +41,9 @@ public class orgUnit implements org {
      * @return credit after subtracting amount
      */
     @Override
-    public Boolean removeCredit(Double amount) {
-        if (amount > this.orgCredit) {
-            return false;
-        }
-        else {
-            this.orgCredit = this.orgCredit - amount;
-            return true;
-        }
+    public Double removeCredit(Double amount) {
+        orgCredit -= amount;
+        return orgCredit;
     }
 
     /**
@@ -58,7 +53,7 @@ public class orgUnit implements org {
      */
     @Override
     public Double orgCredit() {
-        return this.orgCredit;
+        return orgCredit;
     }
 
     /**
@@ -68,7 +63,7 @@ public class orgUnit implements org {
      */
     @Override
     public String orgName() {
-        return this.orgName;
+        return orgName;
     }
 
     /**
@@ -78,6 +73,6 @@ public class orgUnit implements org {
      */
     @Override
     public Integer orgID() {
-        return this.orgID;
+        return orgID;
     }
 }
