@@ -4,13 +4,11 @@ package client;
  * A class for creating organisation unit as object
  */
 public class orgUnit implements org {
-
-    private Double orgCredit;
-    private String orgName;
     private Integer orgID;
+    private Integer orgCredit;
+    private String orgName;
 
     public orgUnit() {}
-
 
     /**
      * Create an instance of orgUnit
@@ -19,68 +17,41 @@ public class orgUnit implements org {
      * @param orgName Name of the organisation
      * @param orgCredit Credit that the organisation have
      */
-    public orgUnit(Integer orgID, String orgName, Double orgCredit) {
+    public orgUnit(Integer orgID, String orgName, Integer orgCredit) {
         this.orgID = orgID;
         this.orgName = orgName;
         this.orgCredit = orgCredit;
     }
 
-    public orgUnit(String orgName, Double orgCredit) {
+    public orgUnit(String orgName, Integer orgCredit) {
         this.orgName = orgName;
         this.orgCredit = orgCredit;
     }
-
-    /**
-     * Adds amount to the credit that the organisation owns
-     *
-     * @param amount that will be added to the current credit
-     * @return credit after adding amount
-     */
     @Override
-    public Double addCredit(Double amount) {
-        orgCredit += amount;
-        return orgCredit;
+    public String getName() {
+        return this.orgName;
+    }
+    @Override
+    public void setName(String name) {
+        this.orgName = name;
+    }
+    @Override
+    public Integer getID() {
+        return this.orgID;
+    }
+    @Override
+    public void setID(Integer id) {
+        this.orgID = id;
+    }
+    @Override
+    public Integer getCredits() {
+        return this.orgCredit;
+
+    }
+    @Override
+    public void setCredit(Integer credit) {
+        this.orgCredit = credit;
     }
 
-    /**
-     * Subtract amount to the credit that the organisation owns
-     *
-     * @param amount that will be subtracted to the current credit
-     * @return credit after subtracting amount
-     */
-    @Override
-    public Double removeCredit(Double amount) {
-        orgCredit -= amount;
-        return orgCredit;
-    }
 
-    /**
-     * Get method for the credit that the organisation owns
-     *
-     * @return credit of the organisation
-     */
-    @Override
-    public Double orgCredit() {
-        return orgCredit;
-    }
-
-    /**
-     * Get method for the name of the organisation
-     *
-     * @return name of the organisation
-     */
-    @Override
-    public String orgName() {
-        return orgName;
-    }
-
-    /**
-     * Get method for the ID of the organisation
-     *
-     * @return ID of the organisation
-     */
-    @Override
-    public Integer orgID() {
-        return orgID;
-    }
 }

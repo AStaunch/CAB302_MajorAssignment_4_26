@@ -4,17 +4,16 @@ package JDBC;//
 //
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
 public class DBConnection {
     private static Connection instance = null;
 
-    private String port = "3300";
+    private String port = "3306";
     private String databasename = "cab302";
     private String user= "root";
     private String userp = "root";
@@ -24,7 +23,7 @@ public class DBConnection {
         FileInputStream in = null;
 
         try {
-            instance = DriverManager.getConnection("jdbc:mysql://localhost:"+port+"/"+databasename,user,userp);
+            instance = DriverManager.getConnection("jdbc:mariadb://localhost:"+port+"/"+databasename,user,userp);
 
         } catch (SQLException var7) {
             System.err.println(var7);

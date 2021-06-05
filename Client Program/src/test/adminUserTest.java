@@ -1,10 +1,8 @@
 package test;
 
 import client.adminUser;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.util.Date;
+import org.testng.annotations.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -2,12 +2,7 @@ package test;
 
 import client.AdminControls;
 import client.normalUser;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.testng.annotations.Test;
 
 public class AdminControlsTest {
     private AdminControls testing = new AdminControls();

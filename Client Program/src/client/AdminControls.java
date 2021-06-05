@@ -16,15 +16,17 @@ public class AdminControls {
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
     public static String REMOVE_ORG = "DELETE * FROM organisation WHERE name=?";
+    public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
     public static String LIST_ORG = "SELECT * FROM organisation";
 
     private PreparedStatement addUser;
     private PreparedStatement removeUser;
-    private PreparedStatement listUsers;
-    private PreparedStatement getUser; // do last
+    private PreparedStatement listUsers;// do last
+    private PreparedStatement getUser;
     private PreparedStatement modifyUser;
     private PreparedStatement addOrg;
     private PreparedStatement removeOrg;
+    private PreparedStatement getOrg;
     private PreparedStatement listOrg;
 
     public AdminControls() {
@@ -37,6 +39,7 @@ public class AdminControls {
             this.modifyUser = this.connection.prepareStatement(MODIFY_USER);
             this.addOrg = this.connection.prepareStatement(INSERT_ORG);
             this.removeOrg = this.connection.prepareStatement(REMOVE_ORG);
+            this.getOrg= this.connection.prepareStatement(GET_ORG);
             this.listOrg = this.connection.prepareStatement(LIST_ORG);
 
         } catch (SQLException var2) {
@@ -45,13 +48,42 @@ public class AdminControls {
     }
     public void addOrg(orgUnit o) {
         try {
-            this.addOrg.setString(1,o.orgName());
+            this.addOrg.setString(1,o.getName());
+            this.addOrg.setInt(2,o.getCredits());
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public void removeOrg(String name) {
+        try {
+            this.removeOrg.setString(1,name);
+            this.removeOrg.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public orgUnit getOrg(String name) {
+        orgUnit o = new orgUnit();
+        ResultSet rs =  null;
+
+        try{
+            this.getUser.setString(1, name);
+            rs = this.getUser.executeQuery();
+            rs.next();
+            o.setID(rs.getInt("id"));
+            o.setName(rs.getString("name"));
+            o.setCredit(rs.getInt("credits"));
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return o;
+    }
 
     public void addUser(normalUser u) {
         try {
@@ -125,6 +157,4 @@ public class AdminControls {
         }
 
     }
-
-
 }
