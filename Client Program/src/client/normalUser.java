@@ -12,7 +12,6 @@ public class normalUser extends adminUser {
     private String first_name;
     private String last_name;
     private String hash_pwd;
-    private Date birth_date;
     private Boolean isAdmin;
 
     /**
@@ -149,7 +148,15 @@ public class normalUser extends adminUser {
 
     @Override
     public void setAdmin(Boolean admin) {
-        this.isAdmin = admin;
+        if (this.isAdmin == true)
+        {
+            this.isAdmin = false;
+        }
+
+        else  {
+            this.isAdmin = true;
+        }
+
     }
     @Override
     public String ToString(int id) {

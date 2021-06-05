@@ -13,7 +13,6 @@ public class adminUser implements user {
     private String first_name;
     private String last_name;
     private String hash_pwd;
-    private Date birth_date;
     private Boolean isAdmin;
 
     /**
