@@ -5,6 +5,7 @@ import common.assetUnit;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -147,16 +148,9 @@ public class userGuiClass {
 
         JPanel table = createTable(columnNames, myListedAssetUnits, currentFrame);
 
-
-
-        tablePanel.add(table);
-        currentFrame.add(tablePanel);
+        currentFrame.add(table);
         currentFrame.setVisible(true);
 
-
-    }
-
-    private void ViewListing(assetUnit listedAsset) {
 
     }
 
@@ -184,6 +178,27 @@ public class userGuiClass {
     }
 
 
+    private void ViewListing(assetUnit listedAsset) {
+
+    }
+
+
+    private void ViewAsset(JFrame previousFrame, assetUnit unit){
+        JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
+        currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        currentFrame.setSize(400, 200);
+        currentFrame.setLocationRelativeTo(previousFrame);
+
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(unit.assetName());
+
+        panel.add(label);
+        currentFrame.add(panel);
+        EnabledOnClose(currentFrame, previousFrame);
+
+        currentFrame.setVisible(true);
+    }
+
 
 
     private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
@@ -201,9 +216,10 @@ public class userGuiClass {
         JPanel returnPanel = new JPanel( new FlowLayout(FlowLayout.CENTER, 0, 0) );
         JPanel tablePanel = new JPanel();
         JPanel ButtonPanel = new JPanel();
+        ButtonPanel.setLayout( new BoxLayout(ButtonPanel, BoxLayout.Y_AXIS) );
         Object[][] rowData = new Object[dataArray.length][];
         for (int i = 0; i < dataArray.length; i++) {
-            rowData[i] = new Object[]{dataArray[i].assetName(), dataArray[i].assetPrice()};
+            rowData[i] = new Object[]{dataArray[i].assetName(), dataArray[i].assetPrice(), "View"};
 
             JButton viewAsset = new JButton("View");
             int finalI = i;
@@ -214,11 +230,15 @@ public class userGuiClass {
 
         }
         JTable table = new JTable(rowData, columnNames);
-        table.removeEditor();
+        table.setRowHeight(30);
+        TableColumnModel columnModel = table.getColumnModel();
+        for(int i = 0; i < columnNames.length; i++){
+            columnModel.getColumn(i).setPreferredWidth(100);
+        }
 
-        TableCellRenderer buttonRenderer = new ButtonRenderer();
-        table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JTextField()));
+//      TableCellRenderer buttonRenderer = new ButtonRenderer();
+//        table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+//        table.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JTextField()));
         table.setRowSelectionAllowed(false);
 
         tablePanel.add(table);
@@ -229,16 +249,6 @@ public class userGuiClass {
         return returnPanel;
     }
 
-    private void ViewAsset(JFrame previousFrame, assetUnit unit){
-        JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
-        currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        currentFrame.setSize(400, 200);
-        currentFrame.setLocationRelativeTo(previousFrame);
-
-        EnabledOnClose(currentFrame, previousFrame);
-
-        currentFrame.setVisible(true);
-    }
 }
 //BUTTON RENDERER CLASS
 class ButtonRenderer extends JButton implements  TableCellRenderer
