@@ -1,6 +1,5 @@
 import client.guiClass;
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.SQLException;
 
 public class Main {
@@ -9,6 +8,5 @@ public class Main {
         //connection.close();
 
         guiClass s = new guiClass();
-        s.runGUI();
     }
 }
