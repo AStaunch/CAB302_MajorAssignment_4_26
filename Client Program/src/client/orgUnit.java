@@ -6,8 +6,8 @@ package client;
 public class orgUnit implements org {
 
     private Double orgCredit;
-    private String orgName;
-    private Integer orgID;
+    private final String orgName;
+    private final Integer orgID;
 
     /**
      * Create an instance of orgUnit
