@@ -1,8 +1,8 @@
 package client;
 
-import java.sql.*;
-
 import JDBC.DBConnection;
+
+import java.sql.*;
 
 public class AdminControls {
     private Connection connection = DBConnection.getInstance();
@@ -13,7 +13,7 @@ public class AdminControls {
     public static String GET_USER = "SELECT * FROM user WHERE id=?";
     public static String MODIFY_USER = "UPDATE user SET (org_id=?, username=?, first_name=?, last_name=?" +
             "hash_pwd=?, is_admin=?) WHERE id=? ";
-    public static String INSERT_ORG = "INSERT into organisation";
+    public static String INSERT_ORG = "INSERT into organisation (id, org_name, )";
     public static String REMOVE_ORG = "";
     public static String LIST_ORG = "";
 
