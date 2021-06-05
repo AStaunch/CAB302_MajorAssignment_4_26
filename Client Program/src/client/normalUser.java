@@ -1,7 +1,5 @@
 package client;
 
-import java.util.Date;
-
 /**
  * A class for creating a normal user object
  */
@@ -29,29 +27,26 @@ public class normalUser extends adminUser {
      * @param first_name
      * @param last_name
      * @param hash_pwd
-     * @param birth_date
      * @param isAdmin
      */
     public normalUser(Integer userID, Integer org_id, String username, String first_name, String last_name, String hash_pwd,
-                      Date birth_date, Boolean isAdmin) {
+                      Boolean isAdmin) {
         this.userID = userID;
         this.org_id = org_id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.hash_pwd = hash_pwd;
-        this.birth_date = birth_date;
         this.isAdmin = isAdmin;
     }
 
     public normalUser(Integer org_id, String username, String first_name, String last_name, String hash_pwd,
-                      Date birth_date, Boolean isAdmin) {
+                      Boolean isAdmin) {
         this.org_id = org_id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.hash_pwd = hash_pwd;
-        this.birth_date = birth_date;
         this.isAdmin = isAdmin;
     }
 

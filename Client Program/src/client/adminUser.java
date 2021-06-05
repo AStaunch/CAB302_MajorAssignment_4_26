@@ -1,7 +1,5 @@
 package client;
 
-import java.util.Date;
-
 /**
  * A Class for creating admin user as objects
  */
@@ -27,17 +25,25 @@ public class adminUser implements user {
      * @param first_name
      * @param last_name
      * @param hash_pwd
-     * @param birth_date
      * @param isAdmin
      */
     public adminUser(Integer userID, String username, String first_name, String last_name, String hash_pwd,
-                     Date birth_date, Boolean isAdmin) {
+                     Boolean isAdmin) {
         this.userID = userID;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.hash_pwd = hash_pwd;
-        this.birth_date = birth_date;
+        this.isAdmin = isAdmin;
+
+    }
+
+    public adminUser(String username, String first_name, String last_name, String hash_pwd,
+                     Boolean isAdmin) {
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.hash_pwd = hash_pwd;
         this.isAdmin = isAdmin;
 
     }
