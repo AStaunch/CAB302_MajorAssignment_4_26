@@ -48,7 +48,7 @@ public class assetUnit implements asset{
      *
      * @return name of the asset
      */
-    @Override
+
     public String assetName() {
         return assetName;
     }
@@ -58,7 +58,7 @@ public class assetUnit implements asset{
      *
      * @return Price of the asset
      */
-    @Override
+
     public Double assetPrice() {
         return assetPrice;
     }
@@ -68,7 +68,7 @@ public class assetUnit implements asset{
      *
      * @return ID of the asset
      */
-    @Override
+
     public Integer assetID() {
         return assetID;
     }

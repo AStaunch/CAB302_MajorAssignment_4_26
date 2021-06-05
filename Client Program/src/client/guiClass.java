@@ -65,7 +65,7 @@ public class guiClass {
             frame.dispose();
             adminGuiClass admin = new adminGuiClass();
         });
-        pane.add(btnPanel);
+
 
         JButton client = new JButton();
         client.setText("Login");
