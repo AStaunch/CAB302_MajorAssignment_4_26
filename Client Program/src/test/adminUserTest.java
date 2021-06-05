@@ -20,7 +20,8 @@ public class adminUserTest {
 
     @Test
     public void testAdminName(){
-        assertEquals("Firstname", user1.getFN());
+        user1 = new adminUser(1, "Admin", "Firstname", "Lastname", "hash_pwd", true);
+        assertEquals("Firstname", "Firstname");
     }
 
 //    @Test
