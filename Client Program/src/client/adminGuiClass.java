@@ -48,7 +48,7 @@ public class adminGuiClass {
 
 
         // Panel for the org ID
-        String[] orgNames = {"Org1", "Org2", "Org3"};
+        String[] orgNames = a.listOrg();
         orgPanel = new JPanel();
         label = new JLabel("Org Name: ");
         JComboBox orgNameList = new JComboBox(orgNames);
@@ -105,7 +105,8 @@ public class adminGuiClass {
         // Add button
         JButton add = new JButton("Add");
         add.addActionListener(e ->{
-            Integer orgID = 1; // Replace this with a query
+            String orgName = (String) orgNameList.getSelectedItem();
+            Integer orgID = a.getOrg(orgName).getID(); // Replace this with a query
             String password = new String(pwd.getPassword());
             if (isAdminCheckBox.isSelected()){
                 normalUser newUser = new normalUser(orgID, userName.getText(),

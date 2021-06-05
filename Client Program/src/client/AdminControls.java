@@ -142,7 +142,7 @@ public class AdminControls {
         return o;
     }
 
-    public Set<String> listOrg() {
+    public String[] listOrg() {
         Set<String> org = new TreeSet();
         ResultSet rs = null;
 
@@ -156,7 +156,10 @@ public class AdminControls {
             var4.printStackTrace();
         }
 
-        return org;
+        String[] orgArr = new String[org.size()];
+        org.toArray(orgArr);
+
+        return orgArr;
     }
 
     public boolean addUser(normalUser u) {
