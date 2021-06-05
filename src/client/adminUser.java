@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class adminUser implements user {
     private Integer userID;
+    private Integer org_id;
     private String username;
     private String first_name;
     private String last_name;
@@ -48,6 +49,13 @@ public class adminUser implements user {
      */
     @Override
     public Integer getID() {return this.userID;}
+
+    /**
+     *
+     * @param id
+     */
+    @Override
+    public void setID(Integer id) {this.userID = id;}
 
     /** Gets username
      *
@@ -105,26 +113,39 @@ public class adminUser implements user {
     @Override
     public void setHash(String hash) {this.hash_pwd = hash; }
 
-    /** gets users birthdate
-     *
-     * @return
-     */
-    @Override
-    public Date getBday() {return this.birth_date;}
-
-    /** sets new user birthdate
-     *
-     * @param bday
-     */
-    @Override
-    public void setBday(Date bday) {this.birth_date = bday;}
-
     /** Checks if user is admin
      *
      * @return
      */
     @Override
     public Boolean isAdmin() {return this.isAdmin;}
+
+    /** gets the org id of user
+     *
+     * @return
+     */
+    @Override
+    public Integer getOrgID() {return this.org_id;}
+
+    /** sets a new org for a user
+     *
+     * @param id
+     */
+    @Override
+    public void setOrg_id(Integer id) {this.org_id = id;}
+
+    @Override
+    public void setAdmin(Boolean admin) {
+        this.isAdmin = admin;
+    }
+    @Override
+    public String ToString(int id) {
+        String s = String.format("Username: %s, Full name: %s %s from org with id: %d",
+                this.username, this.first_name, this.last_name);
+
+        return s;
+    }
+
 
 
 }

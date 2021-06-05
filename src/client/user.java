@@ -4,6 +4,7 @@ import java.util.Date;
 
 public interface user {
     Integer getID();
+    void setID(Integer id);
     String getUser();
     void setUser(String username);
     String getFN();
@@ -12,8 +13,10 @@ public interface user {
     void setLN( String LN);
     String getHash();
     void setHash( String Hash);
-    java.util.Date getBday();
-    void setBday(Date bday);
+    Integer getOrgID();
+    void setOrg_id(Integer id);
+    void setAdmin(Boolean admin);
+    String ToString(int id);
     Boolean isAdmin();
 
 }

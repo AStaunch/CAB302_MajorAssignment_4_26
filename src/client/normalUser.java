@@ -45,12 +45,30 @@ public class normalUser extends adminUser {
         this.isAdmin = isAdmin;
     }
 
+    public normalUser(Integer org_id, String username, String first_name, String last_name, String hash_pwd,
+                      Date birth_date, Boolean isAdmin) {
+        this.org_id = org_id;
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.hash_pwd = hash_pwd;
+        this.birth_date = birth_date;
+        this.isAdmin = isAdmin;
+    }
+
     /** Gets the user id
      *
      * @return
      */
     @Override
     public Integer getID() {return this.userID;}
+
+    /**
+     *
+     * @param id
+     */
+    @Override
+    public void setID(Integer id) {this.userID = id;}
 
     /** Gets username
      *
@@ -108,20 +126,6 @@ public class normalUser extends adminUser {
     @Override
     public void setHash(String hash) {this.hash_pwd = hash; }
 
-    /** gets users birthdate
-     *
-     * @return
-     */
-    @Override
-    public Date getBday() {return this.birth_date;}
-
-    /** sets new user birthdate
-     *
-     * @param bday
-     */
-    @Override
-    public void setBday(Date bday) {this.birth_date = bday;}
-
     /** Checks if user is admin
      *
      * @return
@@ -133,11 +137,25 @@ public class normalUser extends adminUser {
      *
       * @return
      */
+    @Override
     public Integer getOrgID() {return this.org_id;}
 
     /** sets a new org for a user
      *
      * @param id
      */
+    @Override
     public void setOrg_id(Integer id) {this.org_id = id;}
+
+    @Override
+    public void setAdmin(Boolean admin) {
+        this.isAdmin = admin;
+    }
+    @Override
+    public String ToString(int id) {
+        String s = String.format("Username: %s, Full name: %s %s from org with id: %d",
+                this.username, this.first_name, this.last_name);
+
+        return s;
+    }
 }
