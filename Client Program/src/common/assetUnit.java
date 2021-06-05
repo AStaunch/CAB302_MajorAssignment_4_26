@@ -62,4 +62,5 @@ public class assetUnit implements asset {
 
     public void setCredits(Integer i) {this.credits = i;}
 
+
 }

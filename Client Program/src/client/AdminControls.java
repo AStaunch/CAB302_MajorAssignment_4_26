@@ -28,8 +28,10 @@ public class AdminControls {
 
     public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String REMOVE_INVASSET = "DELETE FROM inventory where id=?";
+    public static String EDIT_INVASSET = "UPDATE inventory SET quantity=? where id=?";
     public static String GET_INVASSET = "SELECT * FROM inventory WHERE id=?";
-    public static String LIST_INVASSET = "SELECT inventory.type, organisation.name FROM inventory, " +
+    public static String GET_IA_BYTYPEORG = "SELECT * FROM inventory WHERE type=? AND org_id=?";
+    public static String LIST_INVASSET = "SELECT inventory.type, organisation.name, inventory.id FROM inventory, " +
             "organisation WHERE inventory.org_id = organisation.org_id";
 
     private PreparedStatement addUser;
@@ -44,28 +46,10 @@ public class AdminControls {
     private PreparedStatement listOrg;
     private PreparedStatement add_invAsset;
     private PreparedStatement remove_invAsset;
+    private PreparedStatement edit_invAsset;
     private PreparedStatement get_invAsset;
+    private PreparedStatement get_invAssetTO;
     private PreparedStatement list_invAsset;
-
-    public String encode(String password){
-        String generatedpassword = null;
-        try{
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedpassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return generatedpassword;
-    }
-
 
     public AdminControls() {
         try {
@@ -82,8 +66,10 @@ public class AdminControls {
             this.listOrg = this.connection.prepareStatement(LIST_ORG);
             this.add_invAsset = this.connection.prepareStatement(ADD_INVASSET);
             this.remove_invAsset = this.connection.prepareStatement(REMOVE_INVASSET);
+            this.edit_invAsset = this.connection.prepareStatement(EDIT_INVASSET);
             this.list_invAsset = this.connection.prepareStatement(LIST_INVASSET);
             this.get_invAsset = this.connection.prepareStatement(GET_INVASSET);
+            this.get_invAssetTO = this.connection.prepareStatement(GET_IA_BYTYPEORG);
 
         } catch (SQLException var2) {
             var2.printStackTrace();
@@ -112,6 +98,17 @@ public class AdminControls {
         }
     }
 
+    public void editInv(InventoryAsset i) {
+        try {
+            this.edit_invAsset.setInt(1,i.getQTY());
+            this.edit_invAsset.setInt(1,i.getID());
+            this.modifyUser.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public InventoryAsset getInvAsset(Integer id) {
         InventoryAsset i = new InventoryAsset();
         ResultSet rs =  null;
@@ -119,6 +116,27 @@ public class AdminControls {
         try{
             this.get_invAsset.setInt(1, id);
             rs = this.get_invAsset.executeQuery();
+            rs.next();
+            i.setID(rs.getInt("id"));
+            i.setOrg(rs.getInt("org_id"));
+            i.setType(rs.getString("type"));
+            i.setQTY(rs.getInt("quantity"));
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    public InventoryAsset getInvAssetTO(String type, Integer org_id) {
+        InventoryAsset i = new InventoryAsset();
+        ResultSet rs =  null;
+
+        try{
+            this.get_invAssetTO.setString(1, type);
+            this.get_invAssetTO.setInt(1, org_id);
+            rs = this.get_invAssetTO.executeQuery();
             rs.next();
             i.setID(rs.getInt("id"));
             i.setOrg(rs.getInt("org_id"));
@@ -330,6 +348,25 @@ public class AdminControls {
         return userArr;
     }
 
+    public String encode(String password){
+        String generatedpassword = null;
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedpassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return generatedpassword;
+    }
+
     public void close() {
         try {
             this.connection.close();
@@ -338,4 +375,6 @@ public class AdminControls {
         }
 
     }
+
+
 }
