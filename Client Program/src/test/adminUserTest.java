@@ -4,19 +4,23 @@ import client.adminUser;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class adminUserTest {
     private adminUser user1;
 
+    // Integer userID, String username, String first_name, String last_name, String hash_pwd,
+    //Date birth_date, Boolean isAdmin
     @BeforeEach
     public void initAdmin(){
-        user1 = new adminUser("Andre", 1);
+        user1 = new adminUser(1, "Admin", "Firstname", "Lastname", "hash_pwd", true);
     }
 
     @Test
     public void testAdminName(){
-        assertEquals("Andre", user1.identity());
+        assertEquals("Firstname", user1.getFN());
     }
 
 //    @Test

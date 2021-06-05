@@ -3,43 +3,43 @@ package client;
 import java.util.Date;
 
 /**
- * A Class for creating admin user as objects
+ * A class for creating a normal user object
  */
-
-public class adminUser implements user {
+public class normalUser extends adminUser {
     private Integer userID;
+    private Integer org_id;
     private String username;
     private String first_name;
     private String last_name;
     private String hash_pwd;
-    private Date birth_date;
     private Boolean isAdmin;
 
     /**
-     * Creates instance of admin user with no parameters
+     *
      */
-    public adminUser() {
+    public normalUser() {
     }
 
     /**
-     * @param userID
-     * @param username
-     * @param first_name
-     * @param last_name
-     * @param hash_pwd
-     * @param birth_date
-     * @param isAdmin
+     * Creates user object
+     *
+     * @param userID - The users ID as a counting int
+     * @param org_id - The orginisation ID
+     * @param username - The username of the client
+     * @param first_name - Users First name
+     * @param last_name - Users Last name
+     * @param hash_pwd - A hashed password
+     * @param isAdmin - A boolean if user is admin, default should be false
      */
-    public adminUser(Integer userID, String username, String first_name, String last_name, String hash_pwd,
-                     Date birth_date, Boolean isAdmin) {
+    public normalUser(Integer userID, Integer org_id, String username, String first_name, String last_name, String hash_pwd,
+                      Boolean isAdmin) {
         this.userID = userID;
+        this.org_id = org_id;
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.hash_pwd = hash_pwd;
-        this.birth_date = birth_date;
         this.isAdmin = isAdmin;
-
     }
 
     /** Gets the user id
@@ -105,26 +105,18 @@ public class adminUser implements user {
     @Override
     public void setHash(String hash) {this.hash_pwd = hash; }
 
-    /** gets users birthdate
-     *
-     * @return
-     */
-    @Override
-    public Date getBday() {return this.birth_date;}
-
-    /** sets new user birthdate
-     *
-     * @param bday
-     */
-    @Override
-    public void setBday(Date bday) {this.birth_date = bday;}
-
-    /** Checks if user is admin
-     *
-     * @return
-     */
     @Override
     public Boolean isAdmin() {return this.isAdmin;}
 
+    /** gets the org id of user
+     *
+      * @return
+     */
+    public Integer getOrgID() {return this.org_id;}
 
+    /** sets a new org for a user
+     *
+     * @param id
+     */
+    public void setOrg_id(Integer id) {this.org_id = id;}
 }

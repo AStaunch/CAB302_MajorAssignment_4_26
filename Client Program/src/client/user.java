@@ -12,8 +12,6 @@ public interface user {
     void setLN( String LN);
     String getHash();
     void setHash( String Hash);
-    java.util.Date getBday();
-    void setBday(Date bday);
     Boolean isAdmin();
 
 }
