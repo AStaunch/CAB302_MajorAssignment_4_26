@@ -3,73 +3,55 @@ package common;
 /**
  * A class for creating asset unit object
  */
-public class assetUnit implements asset{
-    private String assetName;
-    private Integer assetID;
-    private Double assetPrice;
+public class assetUnit implements asset {
+    private Integer id;
+    private Integer org_id;
+    private Integer seller_id;
+    private Integer asset_id;
+    private Integer quantity;
+    private Integer credits;
 
-    /**
-     * Create an instance of assetUnit
-     *
-     * @param assetName Name of the asset
-     * @param assetID ID of the asset
-     * @param assetPrice Price of the asset
-     */
-    public assetUnit(String assetName, Integer assetID, Double assetPrice){
-        this.assetName = assetName;
-        this.assetID = assetID;
-        this.assetPrice = assetPrice;
+    @Override
+    public Integer getID() {return this.id;}
+    @Override
+    public void setID(Integer i) {
+        this.id = i;
+    }
+    @Override
+    public Integer getOrg() {
+        return this.org_id;
+    }
+    @Override
+    public void setOrg(Integer i) {
+        this.org_id = i;
     }
 
-    /**
-     * This method adds the asset to the database
-     *
-     * @param assetName Name of the asset
-     * @param assetID ID of the common asset
-     * @param assetPrice Price of the asset
-     * @return True if successful, False otherwise
-     */
-    public Boolean addAsset(String assetName, Integer assetID, Double assetPrice){
-        return null;
+    public Integer getSeller() {
+        return this.seller_id;
     }
 
-    /**
-     *  This method remove asset from the database
-     *
-     * @param assetID ID of the asset
-     * @return True if successful, False otherwise
-     */
-    public Boolean removeAsset(Integer assetID){
-        return null;
+    public void setSeller(Integer i) {
+        this.seller_id = i;
     }
 
-    /**
-     * Get method for the name of the asset
-     *
-     * @return name of the asset
-     */
-
-    public String assetName() {
-        return assetName;
+    public Integer getAsset() {
+        return this.asset_id;
     }
 
-    /**
-     * Get method for price of the asset
-     *
-     * @return Price of the asset
-     */
-
-    public Double assetPrice() {
-        return assetPrice;
+    public void setAsset(Integer i) {
+        this.asset_id = i;
+    }
+    @Override
+    public Integer getQTY() {
+        return this.quantity;
+    }
+    @Override
+    public void setQTY(Integer i) {
+        this.quantity = i;
     }
 
-    /**
-     * Get method for the ID of the asset
-     *
-     * @return ID of the asset
-     */
+    public Integer getCredits() {return this.credits;}
 
-    public Integer assetID() {
-        return assetID;
-    }
+    public void setCredits(Integer i) {this.credits = i;}
+
 }

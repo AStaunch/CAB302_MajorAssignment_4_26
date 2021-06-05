@@ -118,7 +118,7 @@ public class normalUser extends adminUser {
      * @param hash
      */
     @Override
-    public void setHash(String hash) {this.hash_pwd = hash; }
+    public void setHash(String hash) {hash_pwd = (hash); }
 
     /** Checks if user is admin
      *

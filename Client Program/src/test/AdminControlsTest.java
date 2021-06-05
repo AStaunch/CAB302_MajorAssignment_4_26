@@ -2,17 +2,23 @@ package test;
 
 import client.AdminControls;
 import client.normalUser;
+import common.InventoryAsset;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AdminControlsTest {
     private AdminControls testing = new AdminControls();
     private normalUser user1 = new normalUser(1,"username","davethegiantslayer69",
-            "Tom","B",false);
+            "Tom",testing.encode("fish"),false);
 
     @Test
     public void testduplicate() {
         assertEquals(false, testing.addUser(user1));
+    }
+
+    @Test
+    public void login() {
+        assertEquals(testing.encode("fish"), user1.getHash());
     }
 
     @Test
@@ -32,5 +38,12 @@ public class AdminControlsTest {
 
     }
 
-
+    @Test
+    public void addInvasset(){
+        InventoryAsset assettest = new InventoryAsset();
+        assettest.setQTY(100);
+        assettest.setType("Testing");
+        assettest.setOrg(2);
+        testing.addInvAsset(assettest);
+    }
 }
