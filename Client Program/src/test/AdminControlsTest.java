@@ -60,6 +60,13 @@ public class AdminControlsTest {
     @Test
     public void getOrg() {
         orgUnit o = new orgUnit();
+        o = testing.getOrg("Jaydens org");
+        System.out.println(o.getName());
+    }
+
+    @Test
+    public void getOrg1() {
+        orgUnit o = new orgUnit();
         o = testing.getOrgByID(1);
         System.out.println(o.getName());
     }

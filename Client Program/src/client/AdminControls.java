@@ -78,12 +78,12 @@ public class AdminControls {
             this.addOrg = this.connection.prepareStatement(INSERT_ORG);
             this.removeOrg = this.connection.prepareStatement(REMOVE_ORG);
             this.getOrg= this.connection.prepareStatement(GET_ORG);
+            this.getOrg1 = this.connection.prepareStatement(GET_ORG1);
             this.listOrg = this.connection.prepareStatement(LIST_ORG);
             this.add_invAsset = this.connection.prepareStatement(ADD_INVASSET);
             this.remove_invAsset = this.connection.prepareStatement(REMOVE_INVASSET);
             this.list_invAsset = this.connection.prepareStatement(LIST_INVASSET);
             this.get_invAsset = this.connection.prepareStatement(GET_INVASSET);
-
 
         } catch (SQLException var2) {
             var2.printStackTrace();
@@ -196,8 +196,8 @@ public class AdminControls {
         orgUnit o = new orgUnit();
         ResultSet rs =  null;
         try{
-            this.getOrg.setInt(1, id);
-            rs = this.getOrg.executeQuery();
+            this.getOrg1.setInt(1, id);
+            rs = this.getOrg1.executeQuery();
             rs.next();
             o.setID(rs.getInt("org_id"));
             o.setName(rs.getString("name"));
