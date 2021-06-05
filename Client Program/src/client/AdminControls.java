@@ -18,14 +18,18 @@ public class AdminControls {
     public static String GET_USER = "SELECT * FROM user WHERE username=?";
     public static String MODIFY_USER = "UPDATE user SET org_id=?, username=?, first_name=?, last_name=?," +
             "hash_pwd=?, is_admin=? WHERE id=? ";
+
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
     public static String REMOVE_ORG = "DELETE FROM organisation WHERE name=?";
-    public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
+    public static String GET_ORG = "SELECT * FROM organisation WHERE ?=?";
     public static String LIST_ORG = "SELECT * FROM organisation";
+
     public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String REMOVE_INVASSET = "DELETE FROM inventory where id=?";
-
+    public static String GET_INVASSET = "SELECT * FROM inventory WHERE id=?";
+    public static String LIST_INVASSET = "SELECT inventory.type, organisation.name FROM inventory, " +
+            "organisation WHERE inventory.org_id = organisation.org_id";
 
     private PreparedStatement addUser;
     private PreparedStatement removeUser;
@@ -38,6 +42,8 @@ public class AdminControls {
     private PreparedStatement listOrg;
     private PreparedStatement add_invAsset;
     private PreparedStatement remove_invAsset;
+    private PreparedStatement get_invAsset;
+    private PreparedStatement list_invAsset;
 
     public String encode(String password){
         String generatedpassword = null;
@@ -73,6 +79,8 @@ public class AdminControls {
             this.listOrg = this.connection.prepareStatement(LIST_ORG);
             this.add_invAsset = this.connection.prepareStatement(ADD_INVASSET);
             this.remove_invAsset = this.connection.prepareStatement(REMOVE_INVASSET);
+            this.list_invAsset = this.connection.prepareStatement(LIST_INVASSET);
+            this.get_invAsset = this.connection.prepareStatement(GET_INVASSET);
 
 
         } catch (SQLException var2) {
@@ -102,6 +110,47 @@ public class AdminControls {
         }
     }
 
+    public InventoryAsset getInvAsset(Integer id) {
+        InventoryAsset i = new InventoryAsset();
+        ResultSet rs =  null;
+
+        try{
+            this.get_invAsset.setInt(1, id);
+            rs = this.get_invAsset.executeQuery();
+            rs.next();
+            i.setID(rs.getInt("id"));
+            i.setOrg(rs.getInt("org_id"));
+            i.setType(rs.getString("type"));
+            i.setQTY(rs.getInt("quantity"));
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    public String[] listInvAsset() {
+        Set<String> ia = new TreeSet();
+        ResultSet rs = null;
+
+        try {
+            rs = this.list_invAsset.executeQuery();
+
+            while(rs.next()) {
+                ia.add(rs.getString(1));
+
+            }
+        } catch (SQLException var4) {
+            var4.printStackTrace();
+        }
+
+        String[] iaArr = new String[ia.size()];
+        ia.toArray(iaArr);
+
+        return iaArr;
+    }
+
     public void addOrg(orgUnit o) {
         try {
             this.addOrg.setString(1,o.getName());
@@ -128,7 +177,28 @@ public class AdminControls {
         ResultSet rs =  null;
 
         try{
-            this.getOrg.setString(1, name);
+            this.getOrg.setString(1, "name");
+            this.getOrg.setString(2, name);
+            rs = this.getOrg.executeQuery();
+            rs.next();
+            o.setID(rs.getInt("org_id"));
+            o.setName(rs.getString("name"));
+            o.setCredit(rs.getInt("credits"));
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return o;
+    }
+
+    public orgUnit getOrgByID(Integer id) {
+        orgUnit o = new orgUnit();
+        ResultSet rs =  null;
+
+        try{
+            this.getOrg.setString(1, "org_id");
+            this.getOrg.setInt(2, id);
             rs = this.getOrg.executeQuery();
             rs.next();
             o.setID(rs.getInt("org_id"));
@@ -223,7 +293,7 @@ public class AdminControls {
         return  false;
     }
 
-    public void modifyUser(user u) {
+    public void modifyUser(normalUser u) {
         try {
             this.modifyUser.setInt(1,u.getOrgID());
             this.modifyUser.setString(2,u.getUser());

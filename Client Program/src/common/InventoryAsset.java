@@ -33,5 +33,6 @@ public class InventoryAsset implements asset {
     public String getType() {return this.Type;}
     public void setType(String Type) {this.Type = Type;}
 
+
 }
 

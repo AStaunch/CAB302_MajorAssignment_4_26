@@ -46,4 +46,12 @@ public class AdminControlsTest {
         assettest.setOrg(2);
         testing.addInvAsset(assettest);
     }
+
+    @Test
+    public void listAsset() {
+        String[] a = testing.listInvAsset();
+        for (int i = 0; i < a.length; i ++ ) {
+            System.out.println(a[i]);
+        }
+    }
 }
