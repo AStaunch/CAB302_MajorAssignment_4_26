@@ -13,7 +13,8 @@ public class AdminControls {
     public static String GET_USER = "SELECT * FROM user WHERE id=?";
     public static String MODIFY_USER = "UPDATE user SET (org_id=?, username=?, first_name=?, last_name=?" +
             "hash_pwd=?, is_admin=?) WHERE id=? ";
-    public static String INSERT_ORG = "INSERT into organisation (id, org_name, )";
+    public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
+            "(?,?,?)";
     public static String REMOVE_ORG = "";
     public static String LIST_ORG = "";
 

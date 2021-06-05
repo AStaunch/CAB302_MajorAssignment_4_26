@@ -6,8 +6,11 @@ package client;
 public class orgUnit implements org {
 
     private Double orgCredit;
-    private final String orgName;
-    private final Integer orgID;
+    private String orgName;
+    private Integer orgID;
+
+    public orgUnit() {}
+
 
     /**
      * Create an instance of orgUnit
@@ -18,6 +21,11 @@ public class orgUnit implements org {
      */
     public orgUnit(Integer orgID, String orgName, Double orgCredit) {
         this.orgID = orgID;
+        this.orgName = orgName;
+        this.orgCredit = orgCredit;
+    }
+
+    public orgUnit(String orgName, Double orgCredit) {
         this.orgName = orgName;
         this.orgCredit = orgCredit;
     }
