@@ -8,14 +8,14 @@ public class AdminControls {
     private Connection connection = DBConnection.getInstance();
     public static String INSERT_USER = "INSERT INTO user (org_id, username, first_name, last_name, hash_pwd," +
             "is_admin) VALUES (?,?,?,?,?,?)";
-    public static String REMOVE_USER = "DELETE * FROM user WHERE id=?";
+    public static String REMOVE_USER = "DELETE * FROM user WHERE username=?";
     public static String LIST_USERS = "SELECT * FROM user";
-    public static String GET_USER = "SELECT * FROM user WHERE id=?";
+    public static String GET_USER = "SELECT * FROM user WHERE username=?";
     public static String MODIFY_USER = "UPDATE user SET (org_id=?, username=?, first_name=?, last_name=?" +
             "hash_pwd=?, is_admin=?) WHERE id=? ";
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
-    public static String REMOVE_ORG = "DELETE * FROM organisation WHERE id=?";
+    public static String REMOVE_ORG = "DELETE * FROM organisation WHERE name=?";
     public static String LIST_ORG = "SELECT * FROM organisation";
 
     private PreparedStatement addUser;
