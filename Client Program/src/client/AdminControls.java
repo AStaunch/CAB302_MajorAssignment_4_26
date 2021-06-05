@@ -15,14 +15,17 @@ public class AdminControls {
             "hash_pwd=?, is_admin=?) WHERE id=? ";
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
-    public static String REMOVE_ORG = "";
-    public static String LIST_ORG = "";
+    public static String REMOVE_ORG = "DELETE * FROM organisation WHERE id=?";
+    public static String LIST_ORG = "SELECT * FROM organisation";
 
     private PreparedStatement addUser;
     private PreparedStatement removeUser;
     private PreparedStatement listUsers;
-    private PreparedStatement getUser;
+    private PreparedStatement getUser; // do last
     private PreparedStatement modifyUser;
+    private PreparedStatement addOrg;
+    private PreparedStatement removeOrg;
+    private PreparedStatement listOrg;
 
     public AdminControls() {
         try {
@@ -32,11 +35,16 @@ public class AdminControls {
             this.listUsers = this.connection.prepareStatement(LIST_USERS);
             this.getUser = this.connection.prepareStatement(GET_USER);
             this.modifyUser = this.connection.prepareStatement(MODIFY_USER);
+            this.addOrg = this.connection.prepareStatement(INSERT_ORG);
+            this.removeOrg = this.connection.prepareStatement(REMOVE_ORG);
+            this.listOrg = this.connection.prepareStatement(LIST_ORG);
 
         } catch (SQLException var2) {
             var2.printStackTrace();
         }
     }
+
+
 
     public void addUser(normalUser u) {
         try {
@@ -51,16 +59,15 @@ public class AdminControls {
         catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
 
-    public normalUser getUser(int id) {
+    public normalUser getUser(String username) {
         normalUser u = new normalUser();
         ResultSet rs =  null;
 
         try{
-            this.getUser.setInt(1, id);
+            this.getUser.setString(1, username);
             rs = this.getUser.executeQuery();
             rs.next();
             u.setID(rs.getInt("id"));
@@ -77,9 +84,9 @@ public class AdminControls {
         return u;
     }
 
-    public void removeUser(Integer id) {
+    public void removeUser(String username) {
         try {
-            this.removeUser.setInt(1,id);
+            this.removeUser.setString(1,username);
             this.removeUser.executeUpdate();
         }
         catch (SQLException e) {
