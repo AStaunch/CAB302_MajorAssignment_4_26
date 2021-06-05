@@ -4,6 +4,8 @@ import client.AdminControls;
 import client.normalUser;
 import common.InventoryAsset;
 import org.junit.jupiter.api.Test;
+import client.orgUnit;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AdminControlsTest {
@@ -53,5 +55,12 @@ public class AdminControlsTest {
         for (int i = 0; i < a.length; i ++ ) {
             System.out.println(a[i]);
         }
+    }
+
+    @Test
+    public void getOrg() {
+        orgUnit o = new orgUnit();
+        o = testing.getOrgByID(1);
+        System.out.println(o.getName());
     }
 }

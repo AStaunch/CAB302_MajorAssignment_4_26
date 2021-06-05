@@ -22,7 +22,8 @@ public class AdminControls {
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
     public static String REMOVE_ORG = "DELETE FROM organisation WHERE name=?";
-    public static String GET_ORG = "SELECT * FROM organisation WHERE ?=?";
+    public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
+    public static String GET_ORG1 = "SELECT * FROM organisation WHERE org_id=?";
     public static String LIST_ORG = "SELECT * FROM organisation";
 
     public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
@@ -39,6 +40,7 @@ public class AdminControls {
     private PreparedStatement addOrg;
     private PreparedStatement removeOrg;
     private PreparedStatement getOrg;
+    private PreparedStatement getOrg1;
     private PreparedStatement listOrg;
     private PreparedStatement add_invAsset;
     private PreparedStatement remove_invAsset;
@@ -175,10 +177,8 @@ public class AdminControls {
     public orgUnit getOrg(String name) {
         orgUnit o = new orgUnit();
         ResultSet rs =  null;
-
         try{
-            this.getOrg.setString(1, "name");
-            this.getOrg.setString(2, name);
+            this.getOrg.setString(1, name);
             rs = this.getOrg.executeQuery();
             rs.next();
             o.setID(rs.getInt("org_id"));
@@ -195,10 +195,8 @@ public class AdminControls {
     public orgUnit getOrgByID(Integer id) {
         orgUnit o = new orgUnit();
         ResultSet rs =  null;
-
         try{
-            this.getOrg.setString(1, "org_id");
-            this.getOrg.setInt(2, id);
+            this.getOrg.setInt(1, id);
             rs = this.getOrg.executeQuery();
             rs.next();
             o.setID(rs.getInt("org_id"));
