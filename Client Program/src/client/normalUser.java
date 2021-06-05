@@ -143,14 +143,7 @@ public class normalUser extends adminUser {
 
     @Override
     public void setAdmin(Boolean admin) {
-        if (this.isAdmin == true)
-        {
-            this.isAdmin = false;
-        }
-
-        else  {
-            this.isAdmin = true;
-        }
+        this.isAdmin = admin;
 
     }
     @Override
