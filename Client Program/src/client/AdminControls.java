@@ -106,7 +106,7 @@ public class AdminControls {
         try {
             this.addOrg.setString(1,o.getName());
             this.addOrg.setInt(2,o.getCredits());
-            this.addUser.execute();
+            this.addOrg.execute();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -239,12 +239,12 @@ public class AdminControls {
         }
     }
 
-    public Set<String> listUser() {
+    public String[] listUser() {
         Set<String> users = new TreeSet();
         ResultSet rs = null;
 
         try {
-            rs = this.listOrg.executeQuery();
+            rs = this.listUsers.executeQuery();
 
             while(rs.next()) {
                 users.add(rs.getString("username"));
@@ -253,7 +253,10 @@ public class AdminControls {
             var4.printStackTrace();
         }
 
-        return users;
+        String[] userArr = new String[users.size()];
+        users.toArray(userArr);
+
+        return userArr;
     }
 
     public void close() {
