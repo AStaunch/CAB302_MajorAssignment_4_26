@@ -11,6 +11,14 @@ public class assetUnit implements asset {
     private Integer quantity;
     private Integer credits;
 
+    public assetUnit() {};
+    public assetUnit(Integer id, Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
+                     Integer credits) {
+    }
+    public assetUnit(Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
+                     Integer credits) {
+    }
+
     @Override
     public Integer getID() {return this.id;}
     @Override

@@ -223,9 +223,12 @@ public class AdminControls {
         } catch (SQLException var4) {
             var4.printStackTrace();
         }
-
+        if (org.contains("Admin")) {
+            org.remove("Admin");
+        }
         String[] orgArr = new String[org.size()];
         org.toArray(orgArr);
+
 
         return orgArr;
     }

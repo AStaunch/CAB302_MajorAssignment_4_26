@@ -1,5 +1,7 @@
 package client;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * A class for creating a normal user object
  */
@@ -40,7 +42,7 @@ public class normalUser extends adminUser {
         this.isAdmin = isAdmin;
     }
 
-    public normalUser(Integer org_id, String username, String first_name, String last_name, String hash_pwd,
+    public normalUser(@Nullable Integer org_id, String username, String first_name, String last_name, String hash_pwd,
                       Boolean isAdmin) {
         this.org_id = org_id;
         this.username = username;

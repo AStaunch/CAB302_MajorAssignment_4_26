@@ -1,6 +1,7 @@
 package client;
 
 import JDBC.DBConnection;
+import common.assetUnit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,8 +49,19 @@ public class UserControls {
         } catch (SQLException var2) {
             var2.printStackTrace();
         }
+    }
 
-
-
+    public void listItem(assetUnit u) {
+        try {
+            this.listItem.setInt(1, u.getOrg());
+            this.listItem.setInt(2, u.getSeller());
+            this.listItem.setInt(3, u.getAsset());
+            this.listItem.setInt(4, u.getQTY());
+            this.listItem.setInt(5, u.getCredits());
+            this.listItem.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

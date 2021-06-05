@@ -119,7 +119,7 @@ public class adminGuiClass {
                 userName.setText("");
             }else {
                 if (isAdminCheckBox.isSelected()){
-                    normalUser newUser = new normalUser(orgID, uName,
+                    normalUser newUser = new normalUser(1, uName,
                             fName, lName, password, true);
                     a.addUser(newUser);
                 } else {
