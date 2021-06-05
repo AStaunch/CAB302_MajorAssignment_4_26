@@ -43,7 +43,14 @@ public class AdminControls {
             var2.printStackTrace();
         }
     }
-
+    public void addOrg(orgUnit o) {
+        try {
+            this.addOrg.setString(1,o.orgName());
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void addUser(normalUser u) {
