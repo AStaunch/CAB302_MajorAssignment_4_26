@@ -21,4 +21,13 @@ public class AdminControlsTest {
     public void testduplicate() {
         assertEquals(false, testing.addUser(user1));
     }
+
+    @Test
+    public void testedditcomand(){
+        normalUser testuser = new normalUser();
+        testuser = testing.getUser(user1.getUser());
+        testuser.setLN("Ragnor the destroyer");
+        testing.modifyUser(testuser);
+        assertEquals("Ragnor the destroyer", testing.getUser(user1.getUser()).getLN());
+    }
 }
