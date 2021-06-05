@@ -46,8 +46,7 @@ public class adminGuiClass {
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
         pane.setLayout(box);
 
-
-        // Panel for the org ID
+        // Panel for the org ID // Fix this
         String[] orgNames = a.listOrg();
         orgPanel = new JPanel();
         label = new JLabel("Org Name: ");
@@ -106,16 +105,29 @@ public class adminGuiClass {
         JButton add = new JButton("Add");
         add.addActionListener(e ->{
             String orgName = (String) orgNameList.getSelectedItem();
-            Integer orgID = a.getOrg(orgName).getID(); // Replace this with a query
+            Integer orgID = a.getOrg(orgName).getID();
+            String uName = userName.getText();
+            String fName = firstName.getText();
+            String lName = lastName.getText();
             String password = new String(pwd.getPassword());
-            if (isAdminCheckBox.isSelected()){
-                normalUser newUser = new normalUser(orgID, userName.getText(),
-                        firstName.getText(), lastName.getText(), password, true);
-                a.addUser(newUser);
+            if (uName.isEmpty() || fName.isEmpty() || lName.isEmpty() || password.isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                normalUser newUser = new normalUser(orgID, userName.getText(),
-                        firstName.getText(), lastName.getText(), password, false);
-                a.addUser(newUser);
+                if (isAdminCheckBox.isSelected()){
+                    normalUser newUser = new normalUser(orgID, uName,
+                            fName, lName, password, true);
+                    a.addUser(newUser);
+                } else {
+                    normalUser newUser = new normalUser(orgID, uName,
+                            fName, lName, password, false);
+                    a.addUser(newUser);
+                }
+                JOptionPane.showMessageDialog(frame, "Successfully added new user");
+                userName.setText("");
+                firstName.setText("");
+                lastName.setText("");
+                pwd.setText("");
             }
         });
 

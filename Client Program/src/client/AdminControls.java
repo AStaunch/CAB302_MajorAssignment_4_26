@@ -128,10 +128,10 @@ public class AdminControls {
         ResultSet rs =  null;
 
         try{
-            this.getUser.setString(1, name);
-            rs = this.getUser.executeQuery();
+            this.getOrg.setString(1, name);
+            rs = this.getOrg.executeQuery();
             rs.next();
-            o.setID(rs.getInt("id"));
+            o.setID(rs.getInt("org_id"));
             o.setName(rs.getString("name"));
             o.setCredit(rs.getInt("credits"));
 
