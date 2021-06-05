@@ -14,6 +14,7 @@
 
 
 -- Dumping database structure for cab302
+DROP DATABASE IF EXISTS `cab302`;
 CREATE DATABASE IF NOT EXISTS `cab302` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `cab302`;
 
@@ -21,7 +22,7 @@ USE `cab302`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `org_id` int(11) NOT NULL,
-  `type` enum('CPU HOURS') NOT NULL,
+  `type` varchar(50) NOT NULL,
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_inventory_organisation` (`org_id`),
@@ -64,7 +65,6 @@ DELETE FROM `list_item`;
 CREATE TABLE IF NOT EXISTS `organisation` (
   `org_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
-  `description` tinytext DEFAULT NULL,
   `credits` int(11) NOT NULL,
   PRIMARY KEY (`org_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -72,11 +72,11 @@ CREATE TABLE IF NOT EXISTS `organisation` (
 -- Dumping data for table cab302.organisation: ~4 rows (approximately)
 DELETE FROM `organisation`;
 /*!40000 ALTER TABLE `organisation` DISABLE KEYS */;
-INSERT INTO `organisation` (`org_id`, `name`, `description`, `credits`) VALUES
-	(1, 'Jaydens org', 'A great organisation', 100),
-	(2, 'Alexs org', 'A pretty good organisation', 180),
-	(3, 'Andres org', 'A really good organisation', 150),
-	(5, 'Toms org', 'A fantastic organisation', 120);
+INSERT INTO `organisation` (`org_id`, `name`, `credits`) VALUES
+	(1, 'Jaydens org', 100),
+	(2, 'Alexs org', 180),
+	(3, 'Andres org', 150),
+	(5, 'Toms org', 120);
 /*!40000 ALTER TABLE `organisation` ENABLE KEYS */;
 
 -- Dumping structure for table cab302.transaction
@@ -112,20 +112,29 @@ CREATE TABLE IF NOT EXISTS `user` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `hash_pwd` varchar(100) NOT NULL,
-  `is_admin` tinyint(4) NOT NULL,
+  `is_admin` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `org_ID` (`org_id`),
   CONSTRAINT `org_ID` FOREIGN KEY (`org_id`) REFERENCES `organisation` (`org_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
--- Dumping data for table cab302.user: ~4 rows (approximately)
+-- Dumping data for table cab302.user: ~7 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `org_id`, `username`, `first_name`, `last_name`, `hash_pwd`, `is_admin`) VALUES
-	(1, NULL, '', 'CAB', '302', 'cab302', 1),
-	(2, 1, '', 'Jayden', 'Truong', 'jayden', 0),
-	(4, 3, '', 'Andre', 'Something', 'andre', 0),
-	(5, 5, '', 'Tom', 'Bartlett', 'tom', 0);
+	(1, NULL, 'usernam', 'CAB', '302', 'cab302', b'1'),
+	(2, 1, 'jaydo', 'Jayden', 'Truong', 'jayden', b'0'),
+	(4, 2, 'wong', 'Andre', 'Something', 'andre', b'0'),
+	(5, 5, 'king', 'Tom', 'Bartlett', 'tom', b'0'),
+	(6, 1, 'AlexS', 'Alex', 'Stallard', 'Alex', b'0'),
+	(8, NULL, 'AlexSally', 'AlexS', 'AStallard', 'AlexStallo', b'0'),
+	(9, 2, 'Jack', 'Danny', 'Pinny', 'boink', b'0'),
+	(10, 1, 'Biggboi', 'bigg', 'boi', 'biggyboi', b'0'),
+	(11, 1, 'username', 'Ragnor the destroyer', 'Tom', 'B', b'0'),
+	(12, 1, 'Tommy', 'Jayden', 'Andyre', 'password', b'0'),
+	(13, 1, 'Tommy2', 'Jayden2', 'Andyre', 'password', b'0'),
+	(14, 1, 'davensadlhnsaldk', 'kjlsdhjaklsdh', 'd', 'kjsadhklasdh', b'0'),
+	(15, 1, 'asduashdo', 'kchwufhi', 'hiuhdiu', 'hiuc', b'0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

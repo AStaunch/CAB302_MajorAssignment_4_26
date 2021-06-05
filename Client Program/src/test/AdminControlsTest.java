@@ -8,11 +8,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AdminControlsTest {
     private AdminControls testing = new AdminControls();
     private normalUser user1 = new normalUser(1,"username","davethegiantslayer69",
-            "Tom","B",false);
+            "Tom",testing.encode("fish"),false);
 
     @Test
     public void testduplicate() {
         assertEquals(false, testing.addUser(user1));
+    }
+
+    @Test
+    public void login() {
+        assertEquals(testing.encode("fish"), user1.getHash());
     }
 
     @Test
