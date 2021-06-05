@@ -11,4 +11,6 @@ public class UserControls {
     public static String VIEW_MYLISTING;
     public static String VIEW_ORGLISTING;
     public static String BUY_ITEM;
+
+
 }

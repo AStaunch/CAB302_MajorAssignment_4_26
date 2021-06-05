@@ -1,17 +1,8 @@
 package client;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.jar.JarEntry;
 
 public class adminGuiClass {
     private JMenuBar mb;
@@ -20,6 +11,7 @@ public class adminGuiClass {
     public adminGuiClass(){
         adminUserFrame();
     }
+    AdminControls a = new AdminControls();
 
     private JFrame adminUserFrame(){
         JFrame frame = new JFrame("Electronic Asset Trading Platform");
@@ -118,9 +110,11 @@ public class adminGuiClass {
             if (isAdminCheckBox.isSelected()){
                 normalUser newUser = new normalUser(orgID, userName.getText(),
                         firstName.getText(), lastName.getText(), password, true);
+                a.addUser(newUser);
             } else {
                 normalUser newUser = new normalUser(orgID, userName.getText(),
                         firstName.getText(), lastName.getText(), password, false);
+                a.addUser(newUser);
             }
         });
 

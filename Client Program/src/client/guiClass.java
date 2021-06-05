@@ -72,7 +72,7 @@ public class guiClass {
         btnPanel.add(client);
         client.addActionListener(e -> {
             frame.dispose();
-            userGuiClass admin = new userGuiClass();
+            //userGuiClass admin = new userGuiClass();
         });
         pane.add(btnPanel);
     }
