@@ -12,7 +12,7 @@ public class normalUserTest {
     //                      Boolean isAdmin
     @BeforeEach
     public void initNormal(){
-        user1 = new normalUser(1,1,"davethegiantslayer69","Tom","B","hashpassword",false);
+        user1 = new normalUser(1, 1,"username","davethegiantslayer69","Tom","B",false);
     }
 
     @Test

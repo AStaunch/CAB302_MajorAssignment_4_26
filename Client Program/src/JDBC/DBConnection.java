@@ -14,12 +14,17 @@ import java.util.Properties;
 public class DBConnection {
     private static Connection instance = null;
 
+    private String port = "3306";
+    private String databasename = "cab302";
+    private String user= "root";
+    private String userp = "root";
+
     private DBConnection() {
         Properties props = new Properties();
         FileInputStream in = null;
 
         try {
-            instance = DriverManager.getConnection("jdbc:mariadb://localhost:3306/cab302","root","root");
+            instance = DriverManager.getConnection("jdbc:mariadb://localhost:"+port+"/"+databasename,user,userp);
 
         } catch (SQLException var7) {
             System.err.println(var7);
