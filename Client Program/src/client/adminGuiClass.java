@@ -29,7 +29,7 @@ public class adminGuiClass {
         return frame;
     }
 
-    private Frame addUser(JFrame mainFrame){
+    private JFrame addUser(JFrame mainFrame){
         // Variables
         JLabel label;
         JPanel orgPanel;
@@ -103,17 +103,21 @@ public class adminGuiClass {
 
         // Add button
         JButton add = new JButton("Add");
-        add.addActionListener(e ->{
+        add.addActionListener(e -> {
             String orgName = (String) orgNameList.getSelectedItem();
             Integer orgID = a.getOrg(orgName).getID();
             String uName = userName.getText();
             String fName = firstName.getText();
             String lName = lastName.getText();
             String password = new String(pwd.getPassword());
-            if (uName.isEmpty() || fName.isEmpty() || lName.isEmpty() || password.isEmpty()){
+            if (uName.isEmpty() || fName.isEmpty() || lName.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
+            } else if (a.getUser(uName) instanceof normalUser){
+                JOptionPane.showMessageDialog(frame, "Username already used!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+                userName.setText("");
+            }else {
                 if (isAdminCheckBox.isSelected()){
                     normalUser newUser = new normalUser(orgID, uName,
                             fName, lName, password, true);
@@ -189,6 +193,11 @@ public class adminGuiClass {
         pane.add(deletePanel);
     }
 
+    private JFrame editUser(JFrame mainFrame){
+
+        return null;
+    }
+
     private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
         previousFrame.setEnabled(false);
 
@@ -198,4 +207,6 @@ public class adminGuiClass {
             };
         });
     }
+
+
 }
