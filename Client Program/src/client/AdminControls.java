@@ -85,19 +85,24 @@ public class AdminControls {
         return o;
     }
 
-    public void addUser(normalUser u) {
+    public boolean addUser(normalUser u) {
         try {
-            this.addUser.setInt(1, u.getOrgID());
-            this.addUser.setString(2, u.getUser());
-            this.addUser.setString(3, u.getFN());
-            this.addUser.setString(4, u.getLN());
-            this.addUser.setString(5, u.getHash());
-            this.addUser.setBoolean(6,u.isAdmin());
-            this.addUser.execute();
+            if (this.getUser(u.getUser()) == null){
+                this.addUser.setInt(1, u.getOrgID());
+                this.addUser.setString(2, u.getUser());
+                this.addUser.setString(3, u.getFN());
+                this.addUser.setString(4, u.getLN());
+                this.addUser.setString(5, u.getHash());
+                this.addUser.setBoolean(6,u.isAdmin());
+                this.addUser.execute();
+                return true;
+            }
+
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
@@ -106,6 +111,7 @@ public class AdminControls {
         ResultSet rs =  null;
 
         try{
+
             this.getUser.setString(1, username);
             rs = this.getUser.executeQuery();
             rs.next();
