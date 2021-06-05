@@ -85,7 +85,7 @@ public class AdminControls {
             this.add_invAsset.setInt(1,i.getOrg());
             this.add_invAsset.setString(2,i.getType());
             this.add_invAsset.setInt(3,i.getQTY());
-            this.addUser.execute();
+            this.add_invAsset.execute();
         }
         catch (SQLException e) {
             e.printStackTrace();
