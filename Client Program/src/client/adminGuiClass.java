@@ -193,6 +193,9 @@ public class adminGuiClass {
         // Delete user panel
         JPanel deletePanel = new JPanel();
         JButton deleteUser = new JButton("Delete user");
+        deleteUser.addActionListener(e ->{
+            deleteUser(mainFrame);
+        });
         deleteUser.setPreferredSize(new Dimension(150,25));
         deletePanel.add(deleteUser);
         pane.add(deletePanel);
@@ -371,6 +374,52 @@ public class adminGuiClass {
         frame.add(pwdPanel);
         frame.add(bPanels);
 
+        frame.setVisible(true);
+        return frame;
+    }
+
+    private JFrame deleteUser(JFrame mainFrame){
+
+        // Variables
+        final Integer columnSize = 15;
+
+        frame = new JFrame("Delete user");
+        frame.setSize(300,125);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Panel for delete user
+        JPanel dPanel = new JPanel();
+        JLabel uName = new JLabel("Username: ");
+        JTextField uField = new JTextField(columnSize);
+        dPanel.add(uName);
+        dPanel.add(uField);
+
+        // Panel for buttons
+        JPanel bPanel = new JPanel();
+        JButton delete = new JButton("Delete");
+        delete.addActionListener(e -> {
+            if (uField.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter  Username to delete !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!(a.getUser(uField.getText()) instanceof normalUser)){
+                JOptionPane.showMessageDialog(frame, "Username does not exist !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                a.removeUser(uField.getText());
+                JOptionPane.showMessageDialog(frame, "Successfully deleted user !!!");
+            }
+        });
+        bPanel.add(delete);
+
+        frame.add(dPanel);
+        frame.add(bPanel);
         frame.setVisible(true);
         return frame;
     }
