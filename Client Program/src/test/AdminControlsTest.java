@@ -2,6 +2,7 @@ package test;
 
 import client.AdminControls;
 import client.normalUser;
+import common.InventoryAsset;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,5 +38,12 @@ public class AdminControlsTest {
 
     }
 
-
+    @Test
+    public void addInvasset(){
+        InventoryAsset assettest = new InventoryAsset();
+        assettest.setQTY(100);
+        assettest.setType("Testing");
+        assettest.setOrg(2);
+        testing.addInvAsset(assettest);
+    }
 }
