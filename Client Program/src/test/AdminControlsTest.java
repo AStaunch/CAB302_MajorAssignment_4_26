@@ -30,4 +30,6 @@ public class AdminControlsTest {
         testing.modifyUser(testuser);
         assertEquals("Ragnor the destroyer", testing.getUser(user1.getUser()).getLN());
     }
+
+
 }
