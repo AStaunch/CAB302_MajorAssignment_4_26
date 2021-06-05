@@ -10,13 +10,6 @@ public class AdminControlsTest {
     private normalUser user1 = new normalUser(1,"username","davethegiantslayer69",
             "Tom","B",false);
 
-
-    @Test
-    public void testAdminadduser(){
-        testing.addUser(user1);
-        assertEquals(user1.getFN(),testing.getUser(user1.getUser()).getFN());
-    }
-
     @Test
     public void testduplicate() {
         assertEquals(false, testing.addUser(user1));
@@ -24,11 +17,19 @@ public class AdminControlsTest {
 
     @Test
     public void testedditcomand(){
+        testing.addUser(user1);
         normalUser testuser = new normalUser();
         testuser = testing.getUser(user1.getUser());
-        testuser.setLN("Ragnor the destroyer");
+        testuser.setFN("Ragnor the destroyer");
         testing.modifyUser(testuser);
-        assertEquals("Ragnor the destroyer", testing.getUser(user1.getUser()).getLN());
+        assertEquals("Ragnor the destroyer", testing.getUser(user1.getUser()).getFN());
+    }
+
+    @Test
+    public void testremoveuser(){
+        assertEquals(true,testing.removeUser(user1.getUser()));
+        assertEquals(false,testing.removeUser(user1.getUser()));
+
     }
 
 

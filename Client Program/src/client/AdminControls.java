@@ -8,11 +8,11 @@ public class AdminControls {
     private Connection connection = DBConnection.getInstance();
     public static String INSERT_USER = "INSERT INTO user (org_id, username, first_name, last_name, hash_pwd," +
             "is_admin) VALUES (?,?,?,?,?,?)";
-    public static String REMOVE_USER = "DELETE * FROM user WHERE username=?";
+    public static String REMOVE_USER = "DELETE FROM user WHERE username=?";
     public static String LIST_USERS = "SELECT * FROM user";
     public static String GET_USER = "SELECT * FROM user WHERE username=?";
-    public static String MODIFY_USER = "UPDATE user SET (org_id=?, username=?, first_name=?, last_name=?," +
-            "hash_pwd=?, is_admin=?) WHERE id=? ";
+    public static String MODIFY_USER = "UPDATE user SET org_id=?, username=?, first_name=?, last_name=?," +
+            "hash_pwd=?, is_admin=? WHERE id=? ";
     public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
             "(?,?,?)";
     public static String REMOVE_ORG = "DELETE * FROM organisation WHERE name=?";
@@ -122,21 +122,26 @@ public class AdminControls {
             u.setLN(rs.getString("last_name"));
             u.setHash(rs.getString("hash_pwd"));
             u.setAdmin(rs.getBoolean("is_admin"));
+            return u;
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-        return u;
+        return null;
     }
 
-    public void removeUser(String username) {
+    public boolean removeUser(String username) {
         try {
-            this.removeUser.setString(1,username);
-            this.removeUser.executeUpdate();
+            if (this.getUser(username) != null) {
+                this.removeUser.setString(1, username);
+                this.removeUser.executeUpdate();
+                return true;
+            }
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
+        return  false;
     }
 
     public void modifyUser(user u) {
