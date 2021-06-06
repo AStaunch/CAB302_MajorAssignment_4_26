@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for user back end functions
+ */
 public class UserControls {
     AdminControls a = new AdminControls();
     private Connection connection = DBConnection.getInstance();
@@ -35,6 +38,9 @@ public class UserControls {
     private PreparedStatement editCredit;
     private PreparedStatement addTransaction;
 
+    /**
+     * Initialising the sql
+     */
     public UserControls() {
         try {
             Statement st = this.connection.createStatement();
@@ -54,6 +60,12 @@ public class UserControls {
         }
     }
 
+    /**
+     * Gets a list of asset unit from the data base
+     * @param tf True for shows all the selling
+     *           False for all the buys
+     * @return List of asset unit
+     */
     public List<assetUnit> viewListing(boolean tf) {
         ResultSet rs = null;
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
@@ -81,6 +93,11 @@ public class UserControls {
         return listAssetUnit;
     }
 
+    /**
+     * Get a list of asset unit base on user
+     * @param u object user
+     * @return returns a list
+     */
     public List<assetUnit> listMyListings(normalUser u) {
         ResultSet rs = null;
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
@@ -108,6 +125,11 @@ public class UserControls {
         return listAssetUnit;
     }
 
+    /**
+     * Creates a list of asset unit for org
+     * @param o org as object
+     * @return list
+     */
     public List<assetUnit> listOrgListings(orgUnit o) {
         ResultSet rs = null;
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
@@ -135,6 +157,13 @@ public class UserControls {
         return listAssetUnit;
     }
 
+    /**
+     *  Method for general buying function
+     * @param u
+     * @param user
+     * @param amt
+     * @return
+     */
     public Boolean generalBuy(assetUnit u, normalUser user, Integer amt) {
         // Check for sufficient funds
         if (a.getOrgByID(user.getOrgID()).getCredits()>=u.getCredits() * amt)
@@ -185,6 +214,14 @@ public class UserControls {
 //    }
 
     // user buys u
+
+    /**
+     *
+     * @param u
+     * @param user
+     * @param amt
+     * @param maxprice
+     */
     public void buyNewItem(assetUnit u, normalUser user, Integer amt, Integer maxprice) {
 
         try {
@@ -221,6 +258,15 @@ public class UserControls {
         }
     }
 
+    /**
+     * Method for adding and removing amount to the credit of the org
+     * @param o organisation as object
+     * @param amount number that needs to be added or removed
+     * @param tf True for adding
+     *           False for remove
+     * @return True if successful
+     *          False if it fails
+     */
     public boolean editCredit(orgUnit o, Integer amount, Boolean tf) {
         try {
             if (tf == Boolean.TRUE) {
@@ -239,6 +285,11 @@ public class UserControls {
         return false;
     }
 
+    /**
+     *
+     * @param u
+     * @param user
+     */
     public void AddTransaction(assetUnit u, normalUser user){
         try {
             this.addTransaction.setInt(1, u.getOrg());
@@ -255,6 +306,10 @@ public class UserControls {
         }
     }
 
+    /**
+     *
+     * @param u
+     */
     public void listItem(assetUnit u) {
         try {
             this.listItem.setInt(1, u.getOrg());
@@ -269,6 +324,10 @@ public class UserControls {
         }
     }
 
+    /**
+     * Remove asset unit base on id
+     * @param id of the asset
+     */
     public void removeItem(Integer id) {
         try {
             this.removeItem.setInt(1, id);
@@ -279,6 +338,11 @@ public class UserControls {
         }
     }
 
+    /**
+     * Getter for asset unit base on id
+     * @param id of the asset unit
+     * @return the asset unit object
+     */
     public assetUnit getItem(Integer id) {
         assetUnit a = new assetUnit();
         ResultSet rs = null;

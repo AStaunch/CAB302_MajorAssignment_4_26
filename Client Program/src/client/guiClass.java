@@ -4,14 +4,24 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * GUI class for the login
+ */
 public class guiClass {
     private JMenuBar mb;
     private JMenu home;
 
+    /**
+     * Running the class
+     */
     public guiClass(){
         initFrame();
     }
 
+    /**
+     * Creating the initial frame
+     * @return frame that user can login to
+     */
     public JFrame initFrame(){
         JFrame frame = new JFrame("Electronic Asset Trading Platform");
 
@@ -25,6 +35,11 @@ public class guiClass {
         return frame;
     }
 
+    /**
+     * Creates a pane that contains the components
+     * @param pane of the main frame
+     * @param frame frame from the init frame
+     */
     public void LoginPane(Container pane, JFrame frame){
         int columnSize = 20;
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
