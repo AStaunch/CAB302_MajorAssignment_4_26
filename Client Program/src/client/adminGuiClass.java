@@ -1,4 +1,6 @@
 package client;
+import common.InventoryAsset;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -45,7 +47,7 @@ public class adminGuiClass {
         });
         unitPage.addActionListener(e->{
             frame.getContentPane().removeAll();
-            //adminHomePane(frame.getContentPane(), frame);
+            adminAssetPane(frame.getContentPane(), frame);
             frame.validate();
             frame.repaint();
         });
@@ -90,7 +92,6 @@ public class adminGuiClass {
         userNamePanel.add(label);
         userNamePanel.add(userName);
 
-
         // Panel for first name
         JPanel firstNamePanel = new JPanel();
         label = new JLabel("First name: ");
@@ -98,14 +99,12 @@ public class adminGuiClass {
         firstNamePanel.add(label);
         firstNamePanel.add(firstName);
 
-
         // Panel for last name
         JPanel lastNamePanel = new JPanel();
         label = new JLabel("Last name: ");
         JTextField lastName = new JTextField("", columnSize);
         lastNamePanel.add(label);
         lastNamePanel.add(lastName);
-
 
         // Panel for password
         JPanel pwdPanel = new JPanel();
@@ -480,7 +479,7 @@ public class adminGuiClass {
         JPanel deletePanel = new JPanel();
         JButton deleteOrg = new JButton("Delete org");
         deleteOrg.addActionListener(e ->{
-            //deleteUser(mainFrame);
+            deleteOrg(mainFrame);
         });
         deleteOrg.setPreferredSize(new Dimension(150,25));
         deletePanel.add(deleteOrg);
@@ -683,6 +682,240 @@ public class adminGuiClass {
         frame.add(panel);
         frame.add(creditPanel);
         frame.add(addRemoveCredit);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    private JFrame deleteOrg(JFrame mainFrame){
+
+        // Variables
+        final Integer columnSize = 15;
+
+        frame = new JFrame("Delete Organisation");
+        frame.setSize(300,125);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Panel for delete user
+        JPanel dPanel = new JPanel();
+        JLabel uName = new JLabel("Org name: ");
+        JTextField uField = new JTextField(columnSize);
+        dPanel.add(uName);
+        dPanel.add(uField);
+
+        // Panel for buttons
+        JPanel bPanel = new JPanel();
+        JButton delete = new JButton("Delete");
+        delete.addActionListener(e -> {
+            if (uField.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter  Organisation to delete !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!(Arrays.stream(a.listOrg()).anyMatch(uField.getText()::equals))){
+                JOptionPane.showMessageDialog(frame, "Organisation does not exist !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                //a.removeOrg(uField.getText());
+                JOptionPane.showMessageDialog(frame, "Successfully deleted organisation !!!");
+            }
+        });
+        bPanel.add(delete);
+
+        frame.add(dPanel);
+        frame.add(bPanel);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    private void adminAssetPane(Container pane, JFrame mainFrame){
+
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Create asset panel
+        JPanel addOrgPanel = new JPanel();
+        JButton createOrg = new JButton("Create asset");
+        createOrg.addActionListener(e ->{
+            addAsset(mainFrame);
+        });
+        createOrg.setPreferredSize(new Dimension(150,25));
+        addOrgPanel.add(createOrg);
+        pane.add(addOrgPanel);
+
+        // Delete asset panel
+        JPanel deletePanel = new JPanel();
+        JButton deleteOrg = new JButton("Delete Asset");
+        deleteOrg.addActionListener(e ->{
+            deleteAsset(mainFrame);
+        });
+        deleteOrg.setPreferredSize(new Dimension(150,25));
+        deletePanel.add(deleteOrg);
+        pane.add(deletePanel);
+    }
+
+    private JFrame addAsset(JFrame mainFrame){
+        // Variables
+        JLabel label;
+        JPanel orgPanel;
+        Integer columnSize = 15;
+
+        frame = new JFrame("Add Asset");
+        frame.setSize(300, 225);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Panel for the asset ID
+        String[] orgNames = a.listOrg();
+        orgPanel = new JPanel();
+        label = new JLabel("Org ID: ");
+        JComboBox orgNameList = new JComboBox(orgNames);
+        orgPanel.add(label);
+        orgPanel.add(orgNameList);
+
+        // Panel for user name
+        JPanel assetNamePanel = new JPanel();
+        label = new JLabel("Asset type: ");
+        JTextField assetName = new JTextField("", columnSize);
+        assetNamePanel.add(label);
+        assetNamePanel.add(assetName);
+
+        // Panel for first name
+        JPanel assetQuantityPanel = new JPanel();
+        label = new JLabel("Quantity: ");
+        JTextField assetQuantityField = new JTextField("", columnSize);
+        assetQuantityPanel.add(label);
+        assetQuantityPanel.add(assetQuantityField);
+        assetQuantityField.setToolTipText("Enter only numeric digits(0-9)");
+        assetQuantityField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') ||
+                        e.getKeyChar() == KeyEvent.VK_BACK_SPACE ||
+                        e.getKeyChar() == KeyEvent.VK_DELETE){
+                    assetQuantityField.setEditable(true);
+                } else {
+                    assetQuantityField.setEditable(false);
+                }
+            }
+        });
+        assetQuantityPanel.add(label);
+        assetQuantityPanel.add(assetQuantityField);
+
+        // Button panel
+        JPanel panel = new JPanel();
+
+        // Add button
+        JButton add = new JButton("Add");
+        add.addActionListener(e -> {
+            String orgName = (String) orgNameList.getSelectedItem();
+            Integer orgID = a.getOrg(orgName).getID();
+            String asset = assetName.getText();
+            String quantity = assetQuantityField.getText();
+            if (asset.isEmpty() || quantity.isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (a.list_type().contains(asset)){
+                JOptionPane.showMessageDialog(frame, "Asset type already exist!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                InventoryAsset newAsset = new InventoryAsset(orgID, asset, Integer.parseInt(quantity));
+                a.addInvAsset(newAsset);
+                JOptionPane.showMessageDialog(frame, "Asset successfully added to inventory!!!");
+                assetName.setText("");
+                assetQuantityField.setText("");
+            }
+        });
+
+        // Clear button
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(e ->{
+            assetName.setText("");
+            assetQuantityField.setText("");
+        });
+
+        panel.add(add);
+        panel.add(clear);
+
+        // Add all panel to the container
+        pane.add(orgPanel);
+        pane.add(assetNamePanel);
+        pane.add(assetQuantityPanel);
+        pane.add(panel);
+
+        frame.add(panel);
+        frame.setVisible(true);
+
+        return frame;
+    }
+
+    private JFrame deleteAsset(JFrame mainFrame){
+
+        // Variables
+        final Integer columnSize = 15;
+
+        frame = new JFrame("Delete asset");
+        frame.setSize(300,125);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Panel for delete user
+        JPanel dPanel = new JPanel();
+        JLabel assetID = new JLabel("Asset ID: ");
+        JTextField assetField = new JTextField("", columnSize);
+        dPanel.add(assetID);
+        dPanel.add(assetField);
+        assetField.setToolTipText("Enter only numeric digits(0-9)");
+        assetField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') ||
+                        e.getKeyChar() == KeyEvent.VK_BACK_SPACE ||
+                        e.getKeyChar() == KeyEvent.VK_DELETE){
+                    assetField.setEditable(true);
+                } else {
+                    assetField.setEditable(false);
+                }
+            }
+        });
+        dPanel.add(assetID);
+        dPanel.add(assetField);
+
+        // Panel for buttons
+        JPanel bPanel = new JPanel();
+        JButton delete = new JButton("Delete");
+        delete.addActionListener(e -> {
+            if (assetField.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter asset to delete !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!(a.getInvAsset(Integer.parseInt(assetField.getText())) instanceof InventoryAsset)){
+                JOptionPane.showMessageDialog(frame, "Asset does not exist !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                a.removeInvAsset(Integer.parseInt(assetField.getText()));
+                JOptionPane.showMessageDialog(frame, "Successfully delete asset !!!");
+            }
+        });
+        bPanel.add(delete);
+
+        frame.add(dPanel);
+        frame.add(bPanel);
         frame.setVisible(true);
         return frame;
     }

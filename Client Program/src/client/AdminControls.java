@@ -32,13 +32,14 @@ public class AdminControls {
     public static String LIST_ORG = "SELECT * FROM organisation";
 
     // Inventory SQL
-    public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
+    public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES (?,?,?)";
     public static String REMOVE_INVASSET = "DELETE FROM inventory where id=?";
     public static String EDIT_INVASSET = "UPDATE inventory SET quantity=? where id=?";
     public static String GET_INVASSET = "SELECT * FROM inventory WHERE id=?";
     public static String GET_IA_BYTYPEORG = "SELECT * FROM inventory WHERE type=? AND org_id=?";
     public static String LIST_INVASSET = "SELECT type, quantity FROM inventory WHERE org_id";
     public static String LIST_ALLASSET = "SELECT * FROM inventory";
+    public static String LIST_TYPE = "SELECT DISTINCT type FROM inventory";
 
     // Prepared statements for user SQL
     private PreparedStatement addUser;
@@ -63,6 +64,7 @@ public class AdminControls {
     private PreparedStatement get_invAssetTO;
     private PreparedStatement list_invAsset;
     private PreparedStatement list_allAsset;
+    private PreparedStatement list_type;
 
     public AdminControls() {
         try {
@@ -85,11 +87,29 @@ public class AdminControls {
             this.get_invAsset = this.connection.prepareStatement(GET_INVASSET);
             this.get_invAssetTO = this.connection.prepareStatement(GET_IA_BYTYPEORG);
             this.list_allAsset = this.connection.prepareStatement(LIST_ALLASSET);
+            this.list_type = this.connection.prepareStatement(LIST_TYPE);
 
         } catch (SQLException var2) {
             var2.printStackTrace();
         }
     }
+
+    public List<String> list_type() {
+    ResultSet rs = null;
+    List<String> list_type = new ArrayList<String>();
+
+        try {
+            rs = this.list_type.executeQuery();
+            while (rs.next()) {
+                list_type.add(rs.getString(1));
+            }
+        }
+        catch (SQLException e) {
+        e.printStackTrace();
+        }
+        return list_type;
+    }
+
 
     public List<InventoryAsset> list_allAsset(){
         ResultSet rs = null;
@@ -363,6 +383,8 @@ public class AdminControls {
 
                 getOrgUsers.add(nU);
             }
+
+
 
         }
         catch (SQLException e) {
