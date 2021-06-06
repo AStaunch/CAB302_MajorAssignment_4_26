@@ -13,7 +13,7 @@ import java.util.Properties;
 public class DBConnection {
     private static Connection instance = null;
 
-    private String port = "3306";
+    private String port = "3300";
     private String databasename = "cab302";
     private String user= "root";
     private String userp = "root";
