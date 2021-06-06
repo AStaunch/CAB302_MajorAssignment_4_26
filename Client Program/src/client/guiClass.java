@@ -81,14 +81,6 @@ public class guiClass {
 
         });
 
-
-        JButton client = new JButton();
-        client.setText("Login");
-        btnPanel.add(client);
-        client.addActionListener(e -> {
-            frame.dispose();
-            //userGuiClass admin = new userGuiClass();
-        });
         pane.add(btnPanel);
     }
 
