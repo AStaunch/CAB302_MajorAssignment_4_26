@@ -10,7 +10,6 @@ import java.util.List;
 
 public class UserControls {
     AdminControls a = new AdminControls();
-
     private Connection connection = DBConnection.getInstance();
     public static String LIST_ITEM = "INSERT INTO list_item (org_id, seller_id, asset_id, quantity," +
             "credit, bs) VALUES (?,?,?,?,?,?)";
