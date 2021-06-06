@@ -85,4 +85,8 @@ public class AdminControlsTest {
         orgUnit o = new orgUnit("Stanky", 100);
         testing.addOrg(o);
     }
+
+    @Test void removeOrg() {
+        testing.removeOrg("Toms org");
+    }
 }

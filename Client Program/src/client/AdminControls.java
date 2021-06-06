@@ -7,6 +7,7 @@ import common.assetUnit;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,6 +24,7 @@ public class AdminControls {
             "hash_pwd=?, is_admin=? WHERE id=? ";
 
     // Org SQL
+    public static String GET_OUSER = "SELECT * FROM user WHERE org_id=?";
     public static String INSERT_ORG = "INSERT into organisation (name, credits) VALUES (?,?)";
     public static String REMOVE_ORG = "DELETE FROM organisation WHERE name=?";
     public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
@@ -45,6 +47,7 @@ public class AdminControls {
     private PreparedStatement modifyUser;
 
     // Prepared statements for org SQL
+    private PreparedStatement getOUser;
     private PreparedStatement addOrg;
     private PreparedStatement removeOrg;
     private PreparedStatement getOrg;
@@ -67,6 +70,7 @@ public class AdminControls {
             this.listUsers = this.connection.prepareStatement(LIST_USERS);
             this.getUser = this.connection.prepareStatement(GET_USER);
             this.modifyUser = this.connection.prepareStatement(MODIFY_USER);
+            this.getOUser = this.connection.prepareStatement(GET_OUSER);
             this.addOrg = this.connection.prepareStatement(INSERT_ORG);
             this.removeOrg = this.connection.prepareStatement(REMOVE_ORG);
             this.getOrg= this.connection.prepareStatement(GET_ORG);
@@ -313,6 +317,33 @@ public class AdminControls {
 
 
         return orgArr;
+    }
+
+    public List<normalUser> getOrgUsers(Integer org_id){
+        ResultSet rs = null;
+        List<normalUser> getOrgUsers = new ArrayList<normalUser>();
+
+        try {
+            this.getOUser.setInt(1,org_id);
+            rs = this.getOUser.executeQuery();
+
+            while(rs.next()) {
+                normalUser nU = new normalUser();
+                nU.setID(rs.getInt(1));
+                nU.setUser(rs.getString(2));
+                nU.setFN(rs.getString(3));
+                nU.setLN(rs.getString(4));
+                nU.setHash(rs.getString(5));
+                nU.setAdmin(rs.getBoolean(6));
+
+                getOrgUsers.add(nU);
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getOrgUsers;
     }
 
     /** adds a new user to the db
