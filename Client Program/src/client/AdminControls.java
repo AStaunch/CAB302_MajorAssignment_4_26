@@ -234,10 +234,15 @@ public class AdminControls {
      */
     public void removeOrg(String name) {
         try {
+            orgUnit o = getOrg(name);
+            List<normalUser> orgUsers = getOrgUsers(o.getID());
+
+            orgUsers.forEach(normalUser -> {
+                removeUser(normalUser.getUser());
+            });
+
             this.removeOrg.setString(1,name);
             this.removeOrg.executeUpdate();
-
-
         }
         catch (SQLException e) {
             e.printStackTrace();
