@@ -13,7 +13,7 @@ public class UserControls {
 
     private Connection connection = DBConnection.getInstance();
     public static String LIST_ITEM = "INSERT INTO list_item (org_id, seller_id, asset_id, quantity," +
-            "credit) VALUES (?,?,?,?,?)";
+            "credit, bs) VALUES (?,?,?,?,?,?)";
     public static String REMOVE_ITEM = "REMOVE FROM list_item WHERE id=?";
     public static String GET_ITEM = "SELECT * FROM list_item WHERE id=?";
     public static String VIEW_ITEMS = "SELECT * FROM list_item";
