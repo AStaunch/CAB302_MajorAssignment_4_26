@@ -2,6 +2,7 @@ package client;
 
 
 import common.assetUnit;
+
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
@@ -13,9 +14,15 @@ import java.awt.event.WindowEvent;
 public class userGuiClass {
     private JMenuBar mb;
     private JMenu home;
+    private UserControls uc;
+    private AdminControls ac;
+    private normalUser user;
 
 
-    public userGuiClass(/* User Object*/){
+    public userGuiClass(normalUser user){
+        this.user = user;
+        uc = new UserControls();
+        ac = new AdminControls();
         normalUserFrame();
     }
 
@@ -28,6 +35,7 @@ public class userGuiClass {
         home = new JMenu("User Home Menu");
         mb = new JMenuBar();
         mb.add(home);
+
         frame.setJMenuBar(mb);
         frame.setVisible(true);
 
@@ -40,6 +48,8 @@ public class userGuiClass {
         Container pane = frame.getContentPane();
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
         pane.setLayout(box);
+
+
 
         // Create a listing Panel
         JPanel createListingPanel = new JPanel();
@@ -93,8 +103,10 @@ public class userGuiClass {
         currentFrame.setLocationRelativeTo(previousFrame);
         EnabledOnClose(currentFrame, previousFrame);
 
+        JLabel listedAssetLabel = new JLabel("Select an Asset to Sell");
 
-
+        String[] myAssets = uc.a.listInvAsset();
+        JComboBox assetsAvailable = new JComboBox(myAssets);
     }
     private void ViewAllListings(JFrame previousFrame){
         JFrame currentFrame = new JFrame("View My Listings");
@@ -106,7 +118,8 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit("Name",0.1),new assetUnit("Name2",0.2),new assetUnit("Name3",0.05)};
+        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit()};
+        // TODO update to take in all a user/organisations listings]);
 
         String[] columnNames = new String[]{"Asset Listed","Listed Price", "Actions"};
 
@@ -126,9 +139,9 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit("Name",0.1),new assetUnit("Name2",0.2),new assetUnit("Name3",0.05)};
-
-        String[] columnNames = new String[]{"Asset Listed","Listed Price", "Actions"};
+        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit()};
+        // TODO update to take in all a user/organisations listings
+        String[] columnNames = new String[]{"Asset Listed","Listed Price"};
 
         JPanel table = createTable(columnNames, myListedAssetUnits, currentFrame);
 
@@ -155,8 +168,9 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] assetUnits = new assetUnit[]{new assetUnit("Name",0.1),new assetUnit("Name2",0.2),new assetUnit("Name3",0.05)};
-        String[] columnNames = new String[]{"Asset Name","Asset Price", ""};
+        assetUnit[] assetUnits = new assetUnit[]{new assetUnit()};
+        // TODO update to take in all a user/organisations listings
+        String[] columnNames = new String[]{"Asset Name","Asset Price"};
 
         JPanel table = createTable(columnNames, assetUnits, currentFrame);
 
@@ -185,8 +199,11 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         JPanel ButtonPanel = new JPanel();
         Object[][] rowData = new Object[dataArray.length][];
+
         for (int i = 0; i < dataArray.length; i++) {
-            rowData[i] = new Object[]{dataArray[i].assetName(), dataArray[i].assetPrice()};
+            int itemID = dataArray[i].getID();
+
+            rowData[i] = new Object[]{};
 
             JButton viewAsset = new JButton("View");
             int finalI = i;
@@ -196,6 +213,7 @@ public class userGuiClass {
             ButtonPanel.add(viewAsset);
 
         }
+
         JTable table = new JTable(rowData, columnNames);
         table.removeEditor();
 
@@ -211,7 +229,6 @@ public class userGuiClass {
 
         return returnPanel;
     }
-
     private void ViewAsset(JFrame previousFrame, assetUnit unit){
         JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -220,6 +237,20 @@ public class userGuiClass {
 
         EnabledOnClose(currentFrame, previousFrame);
 
+        JButton buyButton = new JButton("Buy This");
+        buyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                uc.buyItem(unit, user);
+            }
+        });
+        JButton sellButton = new JButton("Sell This");
+        sellButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                uc.listItem(unit);
+            }
+        });
         currentFrame.setVisible(true);
     }
 }
@@ -243,7 +274,6 @@ class ButtonRenderer extends JButton implements  TableCellRenderer
     }
 
 }
-
 //BUTTON EDITOR CLASS
 class ButtonEditor extends DefaultCellEditor
 {
