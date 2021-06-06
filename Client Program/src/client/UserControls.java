@@ -132,16 +132,16 @@ public class UserControls {
         return listAssetUnit;
     }
 
-    public Boolean generalBuy(assetUnit u, normalUser user) {
+    public Boolean generalBuy(assetUnit u, normalUser user, Integer amt) {
         // Check for sufficient funds
-        if (a.getOrgByID(user.getOrgID()).getCredits()>=u.getQTY())
+        if (a.getOrgByID(user.getOrgID()).getCredits()>=u.getCredits() * amt)
         {
             InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
             if (inv == null) {
-                buyNewItem(u, user);
+                buyNewItem(u, user, amt);
             }
             else {
-                buyItem(u, user);
+                buyItem(u, user, amt);
             }
             return Boolean.TRUE;
         }
@@ -151,11 +151,12 @@ public class UserControls {
 
     }
 
-    public void buyItem(assetUnit u, normalUser user) {
+    public void buyItem(assetUnit u, normalUser user, Integer amt) {
         try {
             InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
-            this.buyItem.setInt(1, inv.getQTY()+u.getQTY());
+            this.buyItem.setInt(1, inv.getQTY()+amt);
             this.buyItem.setString(3, a.getInvAsset(u.getAsset()).getType());
+
             this.listItem.execute();
 
             // Seller changes credits for sellers org
@@ -168,8 +169,8 @@ public class UserControls {
 
             // Change inventory for buyer
             InventoryAsset ia = a.getInvAsset(u.getAsset());
-            // Sets new quantity by current QTY - asset QTY
-            ia.setQTY(ia.getQTY() - u.getQTY());
+            // Sets new quantity by current QTY - amt QTY
+            ia.setQTY(ia.getQTY() - amt);
             a.editInv(ia);
 
             // creates receipt and stores in db
@@ -181,27 +182,27 @@ public class UserControls {
     }
 
     // user buys u
-    public void buyNewItem(assetUnit u, normalUser user) {
+    public void buyNewItem(assetUnit u, normalUser user, Integer amt) {
 
         try {
             this.buyNewItem.setInt(1,user.getOrgID());
             this.buyNewItem.setString(2,a.getInvAsset(u.getAsset()).getType());
-            this.buyNewItem.setInt(3, u.getQTY());
+            this.buyNewItem.setInt(3, amt);
             this.listItem.execute();
 
             // Seller changes credits for sellers org
-            editCredit(a.getOrgByID(u.getOrg()), u.getCredits(), Boolean.TRUE );
+            editCredit(a.getOrgByID(u.getOrg()), u.getCredits() * amt, Boolean.TRUE );
 
             // Buyer changes credits for buyers org
-            editCredit(a.getOrgByID(user.getOrgID()), u.getCredits(), Boolean.FALSE);
+            editCredit(a.getOrgByID(user.getOrgID()), u.getCredits() * amt, Boolean.FALSE);
 
             // creates receipt and stores in db
             AddTransaction(u, user);
 
             // Change inventory for buyer
             InventoryAsset ia = a.getInvAsset(u.getAsset());
-            // Sets new quantity by current QTY - asset QTY
-            ia.setQTY(ia.getQTY() - u.getQTY());
+            // Sets new quantity by current QTY - amt QTY
+            ia.setQTY(ia.getQTY() - amt);
             a.editInv(ia);
         }
         catch (SQLException e) {
