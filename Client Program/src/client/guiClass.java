@@ -72,7 +72,7 @@ public class guiClass {
                 if (requestedlogin.isAdmin()){
                     adminGuiClass admin = new adminGuiClass();
                 }else{
-                    //userGuiClass user = new userGuiClass(requestedlogin);
+                    userGuiClass user = new userGuiClass(requestedlogin);
                 }
             }else{
                 System.out.println("Error in login details");
