@@ -619,6 +619,7 @@ public class adminGuiClass {
             Integer num = Integer.parseInt(amount.getText());
             u.editCredit(unit, num, true);
             JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
+            amount.setText(num.toString());
         });
         JButton removeCredit = new JButton("Remove credit");
         removeCredit.addActionListener(e -> {
@@ -626,6 +627,7 @@ public class adminGuiClass {
             Integer num = Integer.parseInt(amount.getText());
             if (u.editCredit(unit, num, true)){
                 JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
+                amount.setText(num.toString());
             } else {
                 JOptionPane.showMessageDialog(frame,"Enter a number lower than current credit!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);

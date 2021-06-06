@@ -258,8 +258,8 @@ public class AdminControls {
         }
         catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /** find an org by its id (used by admin)
@@ -282,8 +282,8 @@ public class AdminControls {
         }
         catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /** For GUI application, gets a list of names
