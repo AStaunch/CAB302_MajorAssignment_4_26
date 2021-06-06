@@ -412,8 +412,6 @@ public class AdminControls {
         UserControls u = new UserControls();
         try {
             if (this.getUser(username) != null) {
-                this.removeUser.setString(1, username);
-                this.removeUser.executeUpdate();
 
                 // removes any listings user previously had
                 List<assetUnit> listAssetUnit = u.listMyListings(getUser(username));
@@ -421,6 +419,8 @@ public class AdminControls {
                     u.removeItem(assetUnit.getID());
                 } );
 
+                this.removeUser.setString(1, username);
+                this.removeUser.executeUpdate();
 
                 return true;
             }

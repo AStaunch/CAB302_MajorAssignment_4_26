@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class adminGuiClass {
     private JMenuBar mb;
@@ -139,7 +138,7 @@ public class adminGuiClass {
             String uName = userName.getText();
             String fName = firstName.getText();
             String lName = lastName.getText();
-            String password = new String(pwd.getPassword());
+            String password = a.encode("String.valueOf(pwd.getPassword())");
             if (uName.isEmpty() || fName.isEmpty() || lName.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
