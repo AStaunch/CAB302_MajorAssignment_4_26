@@ -2,6 +2,8 @@ package client;
 import common.InventoryAsset;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -410,7 +412,7 @@ public class adminGuiClass {
         final Integer columnSize = 15;
 
         frame = new JFrame("Delete user");
-        frame.setSize(300,125);
+        frame.setSize(300,400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
@@ -444,8 +446,18 @@ public class adminGuiClass {
         });
         bPanel.add(delete);
 
+        // Table
+
+        //String[] columns =
+        //String[][] data = a.listUser();
+        JPanel tPanel = new JPanel();
+        JTable t = new JTable();
+        //
+
+
         frame.add(dPanel);
         frame.add(bPanel);
+        frame.add(tPanel);
         frame.setVisible(true);
         return frame;
     }

@@ -110,7 +110,6 @@ public class AdminControls {
         return list_type;
     }
 
-
     public List<InventoryAsset> list_allAsset(){
         ResultSet rs = null;
         List<InventoryAsset> list_allAsset = new ArrayList<InventoryAsset>();
