@@ -31,6 +31,7 @@ public class AdminControlsTest {
         user1.setUser("Username");
     }
 
+    // to create and edit a user
     @Test
     public void testedditcomand(){
         testing.addUser(user1);
@@ -40,6 +41,7 @@ public class AdminControlsTest {
         testing.modifyUser(testuser);
         assertEquals("Ragnor the destroyer", testing.getUser(user1.getUser()).getFN());
     }
+
 
     @Test
     public void testremoveuser(){

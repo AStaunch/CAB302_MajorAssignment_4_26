@@ -3,7 +3,7 @@ package client;
 /**
  * A class for creating a normal user object
  */
-public class normalUser extends adminUser {
+public class normalUser implements user {
     private Integer userID;
     private Integer org_id;
     private String username;
