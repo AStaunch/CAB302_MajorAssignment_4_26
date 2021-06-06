@@ -31,8 +31,7 @@ public class AdminControls {
     public static String EDIT_INVASSET = "UPDATE inventory SET quantity=? where id=?";
     public static String GET_INVASSET = "SELECT * FROM inventory WHERE id=?";
     public static String GET_IA_BYTYPEORG = "SELECT * FROM inventory WHERE type=? AND org_id=?";
-    public static String LIST_INVASSET = "SELECT inventory.type, organisation.name, inventory.id FROM inventory, " +
-            "organisation WHERE inventory.org_id = organisation.org_id";
+    public static String LIST_INVASSET = "SELECT type, quantity FROM inventory WHERE org_id";
 
     private PreparedStatement addUser;
     private PreparedStatement removeUser;
@@ -158,8 +157,8 @@ public class AdminControls {
             rs = this.list_invAsset.executeQuery();
 
             while(rs.next()) {
-                ia.add(rs.getString(1));
-
+                String temp = rs.getString(1) + ", " + String.valueOf(rs.getInt(2));
+                ia.add(temp);
             }
         } catch (SQLException var4) {
             var4.printStackTrace();
