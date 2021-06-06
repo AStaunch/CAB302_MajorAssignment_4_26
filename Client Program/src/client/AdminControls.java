@@ -38,6 +38,7 @@ public class AdminControls {
     public static String GET_INVASSET = "SELECT * FROM inventory WHERE id=?";
     public static String GET_IA_BYTYPEORG = "SELECT * FROM inventory WHERE type=? AND org_id=?";
     public static String LIST_INVASSET = "SELECT type, quantity FROM inventory WHERE org_id";
+    public static String LIST_ALLASSET = "SELECT * FROM inventory";
 
     // Prepared statements for user SQL
     private PreparedStatement addUser;
@@ -61,6 +62,7 @@ public class AdminControls {
     private PreparedStatement get_invAsset;
     private PreparedStatement get_invAssetTO;
     private PreparedStatement list_invAsset;
+    private PreparedStatement list_allAsset;
 
     public AdminControls() {
         try {
@@ -82,10 +84,28 @@ public class AdminControls {
             this.list_invAsset = this.connection.prepareStatement(LIST_INVASSET);
             this.get_invAsset = this.connection.prepareStatement(GET_INVASSET);
             this.get_invAssetTO = this.connection.prepareStatement(GET_IA_BYTYPEORG);
+            this.list_allAsset = this.connection.prepareStatement(LIST_ALLASSET);
 
         } catch (SQLException var2) {
             var2.printStackTrace();
         }
+    }
+
+    public List<InventoryAsset> list_allAsset(){
+        ResultSet rs = null;
+        List<InventoryAsset> list_allAsset = new ArrayList<InventoryAsset>();
+        try {
+            InventoryAsset i = new InventoryAsset();
+            rs = this.list_allAsset.executeQuery();
+            i.setID(rs.getInt(1));
+            i.setOrg(rs.getInt(2));
+            i.setType(rs.getString(3));
+            i.setQTY(rs.getInt(4));
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list_allAsset;
     }
 
     /** Adds a new inventory asset into the DB
