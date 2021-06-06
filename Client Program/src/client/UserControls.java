@@ -18,11 +18,11 @@ public class UserControls {
     public static String VIEW_ITEMS = "SELECT * FROM list_item WHERE bs=? ORDER BY ppu ASC";
     public static String VIEW_MYLISTING = "SELECT * FROM list_item WHERE seller_id=?";
     public static String VIEW_ORGLISTING = "SELECT * FROM list_item WHERE org_id=?";
-    public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
+    public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES (?,?,?)";
     public static String BUY_ITEM = "UPDATE inventory SET quantity = ? WHERE org_id = ? AND type = ?";
     public static String EDIT_CREDIT = "UPDATE organisation SET credits = ? WHERE org_id=?";
     public static String ADD_TRANSACTION = "INSERT INTO transaction (org_id, seller_id, asset_id, quantity," +
-            "credit,buyer_id) VALUES (?,?,?,?,?,?) ";
+            "credits,buyer_id) VALUES (?,?,?,?,?,?) ";
 
     private PreparedStatement listItem;
     private PreparedStatement removeItem;
@@ -141,7 +141,7 @@ public class UserControls {
         {
             InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
             if (inv == null) {
-                buyNewItem(u, user, amt);
+                buyNewItem(u, user, amt, 0);
             }
             else {
                 //buyItem(u, user, amt);
@@ -185,21 +185,28 @@ public class UserControls {
 //    }
 
     // user buys u
-    public void buyNewItem(assetUnit u, normalUser user, Integer amt) {
+    public void buyNewItem(assetUnit u, normalUser user, Integer amt, Integer maxprice) {
 
         try {
+
+
+
+
+            // Adds it to the Inventory although
             this.buyNewItem.setInt(1,user.getOrgID());
             this.buyNewItem.setString(2,a.getInvAsset(u.getAsset()).getType());
             this.buyNewItem.setInt(3, amt);
-            this.listItem.execute();
+            this.buyNewItem.execute();
 
             // Seller changes credits for sellers org
+
             editCredit(a.getOrgByID(u.getOrg()), u.getCredits() * amt, Boolean.TRUE );
 
             // Buyer changes credits for buyers org
             editCredit(a.getOrgByID(user.getOrgID()), u.getCredits() * amt, Boolean.FALSE);
 
             // creates receipt and stores in db
+            u.setQTY(amt);
             AddTransaction(u, user);
 
             // Change inventory for buyer
@@ -207,6 +214,7 @@ public class UserControls {
             // Sets new quantity by current QTY - amt QTY
             ia.setQTY(ia.getQTY() - amt);
             a.editInv(ia);
+
         }
         catch (SQLException e) {
             e.printStackTrace();

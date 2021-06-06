@@ -165,8 +165,8 @@ public class AdminControls {
     public void editInv(InventoryAsset i) {
         try {
             this.edit_invAsset.setInt(1,i.getQTY());
-            this.edit_invAsset.setInt(1,i.getID());
-            this.modifyUser.execute();
+            this.edit_invAsset.setInt(2,i.getID());
+            this.edit_invAsset.execute();
         }
         catch (SQLException e) {
             e.printStackTrace();
