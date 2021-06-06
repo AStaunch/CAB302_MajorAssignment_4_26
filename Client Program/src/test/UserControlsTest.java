@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 class UserControlsTest {
-    UserControls dave = new UserControls();
+    UserControls uc = new UserControls();
 
 
     @Test
     void listAsset() {
-        List<assetUnit> result = dave.listAsset(true);
+        List<assetUnit> result = uc.listAsset(true);
     }
 
     @Test
