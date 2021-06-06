@@ -19,8 +19,7 @@ public class AdminControls {
     public static String MODIFY_USER = "UPDATE user SET org_id=?, username=?, first_name=?, last_name=?," +
             "hash_pwd=?, is_admin=? WHERE id=? ";
 
-    public static String INSERT_ORG = "INSERT into organisation (org_name, description, credits) VALUES " +
-            "(?,?,?)";
+    public static String INSERT_ORG = "INSERT into organisation (name, credits) VALUES (?,?)";
     public static String REMOVE_ORG = "DELETE FROM organisation WHERE name=?";
     public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
     public static String GET_ORG1 = "SELECT * FROM organisation WHERE org_id=?";
@@ -170,23 +169,17 @@ public class AdminControls {
         return iaArr;
     }
 
-    public boolean addOrg(orgUnit o) {
+    public void addOrg(orgUnit o) {
+
         try {
-            if (getOrg(o.getName()) == null) {
-                this.addOrg.setString(1,o.getName());
-                this.addOrg.setInt(2,o.getCredits());
-                this.addOrg.execute();
-                return true;
-            }
-            else {
-                return false;
-            }
+            this.addOrg.setString(1,o.getName());
+            this.addOrg.setInt(2,o.getCredits());
+            this.addOrg.execute();
 
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public void removeOrg(String name) {
