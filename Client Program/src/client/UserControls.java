@@ -68,7 +68,7 @@ public class UserControls {
                 Integer seller_id = rs.getInt(3);
                 Integer asset_id = rs.getInt(4);
                 Integer quantity = rs.getInt(5);
-                Integer credits = rs.getInt(5);
+                Integer credits = rs.getInt(6);
 
                 assetUnit aU = new assetUnit(id, org_id, seller_id, asset_id, quantity, credits);
                 listAssetUnit.add(aU);

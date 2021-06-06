@@ -12,8 +12,17 @@ public class assetUnit implements asset {
     private Integer credits;
 
     public assetUnit() {};
+
     public assetUnit(Integer id, Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
                      Integer credits) {
+        this.id = id;
+        this.org_id = org_id;
+        this.seller_id = seller_id;
+        this.asset_id = asset_id;
+        this.quantity = quantity;
+        this.credits = credits;
+
+
     }
     public assetUnit(Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
                      Integer credits) {

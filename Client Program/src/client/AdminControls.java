@@ -172,9 +172,12 @@ public class AdminControls {
     public void addOrg(orgUnit o) {
 
         try {
-            this.addOrg.setString(1,o.getName());
-            this.addOrg.setInt(2,o.getCredits());
-            this.addOrg.execute();
+            if (this.getOrg(o.getName()) == null) {
+                this.addOrg.setString(1,o.getName());
+                this.addOrg.setInt(2,o.getCredits());
+                this.addOrg.execute();
+            }
+
 
         }
         catch (SQLException e) {
