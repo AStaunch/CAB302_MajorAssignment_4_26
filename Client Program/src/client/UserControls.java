@@ -170,7 +170,7 @@ public class UserControls {
         {
             InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
             if (inv == null) {
-                buyNewItem(u, user, amt, 0);
+                buyNewItem(u, user, amt);
             }
             else {
                 //buyItem(u, user, amt);
@@ -220,15 +220,10 @@ public class UserControls {
      * @param u
      * @param user
      * @param amt
-     * @param maxprice
      */
-    public void buyNewItem(assetUnit u, normalUser user, Integer amt, Integer maxprice) {
+    public void buyNewItem(assetUnit u, normalUser user, Integer amt) {
 
         try {
-
-
-
-
             // Adds it to the Inventory although
             this.buyNewItem.setInt(1,user.getOrgID());
             this.buyNewItem.setString(2,a.getInvAsset(u.getAsset()).getType());

@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
+-- Host:                         localhost
 -- Server version:               10.5.10-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
 -- HeidiSQL Version:             11.2.0.6213
@@ -26,16 +26,10 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   PRIMARY KEY (`id`),
   KEY `FK_inventory_organisation` (`org_id`),
   CONSTRAINT `FK_inventory_organisation` FOREIGN KEY (`org_id`) REFERENCES `organisation` (`org_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table cab302.inventory: ~4 rows (approximately)
-DELETE FROM `inventory`;
+-- Dumping data for table cab302.inventory: ~0 rows (approximately)
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
-INSERT INTO `inventory` (`id`, `org_id`, `type`, `quantity`) VALUES
-	(1, 1, 'CPU HOURS', 100),
-	(2, 2, 'CPU HOURS', 120),
-	(3, 3, 'CPU HOURS', 140),
-	(4, 5, 'CPU HOURS', 160);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 -- Dumping structure for table cab302.list_item
@@ -56,12 +50,8 @@ CREATE TABLE IF NOT EXISTS `list_item` (
   CONSTRAINT `FK_list_item_user` FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table cab302.list_item: ~2 rows (approximately)
-DELETE FROM `list_item`;
+-- Dumping data for table cab302.list_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `list_item` DISABLE KEYS */;
-INSERT INTO `list_item` (`id`, `org_id`, `seller_id`, `asset_id`, `quantity`, `ppu`, `bs`) VALUES
-	(1, 1, 1, 2, 10, 10, b'1'),
-	(2, 1, 2, 2, 100, 5, b'1');
 /*!40000 ALTER TABLE `list_item` ENABLE KEYS */;
 
 -- Dumping structure for table cab302.organisation
@@ -72,19 +62,10 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   PRIMARY KEY (`org_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table cab302.organisation: ~9 rows (approximately)
-DELETE FROM `organisation`;
+-- Dumping data for table cab302.organisation: ~1 rows (approximately)
 /*!40000 ALTER TABLE `organisation` DISABLE KEYS */;
-INSERT INTO `organisation` (`org_id`, `name`, `credits`) VALUES
-	(1, 'Jaydens org', 100),
-	(2, 'Alexs org', 180),
-	(3, 'Andres org', 150),
-	(5, 'Toms org', 120),
-	(6, 'Stanky', 100),
-	(7, 'Stanky', 100),
-	(8, 'Stanky', 100),
-	(9, 'Stanky', 100),
-	(10, 'Stanky', 100);
+REPLACE INTO `organisation` (`org_id`, `name`, `credits`) VALUES
+	(1, 'Administration', 0);
 /*!40000 ALTER TABLE `organisation` ENABLE KEYS */;
 
 -- Dumping structure for table cab302.transaction
@@ -105,10 +86,9 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   CONSTRAINT `FK_transaction_organisation` FOREIGN KEY (`org_id`) REFERENCES `organisation` (`org_id`),
   CONSTRAINT `FK_transaction_user` FOREIGN KEY (`seller_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_transaction_user_2` FOREIGN KEY (`buyer_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table cab302.transaction: ~0 rows (approximately)
-DELETE FROM `transaction`;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 
@@ -124,17 +104,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   KEY `org_ID` (`org_id`),
   CONSTRAINT `org_ID` FOREIGN KEY (`org_id`) REFERENCES `organisation` (`org_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
 
--- Dumping data for table cab302.user: ~5 rows (approximately)
-DELETE FROM `user`;
+-- Dumping data for table cab302.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `org_id`, `username`, `first_name`, `last_name`, `hash_pwd`, `is_admin`) VALUES
-	(1, NULL, '', 'CAB', '302', 'cab302', b'1'),
-	(2, 1, '', 'Jayden', 'Truong', 'jayden', b'0'),
-	(4, 3, '', 'Andre', 'Something', 'andre', b'0'),
-	(5, 5, '', 'Tom', 'Bartlett', 'tom', b'0'),
-	(59, 1, 'Username', 'Ragnor the destroyer', 'Tom', '3f3f8baad08c9ccc4a3e02a17d042b76a1b75162b22bdf00f7273efd896fd5d0', b'0');
+REPLACE INTO `user` (`id`, `org_id`, `username`, `first_name`, `last_name`, `hash_pwd`, `is_admin`) VALUES
+	(1, 1, 'Admin', 'Admin', 'Admin', '3f3f8baad08c9ccc4a3e02a17d042b76a1b75162b22bdf00f7273efd896fd5d0', b'1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

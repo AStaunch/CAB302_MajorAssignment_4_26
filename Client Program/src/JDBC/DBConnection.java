@@ -13,10 +13,11 @@ import java.util.Properties;
 public class DBConnection {
     private static Connection instance = null;
 
+    // Edit these strings to adjust the port, databasename, user and user password
     private String port = "3306";
     private String databasename = "cab302";
     private String user= "root";
-    private String userp = "root";
+    private String userp = "fishcake";
 
     private DBConnection() {
         Properties props = new Properties();
