@@ -7,16 +7,16 @@ public class InventoryAsset implements asset {
 
     private Integer quantity;
 
-    private InventoryAsset() {};
+    public InventoryAsset() {};
 
-    private InventoryAsset(Integer id, Integer org_id, String type, Integer quantity) {
+    public InventoryAsset(Integer id, Integer org_id, String type, Integer quantity) {
         this.id = id;
         this.org_id = org_id;
         this.Type = type;
         this.quantity = quantity;
     }
 
-    private InventoryAsset(Integer org_id, String type, Integer quantity) {
+    public InventoryAsset(Integer org_id, String type, Integer quantity) {
         this.org_id = org_id;
         this.Type = type;
         this.quantity = quantity;
