@@ -59,5 +59,6 @@ class UserControlsTest {
 
     @Test
     void getItem() {
+        uc.getItem(1);
     }
 }
