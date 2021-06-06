@@ -1,12 +1,18 @@
 package client;
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class adminGuiClass {
     private JMenuBar mb;
-    private JMenu home;
+    private JMenuItem home, orgPage, unitPage;
     private JFrame frame;
     private JLabel label;
 
@@ -21,13 +27,36 @@ public class adminGuiClass {
         frame.setSize(400, 200);
         frame.setLocationRelativeTo(null);
         //frame.setResizable(false);
-        home = new JMenu("Add User");
+        adminHomePane(frame.getContentPane(), frame);
+        home = new JMenuItem("User management");
+        orgPage = new JMenuItem("Org management");
+        unitPage = new JMenuItem("Unit management");
+
+        // fix listener for menu
+        home.addActionListener(e->{
+            frame.getContentPane().removeAll();
+            adminHomePane(frame.getContentPane(), frame);
+            frame.validate();
+            frame.repaint();
+        });
+        orgPage.addActionListener(e->{
+            frame.getContentPane().removeAll();
+            adminOrgPane(frame.getContentPane(), frame);
+            frame.validate();
+            frame.repaint();
+        });
+        unitPage.addActionListener(e->{
+            frame.getContentPane().removeAll();
+            //adminHomePane(frame.getContentPane(), frame);
+            frame.validate();
+            frame.repaint();
+        });
         mb = new JMenuBar();
         mb.add(home);
+        mb.add(orgPage);
+        mb.add(unitPage);
         frame.setJMenuBar(mb);
         frame.setVisible(true);
-
-        adminHomePane(frame.getContentPane(), frame);
         return frame;
     }
 
@@ -37,7 +66,7 @@ public class adminGuiClass {
         JPanel orgPanel;
         Integer columnSize = 15;
 
-        frame = new JFrame("Add Admin User");
+        frame = new JFrame("Add User");
         frame.setSize(300, 275);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -424,12 +453,133 @@ public class adminGuiClass {
         return frame;
     }
 
+    private void adminOrgPane(Container pane, JFrame mainFrame){
+
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Create admin user panel
+        JPanel addOrgPanel = new JPanel();
+        JButton createOrg = new JButton("Create org");
+        createOrg.addActionListener(e ->{
+            addOrg(mainFrame);
+        });
+        createOrg.setPreferredSize(new Dimension(150,25));
+        addOrgPanel.add(createOrg);
+        pane.add(addOrgPanel);
+
+        // Edit user panel
+        JPanel editPanel = new JPanel();
+        JButton editOrg = new JButton("Edit org");
+        editOrg.addActionListener(e ->{
+            //editUserFrame(mainFrame);
+        });
+        editOrg.setPreferredSize(new Dimension(150,25));
+        editPanel.add(editOrg);
+        pane.add(editPanel);
+
+        // Delete user panel
+        JPanel deletePanel = new JPanel();
+        JButton deleteOrg = new JButton("Delete org");
+        deleteOrg.addActionListener(e ->{
+            //deleteUser(mainFrame);
+        });
+        deleteOrg.setPreferredSize(new Dimension(150,25));
+        deletePanel.add(deleteOrg);
+        pane.add(deletePanel);
+    }
+
+    private JFrame addOrg(JFrame mainFrame){
+
+        // Variables
+        JLabel label;
+        Integer columnSize = 15;
+
+        frame = new JFrame("Add Org");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Panel for organisation name
+        JPanel orgNamePanel = new JPanel();
+        label = new JLabel("Org name: ");
+        JTextField orgName = new JTextField("", columnSize);
+        orgNamePanel.add(label);
+        orgNamePanel.add(orgName);
+
+        // Panel for credit
+        JPanel orgCreditPanel = new JPanel();
+        label = new JLabel("Org Credit: ");
+        JTextField orgCredit = new JTextField("", columnSize);
+        orgCredit.setToolTipText("Enter only numeric digits(0-9)");
+        orgCredit.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') ||
+                        e.getKeyChar() == KeyEvent.VK_BACK_SPACE ||
+                        e.getKeyChar() == KeyEvent.VK_DELETE){
+                    orgCredit.setEditable(true);
+                } else {
+                    orgCredit.setEditable(false);
+                }
+            }
+        });
+        orgCreditPanel.add(label);
+        orgCreditPanel.add(orgCredit);
+
+
+        // Button panel
+        JPanel panel = new JPanel();
+
+        // Add button
+        JButton add = new JButton("Add");
+        add.addActionListener(e -> {
+            System.out.println(orgName.getText());
+            if (orgName.getText().isEmpty() || orgCredit.getText().isEmpty()){
+                JOptionPane.showMessageDialog(frame, "Enter a value for each section !!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                orgUnit org = new orgUnit(orgName.getText(),Integer.parseInt(orgCredit.getText()));
+                a.addOrg(org);
+                JOptionPane.showMessageDialog(frame, "Successfully added Organisation !!!");
+            }
+        });
+
+        // Clear button
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(e ->{
+            orgName.setText("");
+            orgCredit.setText("");
+        });
+
+        panel.add(add);
+        panel.add(clear);
+
+        // Add all panel to the container
+        pane.add(orgNamePanel);
+        pane.add(orgCreditPanel);
+        pane.add(panel);
+
+        frame.add(panel);
+        frame.setVisible(true);
+
+        return frame;
+    }
+
     private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
         previousFrame.setEnabled(false);
 
         currentFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e){
-                previousFrame.setEnabled(true);
+                currentFrame.dispose();
+                previousFrame.dispose();
+                adminUserFrame();
             };
         });
     }
@@ -444,5 +594,6 @@ public class adminGuiClass {
         });
     }
 
-
 }
+
+
