@@ -11,18 +11,29 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 
+/**
+ * Admin GUI Class for Admin window functionalities
+ */
+
 public class adminGuiClass {
     private JMenuBar mb;
     private JMenuItem home, orgPage, unitPage;
     private JFrame frame;
     private JLabel label;
-
-    public adminGuiClass(){
-        adminUserFrame();
-    }
     AdminControls a = new AdminControls();
     UserControls u = new UserControls();
 
+    /**
+     * Runnable for the class
+     */
+    public adminGuiClass(){
+        adminUserFrame();
+    }
+
+    /**
+     * Create the main frame for the admin user
+     * @return JFrame - Initial screen
+     */
     private JFrame adminUserFrame(){
         frame = new JFrame("Electronic Asset Trading Platform");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +45,7 @@ public class adminGuiClass {
         orgPage = new JMenuItem("Org management");
         unitPage = new JMenuItem("Unit management");
 
-        // fix listener for menu
+        // Listeners for the menu bars
         home.addActionListener(e->{
             frame.getContentPane().removeAll();
             adminHomePane(frame.getContentPane(), frame);
@@ -62,17 +73,24 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Create frame for adding user
+     * @param mainFrame frame from the initial screen
+     * @return Frame - which has the section the admin user needs to fill to create a new user
+     */
     private JFrame addUser(JFrame mainFrame){
         // Variables
         JLabel label;
         JPanel orgPanel;
         Integer columnSize = 15;
 
+        // Create a frame
         frame = new JFrame("Add User");
         frame.setSize(300, 275);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
+        // Disable the previous frame
         EnabledOnClose(frame, mainFrame);
 
         Container pane = frame.getContentPane();
@@ -140,6 +158,7 @@ public class adminGuiClass {
             String fName = firstName.getText();
             String lName = lastName.getText();
             String password = a.encode("String.valueOf(pwd.getPassword())");
+            // Checker for inputs
             if (uName.isEmpty() || fName.isEmpty() || lName.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
@@ -193,6 +212,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a pane which contains the buttons for each functionalities
+     * @param pane pane from the main frame
+     * @param mainFrame frame the initial screen
+     */
     private void adminHomePane(Container pane, JFrame mainFrame){
 
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
@@ -229,6 +253,11 @@ public class adminGuiClass {
         pane.add(deletePanel);
     }
 
+    /**
+     * Creates a frame which open the search window for the user that needs to be edited
+     * @param mainFrame frame from the initial screen
+     * @return frame of new window
+     */
     private JFrame editUserFrame(JFrame mainFrame){
 
         // Variables
@@ -254,6 +283,7 @@ public class adminGuiClass {
         JButton search = new JButton("Search");
         search.addActionListener(e -> {
             String searchThis = searchTField.getText();
+            // Check for valid inputs
             if(searchThis.isEmpty()){
                 JOptionPane.showMessageDialog(frame,"Enter a value to search!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
@@ -273,6 +303,12 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a frame that has the details of the user search from the previous frame
+     * @param uName user as object
+     * @param prevFrame previous frame
+     * @return return a frame
+     */
     private JFrame editUser(normalUser uName, JFrame prevFrame){
 
         // Variables
@@ -358,7 +394,7 @@ public class adminGuiClass {
             String fName = fTField.getText();
             String lName = lTField.getText();
             String p = new String(pwd.getPassword());
-
+            // Check for valid inputs
             if (uN.isEmpty() || fName.isEmpty() || lName.isEmpty() || p.isEmpty()){
                 JOptionPane.showMessageDialog(frame, "Enter a value for each section!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
@@ -406,6 +442,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a frame that prompt for user name that needs to be deleted
+     * @param mainFrame frame from the main screen
+     * @return returns a JFrame
+     */
     private JFrame deleteUser(JFrame mainFrame){
 
         // Variables
@@ -446,22 +487,18 @@ public class adminGuiClass {
         });
         bPanel.add(delete);
 
-        // Table
-
-        //String[] columns =
-        //String[][] data = a.listUser();
-        JPanel tPanel = new JPanel();
-        JTable t = new JTable();
-        //
-
-
         frame.add(dPanel);
         frame.add(bPanel);
-        frame.add(tPanel);
         frame.setVisible(true);
         return frame;
     }
 
+    /**
+     * Creates a pain that contains the buttons for functionalities available for organisation that
+     * admin user can perform
+     * @param pane pain of the main screen
+     * @param mainFrame frame of the main screen
+     */
     private void adminOrgPane(Container pane, JFrame mainFrame){
 
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
@@ -498,6 +535,11 @@ public class adminGuiClass {
         pane.add(deletePanel);
     }
 
+    /**
+     * Creates a frame for adding org
+     * @param mainFrame frame from the main screen
+     * @return returns a frame that prompts for org details that will be added to the database
+     */
     private JFrame addOrg(JFrame mainFrame){
 
         // Variables
@@ -589,6 +631,12 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates frame for editing org
+     * @param mainFrame frame from the main frame
+     * @return a frame that contains the detail of the org search and allows the admin
+     * to change details
+     */
     private JFrame editOrgFrame(JFrame mainFrame){
 
         // Variables
@@ -662,7 +710,7 @@ public class adminGuiClass {
         addRemoveCredit.add(removeCredit);
         addRemoveCredit.setVisible(false);
 
-        // Panel for editing user by searching username
+        // Panel for editing user by searching org name
         panel = new JPanel();
         label = new JLabel("Org name: ");
         JButton search = new JButton("Search");
@@ -698,6 +746,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a delete frame
+     * @param mainFrame frame from the main screen
+     * @return frame that prompts admin for org and deletes the org from the database
+     */
     private JFrame deleteOrg(JFrame mainFrame){
 
         // Variables
@@ -744,6 +797,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a pane that contains button for asset functionalities
+     * @param pane pane of the main frame
+     * @param mainFrame frame of the main screen
+     */
     private void adminAssetPane(Container pane, JFrame mainFrame){
 
         BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
@@ -770,6 +828,11 @@ public class adminGuiClass {
         pane.add(deletePanel);
     }
 
+    /**
+     * Creates a frame for adding asset
+     * @param mainFrame frame from the main screen
+     * @return returns a frame that prompts the admin user for asset details and add it to the database
+     */
     private JFrame addAsset(JFrame mainFrame){
         // Variables
         JLabel label;
@@ -871,6 +934,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Creates a frame for deleting asset
+     * @param mainFrame frame from the main screen
+     * @return returns a frame that prompts for asset
+     */
     private JFrame deleteAsset(JFrame mainFrame){
 
         // Variables
@@ -932,6 +1000,11 @@ public class adminGuiClass {
         return frame;
     }
 
+    /**
+     * Method for disabling previous frame and enabling it
+     * @param currentFrame frame that is current open
+     * @param previousFrame frame of the previous screen
+     */
     private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
         previousFrame.setEnabled(false);
 
@@ -940,16 +1013,6 @@ public class adminGuiClass {
                 currentFrame.dispose();
                 previousFrame.dispose();
                 adminUserFrame();
-            };
-        });
-    }
-
-    private void VisibleOnClose(JFrame currentFrame, JFrame previousFrame){
-        previousFrame.setVisible(false);
-
-        currentFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
-                previousFrame.setVisible(true);
             };
         });
     }
