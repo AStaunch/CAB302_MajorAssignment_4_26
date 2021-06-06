@@ -119,6 +119,7 @@ public class userGuiClass {
         tablePanel.setLayout(new FlowLayout());
 
         assetUnit[] allListedAssets = new assetUnit[]{new assetUnit()};
+        allListedAssets = uc.viewListing(true).toArray(new assetUnit[0]);
         // TODO update to take in all a user/organisations listings]);
 
         String[] columnNames = new String[]{"Asset Listed","Listed Price", "Actions"};
