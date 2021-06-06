@@ -20,7 +20,7 @@ public class UserControls {
     public static String VIEW_ORGLISTING = "SELECT * FROM list_item WHERE org_id=?";
     public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String BUY_ITEM = "UPDATE inventory SET quantity = ? WHERE org_id = ? AND type = ?";
-    public static String EDIT_CREDIT = "UPDATE organisation SET credits = ? WHERE id=?";
+    public static String EDIT_CREDIT = "UPDATE organisation SET credits = ? WHERE org_id=?";
     public static String ADD_TRANSACTION = "INSERT INTO transaction (org_id, seller_id, asset_id, quantity," +
             "credit,buyer_id) VALUES (?,?,?,?,?,?) ";
 
@@ -144,7 +144,7 @@ public class UserControls {
                 buyNewItem(u, user, amt);
             }
             else {
-                buyItem(u, user, amt);
+                //buyItem(u, user, amt);
             }
             return Boolean.TRUE;
         }
@@ -154,35 +154,35 @@ public class UserControls {
 
     }
 
-    public void buyItem(assetUnit u, normalUser user, Integer amt) {
-        try {
-            InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
-            this.buyItem.setInt(1, inv.getQTY()+amt);
-            this.buyItem.setString(3, a.getInvAsset(u.getAsset()).getType());
-
-            this.listItem.execute();
-
-            // Seller changes credits for sellers org
-            editCredit(a.getOrgByID(u.getOrg()), u.getCredits(), Boolean.TRUE );
-
-            // Seller loses inventory
-
-            // Buyer changes credits for buyers org
-            editCredit(a.getOrgByID(user.getOrgID()), u.getCredits(), Boolean.FALSE);
-
-            // Change inventory for buyer
-            InventoryAsset ia = a.getInvAsset(u.getAsset());
-            // Sets new quantity by current QTY - amt QTY
-            ia.setQTY(ia.getQTY() - amt);
-            a.editInv(ia);
-
-            // creates receipt and stores in db
-            AddTransaction(u, user);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void buyItem(assetUnit u, normalUser user, Integer amt) {
+//        try {
+//            InventoryAsset inv = a.getInvAssetTO(a.getInvAsset(u.getAsset()).getType(), user.getOrgID());
+//            this.buyItem.setInt(1, inv.getQTY()+amt);
+//            this.buyItem.setString(3, a.getInvAsset(u.getAsset()).getType());
+//
+//            this.listItem.execute();
+//
+//            // Seller changes credits for sellers org
+//            editCredit(a.getOrgByID(u.getOrg()), u.getCredits(), Boolean.TRUE );
+//
+//            // Seller loses inventory
+//
+//            // Buyer changes credits for buyers org
+//            editCredit(a.getOrgByID(user.getOrgID()), u.getCredits(), Boolean.FALSE);
+//
+//            // Change inventory for buyer
+//            InventoryAsset ia = a.getInvAsset(u.getAsset());
+//            // Sets new quantity by current QTY - amt QTY
+//            ia.setQTY(ia.getQTY() - amt);
+//            a.editInv(ia);
+//
+//            // creates receipt and stores in db
+//            AddTransaction(u, user);
+//        }
+//        catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     // user buys u
     public void buyNewItem(assetUnit u, normalUser user, Integer amt) {
@@ -213,7 +213,7 @@ public class UserControls {
         }
     }
 
-    public void editCredit(orgUnit o, Integer amount, Boolean tf) {
+    public boolean editCredit(orgUnit o, Integer amount, Boolean tf) {
         try {
             if (tf == Boolean.TRUE) {
                 this.editCredit.setInt(1,o.getCredits()+amount);
@@ -223,10 +223,12 @@ public class UserControls {
             }
             this.editCredit.setInt(2, o.getID());
             this.editCredit.execute();
+            return true;
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void AddTransaction(assetUnit u, normalUser user){

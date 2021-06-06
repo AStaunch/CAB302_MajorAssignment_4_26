@@ -149,7 +149,7 @@ public class AdminControls {
 
         }
         catch (SQLException e){
-            e.printStackTrace();
+           return null;
         }
         return i;
     }
@@ -176,7 +176,7 @@ public class AdminControls {
 
         }
         catch (SQLException e){
-            e.printStackTrace();
+            return null;
         }
         return i;
     }

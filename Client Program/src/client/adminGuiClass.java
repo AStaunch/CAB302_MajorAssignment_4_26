@@ -1,14 +1,11 @@
 package client;
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class adminGuiClass {
     private JMenuBar mb;
@@ -20,6 +17,7 @@ public class adminGuiClass {
         adminUserFrame();
     }
     AdminControls a = new AdminControls();
+    UserControls u = new UserControls();
 
     private JFrame adminUserFrame(){
         frame = new JFrame("Electronic Asset Trading Platform");
@@ -472,7 +470,7 @@ public class adminGuiClass {
         JPanel editPanel = new JPanel();
         JButton editOrg = new JButton("Edit org");
         editOrg.addActionListener(e ->{
-            //editUserFrame(mainFrame);
+            editOrgFrame(mainFrame);
         });
         editOrg.setPreferredSize(new Dimension(150,25));
         editPanel.add(editOrg);
@@ -540,14 +538,22 @@ public class adminGuiClass {
         // Add button
         JButton add = new JButton("Add");
         add.addActionListener(e -> {
-            System.out.println(orgName.getText());
             if (orgName.getText().isEmpty() || orgCredit.getText().isEmpty()){
                 JOptionPane.showMessageDialog(frame, "Enter a value for each section !!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                orgUnit org = new orgUnit(orgName.getText(),Integer.parseInt(orgCredit.getText()));
-                a.addOrg(org);
-                JOptionPane.showMessageDialog(frame, "Successfully added Organisation !!!");
+                Integer credit = Integer.parseInt(orgCredit.getText());
+                orgUnit org = new orgUnit(orgName.getText(), Integer.parseInt(orgCredit.getText()));
+                // Add add org in the if statement
+                if (a.addOrg(org)){
+                    JOptionPane.showMessageDialog(frame, "Successfully added Organisation !!!");
+                    orgName.setText("");
+                    orgCredit.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Organisation name already exist !!!",
+                            "Warning",JOptionPane.WARNING_MESSAGE);
+                    orgName.setText("");
+                }
             }
         });
 
@@ -569,6 +575,112 @@ public class adminGuiClass {
         frame.add(panel);
         frame.setVisible(true);
 
+        return frame;
+    }
+
+    private JFrame editOrgFrame(JFrame mainFrame){
+
+        // Variables
+        JPanel panel;
+        JLabel label;
+        final Integer columnSize = 15;
+
+        // Frame
+        frame = new JFrame("Edit Org Credit");
+        frame.setSize(300,225);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        EnabledOnClose(frame, mainFrame);
+
+        Container pane = frame.getContentPane();
+        BoxLayout box = new BoxLayout(pane, BoxLayout.Y_AXIS);
+        pane.setLayout(box);
+
+        // Org Credit
+        JPanel creditPanel = new JPanel();
+        label = new JLabel("Current Org Credit: ");
+        JTextField cTField = new JTextField();
+        cTField.setEditable(false);
+        creditPanel.add(label);
+        creditPanel.add(cTField);
+        creditPanel.setVisible(false);
+
+        //
+        JTextField searchTField = new JTextField("", 10);
+
+        // Org credit buttons
+        JPanel addRemoveCredit = new JPanel();
+        label = new JLabel("Amount:");
+        JTextField amount = new JTextField(columnSize);
+        JButton addCredit = new JButton("Add credit");
+        addCredit.addActionListener(e -> {
+            orgUnit unit = a.getOrg(searchTField.getText());
+            Integer num = Integer.parseInt(amount.getText());
+            u.editCredit(unit, num, true);
+            JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
+        });
+        JButton removeCredit = new JButton("Remove credit");
+        removeCredit.addActionListener(e -> {
+            orgUnit unit = a.getOrg(searchTField.getText());
+            Integer num = Integer.parseInt(amount.getText());
+            if (u.editCredit(unit, num, true)){
+                JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
+            } else {
+                JOptionPane.showMessageDialog(frame,"Enter a number lower than current credit!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        amount.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') ||
+                        e.getKeyChar() == KeyEvent.VK_BACK_SPACE ||
+                        e.getKeyChar() == KeyEvent.VK_DELETE){
+                    amount.setEditable(true);
+                } else {
+                    amount.setEditable(false);
+                }
+            }
+        });
+        addRemoveCredit.add(label);
+        addRemoveCredit.add(amount);
+        addRemoveCredit.add(addCredit);
+        addRemoveCredit.add(removeCredit);
+        addRemoveCredit.setVisible(false);
+
+        // Panel for editing user by searching username
+        panel = new JPanel();
+        label = new JLabel("Org name: ");
+        JButton search = new JButton("Search");
+        search.addActionListener(e -> {
+            creditPanel.setVisible(false);
+            addRemoveCredit.setVisible(false);
+            amount.setText("");
+            cTField.setText("");
+            frame.setTitle("Edit Org Credit");
+            String searchThis = searchTField.getText();
+            if(searchThis.isEmpty()){
+                JOptionPane.showMessageDialog(frame,"Enter a org name to search!!!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!(a.getOrg(searchThis) instanceof orgUnit)){
+                JOptionPane.showMessageDialog(frame,"Organisation is not in the list!!!",
+                        "Warning",JOptionPane.WARNING_MESSAGE);
+            } else {
+                frame.setTitle("Editing org: " + searchThis);
+                cTField.setText(a.getOrg(searchThis).getCredits().toString());
+                creditPanel.setVisible(true);
+                addRemoveCredit.setVisible(true);
+            }
+        });
+        panel.add(label);
+        panel.add(searchTField);
+        panel.add(search);
+
+        frame.add(panel);
+        frame.add(creditPanel);
+        frame.add(addRemoveCredit);
+        frame.setVisible(true);
         return frame;
     }
 
