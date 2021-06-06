@@ -2,15 +2,19 @@ package client;
 
 import JDBC.DBConnection;
 import common.InventoryAsset;
+import common.assetUnit;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class AdminControls {
+    UserControls u = new UserControls();
     private Connection connection = DBConnection.getInstance();
+    // User SQL
     public static String INSERT_USER = "INSERT INTO user (org_id, username, first_name, last_name, hash_pwd," +
             "is_admin) VALUES (?,?,?,?,?,?)";
     public static String REMOVE_USER = "DELETE FROM user WHERE username=?";
@@ -19,12 +23,14 @@ public class AdminControls {
     public static String MODIFY_USER = "UPDATE user SET org_id=?, username=?, first_name=?, last_name=?," +
             "hash_pwd=?, is_admin=? WHERE id=? ";
 
+    // Org SQL
     public static String INSERT_ORG = "INSERT into organisation (name, credits) VALUES (?,?)";
     public static String REMOVE_ORG = "DELETE FROM organisation WHERE name=?";
     public static String GET_ORG = "SELECT * FROM organisation WHERE name=?";
     public static String GET_ORG1 = "SELECT * FROM organisation WHERE org_id=?";
     public static String LIST_ORG = "SELECT * FROM organisation";
 
+    // Inventory SQL
     public static String ADD_INVASSET = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String REMOVE_INVASSET = "DELETE FROM inventory where id=?";
     public static String EDIT_INVASSET = "UPDATE inventory SET quantity=? where id=?";
@@ -32,16 +38,21 @@ public class AdminControls {
     public static String GET_IA_BYTYPEORG = "SELECT * FROM inventory WHERE type=? AND org_id=?";
     public static String LIST_INVASSET = "SELECT type, quantity FROM inventory WHERE org_id";
 
+    // Prepared statements for user SQL
     private PreparedStatement addUser;
     private PreparedStatement removeUser;
-    private PreparedStatement listUsers;// do last
+    private PreparedStatement listUsers;
     private PreparedStatement getUser;
     private PreparedStatement modifyUser;
+
+    // Prepared statements for org SQL
     private PreparedStatement addOrg;
     private PreparedStatement removeOrg;
     private PreparedStatement getOrg;
     private PreparedStatement getOrg1;
     private PreparedStatement listOrg;
+
+    // Prepared statements for inventory SQL
     private PreparedStatement add_invAsset;
     private PreparedStatement remove_invAsset;
     private PreparedStatement edit_invAsset;
@@ -74,6 +85,10 @@ public class AdminControls {
         }
     }
 
+    /** Adds a new inventory asset into the DB
+     *
+     * @param i Takes in a invenotry asset type
+     */
     public void addInvAsset(InventoryAsset i) {
         try {
             this.add_invAsset.setInt(1,i.getOrg());
@@ -86,6 +101,10 @@ public class AdminControls {
         }
     }
 
+    /** Removes an asset from the inventory
+     *
+     * @param id, takes ID to identify
+     */
     public void removeInvAsset(Integer id) {
         try {
             this.remove_invAsset.setInt(1,id);
@@ -96,6 +115,10 @@ public class AdminControls {
         }
     }
 
+    /** from an invAsset, modifies the current values
+     *
+     * @param i takes invAsset type
+     */
     public void editInv(InventoryAsset i) {
         try {
             this.edit_invAsset.setInt(1,i.getQTY());
@@ -107,6 +130,11 @@ public class AdminControls {
         }
     }
 
+    /** Gets an inv asset using the id
+     *
+     * @param id
+     * @return an inv asset
+     */
     public InventoryAsset getInvAsset(Integer id) {
         InventoryAsset i = new InventoryAsset();
         ResultSet rs =  null;
@@ -127,6 +155,12 @@ public class AdminControls {
         return i;
     }
 
+    /** finds inventory asset knowing org id and the type
+     *
+     * @param type as seen in db
+     * @param org_id the org number
+     * @return an inv asset
+     */
     public InventoryAsset getInvAssetTO(String type, Integer org_id) {
         InventoryAsset i = new InventoryAsset();
         ResultSet rs =  null;
@@ -148,6 +182,10 @@ public class AdminControls {
         return i;
     }
 
+    /** Gets an array of inventory assets for gui applications
+     *
+     * @return  an array of inventory assets
+     */
     public String[] listInvAsset() {
         Set<String> ia = new TreeSet();
         ResultSet rs = null;
@@ -169,22 +207,28 @@ public class AdminControls {
         return iaArr;
     }
 
-    public void addOrg(orgUnit o) {
+    /** adding a new org
+     *
+     * @param o, takes in a constructed org object
+     */
+    public boolean addOrg(orgUnit o) {
 
         try {
-            if (this.getOrg(o.getName()) == null) {
-                this.addOrg.setString(1,o.getName());
-                this.addOrg.setInt(2,o.getCredits());
-                this.addOrg.execute();
-            }
-
-
+            this.addOrg.setString(1,o.getName());
+            this.addOrg.setInt(2,o.getCredits());
+            this.addOrg.execute();
+            return true;
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
+    /** takes in the name of an org used in GUI to remove an org
+     *
+     * @param name, the org name
+     */
     public void removeOrg(String name) {
         try {
             this.removeOrg.setString(1,name);
@@ -195,6 +239,11 @@ public class AdminControls {
         }
     }
 
+    /** finds an org using its name
+     *
+     * @param name takes org name as param
+     * @return returns an org with the name name
+     */
     public orgUnit getOrg(String name) {
         orgUnit o = new orgUnit();
         ResultSet rs =  null;
@@ -205,14 +254,20 @@ public class AdminControls {
             o.setID(rs.getInt("org_id"));
             o.setName(rs.getString("name"));
             o.setCredit(rs.getInt("credits"));
+            return o;
 
         }
         catch (SQLException e){
             e.printStackTrace();
+            return null;
         }
-        return o;
     }
 
+    /** find an org by its id (used by admin)
+     *
+     * @param id org id
+     * @return an org with the id, id
+     */
     public orgUnit getOrgByID(Integer id) {
         orgUnit o = new orgUnit();
         ResultSet rs =  null;
@@ -223,14 +278,19 @@ public class AdminControls {
             o.setID(rs.getInt("org_id"));
             o.setName(rs.getString("name"));
             o.setCredit(rs.getInt("credits"));
+            return o;
 
         }
         catch (SQLException e){
             e.printStackTrace();
+            return null;
         }
-        return o;
     }
 
+    /** For GUI application, gets a list of names
+     *
+     * @return a string of org names for GUI
+     */
     public String[] listOrg() {
         Set<String> org = new TreeSet();
         ResultSet rs = null;
@@ -254,6 +314,11 @@ public class AdminControls {
         return orgArr;
     }
 
+    /** adds a new user to the db
+     *
+     * @param u takes object user
+     * @return bool to see if successful or not
+     */
     public boolean addUser(normalUser u) {
         try {
             if (this.getUser(u.getUser()) == null){
@@ -274,8 +339,11 @@ public class AdminControls {
         return false;
     }
 
-
-
+    /** getting a user with username username
+     *
+     * @param username, takes username
+     * @return a user
+     */
     public normalUser getUser(String username) {
         normalUser u = new normalUser();
         ResultSet rs =  null;
@@ -301,11 +369,24 @@ public class AdminControls {
         }
     }
 
+    /** method to remove a user
+     *
+     * @param username, takes username
+     * @return bool to see if it worked
+     */
     public boolean removeUser(String username) {
         try {
             if (this.getUser(username) != null) {
                 this.removeUser.setString(1, username);
                 this.removeUser.executeUpdate();
+
+                // removes any listings user previously had
+                List<assetUnit> listAssetUnit = u.listMyListings(getUser(username));
+                listAssetUnit.forEach(assetUnit -> {
+                    u.removeItem(assetUnit.getID());
+                } );
+
+
                 return true;
             }
         }
@@ -315,6 +396,10 @@ public class AdminControls {
         return  false;
     }
 
+    /** method to modify a user as per GUI input
+     *
+     * @param u, new user object parse from gui
+     */
     public void modifyUser(normalUser u) {
         try {
             this.modifyUser.setInt(1,u.getOrgID());
@@ -331,6 +416,10 @@ public class AdminControls {
         }
     }
 
+    /** gets a list of usernames
+     *
+     * @return a list of usernames
+     */
     public String[] listUser() {
         Set<String> users = new TreeSet();
         ResultSet rs = null;
@@ -351,6 +440,11 @@ public class AdminControls {
         return userArr;
     }
 
+    /** password encrypting
+     *
+     * @param password
+     * @return an encrypted password for the db
+     */
     public String encode(String password){
         String generatedpassword = null;
         try{
