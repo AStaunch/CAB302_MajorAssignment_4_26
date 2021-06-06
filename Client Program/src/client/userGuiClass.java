@@ -4,7 +4,6 @@ package client;
 import common.assetUnit;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,19 +11,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * A Class for creating and managing the GUI for non-admin users
+ * Has a private UserControl and User Object used to access data and functions
+ */
 public class userGuiClass {
     private final UserControls uc;
-    private final AdminControls ac;
     private final normalUser user;
 
-
+    /**
+     * Create an Instance of the userGuiClass
+     * @param user User Object of the non-admin user accessing the Program;
+     *             passed in during login.
+     *             Creates a set of control objects for the functions to herein to use.
+     */
     public userGuiClass(normalUser user){
         this.user = user;
         uc = new UserControls();
-        ac = uc.a;
         normalUserFrame();
     }
 
+    /**
+     * Initalises the landing Frame of the user GUI
+     * @return  The JFrame created
+     */
     private JFrame normalUserFrame(){
         JFrame frame = new JFrame("Electronic Asset Trading Platform");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,6 +52,11 @@ public class userGuiClass {
         return frame;
     }
 
+    /**
+     * Fills a frame, creating the Landing Page for the user
+     * @param frame JFrame passed on from the Frame Before
+     *
+     */
     private void userHomePane(JFrame frame){
 
         Container pane = frame.getContentPane();
@@ -103,6 +118,10 @@ public class userGuiClass {
         });
     }
 
+    /**
+     * Opens the Frame to edit the User Object's password
+     * @param previousFrame JFrame passed on from the Frame Before
+     */
     private void EditPassword(JFrame previousFrame) {
         JFrame currentFrame = new JFrame("View all Listings");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -120,6 +139,10 @@ public class userGuiClass {
 
     }
 
+    /**
+     * Opens the Frame to Create a new Buy or Sell listing
+     * @param previousFrame JFrame passed on from the Frame Before
+     */
     private void CreateListing(JFrame previousFrame){
 
         JFrame currentFrame = new JFrame("View all Listings");
@@ -160,6 +183,10 @@ public class userGuiClass {
         currentFrame.add(panel);
     }
 
+    /**
+     * Opens a frame to views all the listings in the Database, first listing the Buy then Sell listings
+     * @param previousFrame JFrame passed on from the Frame Before
+     */
     private void ViewAllListings(JFrame previousFrame){
         JFrame currentFrame = new JFrame("View My Listings");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -186,6 +213,11 @@ public class userGuiClass {
         currentFrame.add(tablePanel);
         currentFrame.setVisible(true);
     }
+
+    /**
+     * Opens a frame to view all the listings of the Users Organisation
+     * @param previousFrame JFrame passed on from the Frame Before
+     */
     private void ViewMyListings(JFrame previousFrame){
         JFrame currentFrame = new JFrame("View My Listings");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -208,6 +240,11 @@ public class userGuiClass {
 
 
     }
+
+    /**
+     * Opens a frame to view all the Assets in the database, giving the option to open an asset's View page
+     * @param previousFrame JFrame passed on from the Frame Before
+     */
     private void ViewAllAssets(JFrame previousFrame) {
 
         JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
@@ -238,69 +275,12 @@ public class userGuiClass {
         currentFrame.add(tablePanel);
         currentFrame.setVisible(true);
     }
-    private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
-        previousFrame.setEnabled(false);
 
-        currentFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
-                previousFrame.setEnabled(true);
-            };
-        });
-    }
-    private JPanel createAssetTable(Object[] columnNames, assetUnit[] dataArray , JFrame previousFrame){
-
-        JPanel returnPanel = new JPanel( new FlowLayout(FlowLayout.CENTER, 0, 0) );
-        JPanel tablePanel = new JPanel();
-        JPanel ButtonPanel = new JPanel();
-        ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.Y_AXIS));
-        Object[][] rowData = new Object[dataArray.length][];
-
-        int height = 30;
-        int width = 100;
-
-        if ((dataArray.length > 0))
-        {
-            for (int i = 0; i < dataArray.length; i++) {
-
-                int itemID = dataArray[i].getID();
-                String itemName = uc.a.getInvAsset(dataArray[i].getAsset()).getType();
-                String itemPrice = dataArray[i].getCredits().toString();
-                String itemSeller = uc.a.getOrgByID(dataArray[i].getOrg()).getName();
-
-                rowData[i] = new String[]{itemName, itemPrice, itemSeller};
-
-                JButton viewAsset = new JButton("View");
-                int finalI = i;
-                viewAsset.addActionListener(e -> {
-                    ViewAsset(previousFrame, dataArray[finalI]);
-                });
-                viewAsset.setPreferredSize(new Dimension(width, height));
-                ButtonPanel.add(viewAsset);
-
-            }
-
-            JTable table = new JTable(rowData, columnNames);
-            table.setRowHeight(height);
-
-            TableColumnModel columnModel = table.getColumnModel();
-            for(int i = 0; i < columnNames.length; i++){
-                columnModel.getColumn(i).setWidth(width);
-            }
-
-            table.removeEditor();
-            table.setRowSelectionAllowed(false);
-            tablePanel.add(new JScrollPane(table));
-
-            tablePanel.add(table);
-            returnPanel.add(tablePanel);
-            returnPanel.add(ButtonPanel);
-
-
-        }else{
-            returnPanel.add(new JLabel("There are no Assets that fit this criteria"));
-        }
-        return returnPanel;
-    }
+    /**
+     * Opens a frame containing information about the asset, and the option to buy or sell it
+     * @param previousFrame JFrame passed on from the Frame Before
+     * @param unit The assetUnit that is being viewed
+     */
     private void ViewAsset(JFrame previousFrame, assetUnit unit){
         JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -321,9 +301,9 @@ public class userGuiClass {
 
 
         //Asset Information
-        String assetName = ac.getInvAsset(unit.getID()).getType();
+        String assetName = uc.a.getInvAsset(unit.getID()).getType();
         int userOrgID = user.getOrgID();
-        int quantityAvailable = ac.getInvAsset(unit.getID()).getQTY();
+        int quantityAvailable = uc.a.getInvAsset(unit.getID()).getQTY();
         int quantityOwned;
         try {
             quantityOwned = uc.a.getInvAssetTO(assetName, userOrgID).getQTY();
@@ -410,6 +390,88 @@ public class userGuiClass {
         currentFrame.setVisible(true);
     }
 
+    /**
+     * Disables the previous frame and sets at to enable when the current frame is closed
+     * @param currentFrame JFrame that was just opened
+     * @param previousFrame JFrame that is behind the new Frame
+     */
+    private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
+        previousFrame.setEnabled(false);
+
+        currentFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                previousFrame.setEnabled(true);
+            };
+        });
+    }
+
+    /**
+     * Creates a Table of assets with buttons that open them using ViewAsset()
+     * @param columnNames the headers of the Table
+     * @param assetArray the array of Assets that the table's data is constructed from
+     * @param previousFrame passed into the ButtonListeners that create ViewAsset Frames
+     * @return returns a panel contain all the buttons and the table
+     */
+    private JPanel createAssetTable(Object[] columnNames, assetUnit[] assetArray , JFrame previousFrame){
+
+        JPanel returnPanel = new JPanel( new FlowLayout(FlowLayout.CENTER, 0, 0) );
+        JPanel tablePanel = new JPanel();
+        JPanel ButtonPanel = new JPanel();
+        ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.Y_AXIS));
+        Object[][] rowData = new Object[assetArray.length][];
+
+        int height = 30;
+        int width = 100;
+
+        if ((assetArray.length > 0))
+        {
+            for (int i = 0; i < assetArray.length; i++) {
+
+                int itemID = assetArray[i].getID();
+                String itemName = uc.a.getInvAsset(assetArray[i].getAsset()).getType();
+                String itemPrice = assetArray[i].getCredits().toString();
+                String itemSeller = uc.a.getOrgByID(assetArray[i].getOrg()).getName();
+
+                rowData[i] = new String[]{itemName, itemPrice, itemSeller};
+
+                JButton viewAsset = new JButton("View");
+                int finalI = i;
+                viewAsset.addActionListener(e -> {
+                    ViewAsset(previousFrame, assetArray[finalI]);
+                });
+                viewAsset.setPreferredSize(new Dimension(width, height));
+                ButtonPanel.add(viewAsset);
+
+            }
+
+            JTable table = new JTable(rowData, columnNames);
+            table.setRowHeight(height);
+
+            TableColumnModel columnModel = table.getColumnModel();
+            for(int i = 0; i < columnNames.length; i++){
+                columnModel.getColumn(i).setWidth(width);
+            }
+
+            table.removeEditor();
+            table.setRowSelectionAllowed(false);
+            tablePanel.add(new JScrollPane(table));
+
+            tablePanel.add(table);
+            returnPanel.add(tablePanel);
+            returnPanel.add(ButtonPanel);
+
+
+        }else{
+            returnPanel.add(new JLabel("There are no Assets that fit this criteria"));
+        }
+        return returnPanel;
+    }
+
+    /**
+     * Checks if a string can be parsed as the intended integer (i.e string "1" == int 1)
+     * @param str the string that is being parsed
+     * @return Returns True if the string is the inteded integer and False if it is not
+     */
     public static boolean isInteger(String str) {
         if (str == null) {
             return false;
@@ -434,6 +496,12 @@ public class userGuiClass {
         return true;
     }
 
+    /**
+     * Merges two AssetArrays into a single array. It is here to clean up other methods
+     * @param firstArray The first assetUnit array to be merged.
+     * @param secondArray The second assetUnit array to be merged.
+     * @return Returns the combined assetUnit arrays
+     */
     public assetUnit[] mergeAssetArrays(assetUnit[] firstArray, assetUnit[] secondArray){
 
         int fal = firstArray.length;        //determines length of firstArray
@@ -444,87 +512,3 @@ public class userGuiClass {
         return result;
     }
 }
-//BUTTON RENDERER CLASS
-class ButtonRenderer extends JButton implements  TableCellRenderer
-{
-
-    //CONSTRUCTOR
-    public ButtonRenderer() {
-        //SET BUTTON PROPERTIES
-        setOpaque(true);
-    }
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object obj,
-                                                   boolean selected, boolean focused, int row, int col) {
-
-        //SET PASSED OBJECT AS BUTTON TEXT
-        setText((obj==null) ? "":obj.toString());
-
-        return this;
-    }
-
-}
-//BUTTON EDITOR CLASS
-class ButtonEditor extends DefaultCellEditor
-{
-    protected JButton btn;
-    private String lbl;
-    private Boolean clicked;
-
-    public ButtonEditor(JTextField txt) {
-        super(txt);
-
-        btn=new JButton();
-        btn.setOpaque(true);
-
-        //WHEN BUTTON IS CLICKED
-        btn.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                fireEditingStopped();
-            }
-        });
-    }
-
-    //OVERRIDE A COUPLE OF METHODS
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected, int row, int col) {
-
-        //SET TEXT TO BUTTON,SET CLICKED TO TRUE,THEN RETURN THE BTN OBJECT
-        lbl=(obj==null) ? "":obj.toString();
-        btn.setText(lbl);
-        clicked=true;
-        return btn;
-    }
-
-    //IF BUTTON CELL VALUE CHANGES,IF CLICKED THAT IS
-    @Override
-    public Object getCellEditorValue() {
-
-        if(clicked)
-        {
-            //SHOW US SOME MESSAGE
-            JOptionPane.showMessageDialog(btn, lbl+" Clicked");
-        }
-        //SET IT TO FALSE NOW THAT ITS CLICKED
-        clicked=false;
-        return new String(lbl);
-    }
-
-    @Override
-    public boolean stopCellEditing() {
-
-        //SET CLICKED TO FALSE FIRST
-        clicked=false;
-        return super.stopCellEditing();
-    }
-
-    @Override
-    protected void fireEditingStopped() {
-
-        super.fireEditingStopped();
-    }
-}
-
