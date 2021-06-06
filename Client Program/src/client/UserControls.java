@@ -10,7 +10,6 @@ import java.util.List;
 
 public class UserControls {
     AdminControls a = new AdminControls();
-
     private Connection connection = DBConnection.getInstance();
     public static String LIST_ITEM = "INSERT INTO list_item (org_id, seller_id, asset_id, quantity," +
             "credit, bs) VALUES (?,?,?,?,?,?)";
@@ -21,7 +20,7 @@ public class UserControls {
     public static String VIEW_ORGLISTING = "SELECT * FROM list_item WHERE org_id=?";
     public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String BUY_ITEM = "UPDATE inventory SET quantity = ? WHERE org_id = ? AND type = ?";
-    public static String EDIT_CREDIT = "UPDATE organisations SET credits = ? WHERE id=?";
+    public static String EDIT_CREDIT = "UPDATE organisation SET credits = ? WHERE id=?";
     public static String ADD_TRANSACTION = "INSERT INTO transaction (org_id, seller_id, asset_id, quantity," +
             "credit,buyer_id) VALUES (?,?,?,?,?,?) ";
 
