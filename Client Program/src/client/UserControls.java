@@ -287,23 +287,4 @@ public class UserControls {
         return a;
     }
 
-    //public String viewItem(Integer id) {
-    //    ResultSet rs = null;
-    //    String s = "h";
-    //    try {
-    //        this.viewItem.setInt(1,id);
-    //        rs = this.viewItem.executeQuery();
-    //        rs.next();
-    //        String a = rs.getString(1);
-    //        String b = rs.getString(2);
-    //        String c = rs.getString(3);
-    //        String d = rs.getString(4);
-    //        String e = rs.getString(5);
-    //        String f = rs.getString(6);
-    //    }
-    //    catch (SQLException e) {
-    //        return null;
-    //    }
-    //    return s;
-    //}
 }
