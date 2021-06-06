@@ -2,6 +2,7 @@ package test;
 
 import client.AdminControls;
 import client.UserControls;
+import client.normalUser;
 import client.orgUnit;
 import common.assetUnit;
 import org.junit.jupiter.api.Test;
@@ -39,26 +40,19 @@ class UserControlsTest {
 
     @Test
     void buyNewItem() {
+        // asset unit, normal user, amount
+        normalUser user1 = ac.getUser("Alex");
+        assetUnit unit_asset = uc.getItem(2); // CPU HOURS
+        int Amount = 50; // Amount to buy
+        int maxprice = 5;
+        uc.buyNewItem(unit_asset,user1,Amount, maxprice);
+
     }
 
-    @Test
-    void editCredit() {
-    }
 
     @Test
     void addTransaction() {
+        // Buy new items proves that this works
     }
 
-    @Test
-    void listItem() {
-    }
-
-    @Test
-    void removeItem() {
-    }
-
-    @Test
-    void getItem() {
-        uc.getItem(1);
-    }
 }
