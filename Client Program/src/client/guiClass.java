@@ -63,7 +63,22 @@ public class guiClass {
         btnPanel.add(logIn);
         logIn.addActionListener(e -> {
             frame.dispose();
-            adminGuiClass admin = new adminGuiClass();
+            AdminControls a = new AdminControls();
+            normalUser requestedlogin = new normalUser();
+            requestedlogin = a.getUser(userNameTextField.getText());
+            String hashedpass = requestedlogin.getHash();
+            a.encode(String.valueOf(pwdTextField.getPassword()));
+            if (hashedpass.equals(a.encode(String.valueOf(pwdTextField.getPassword())))){
+                if (requestedlogin.isAdmin()){
+                    adminGuiClass admin = new adminGuiClass();
+                }else{
+                    // This is where stal code should go
+                }
+            }else{
+                System.out.println("Error in login details");
+            }
+
+
         });
 
 

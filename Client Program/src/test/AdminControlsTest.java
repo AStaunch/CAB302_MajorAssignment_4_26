@@ -10,8 +10,8 @@ import client.orgUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AdminControlsTest {
     private AdminControls testing = new AdminControls();
-    private normalUser user1 = new normalUser(1,"username","davethegiantslayer69",
-            "Tom",testing.encode("fish"),false);
+    private normalUser user1 = new normalUser(1,"Username","davethegiantslayer69",
+            "Tom",testing.encode("Fish"),false);
 
     @Test
     public void testduplicate() {
@@ -20,7 +20,7 @@ public class AdminControlsTest {
 
     @Test
     public void login() {
-        assertEquals(testing.encode("fish"), user1.getHash());
+        assertEquals(testing.encode("Fish"), user1.getHash());
     }
 
     @Test
