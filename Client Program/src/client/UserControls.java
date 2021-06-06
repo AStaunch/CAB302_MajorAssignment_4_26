@@ -15,7 +15,7 @@ public class UserControls {
             "credit, bs) VALUES (?,?,?,?,?,?)";
     public static String REMOVE_ITEM = "REMOVE FROM list_item WHERE id=?";
     public static String GET_ITEM = "SELECT * FROM list_item WHERE id=?";
-    public static String VIEW_ITEMS = "SELECT * FROM list_item WHERE b/s=? ORDER BY ppu ASC";
+    public static String VIEW_ITEMS = "SELECT * FROM list_item WHERE bs=? ORDER BY ppu ASC";
     public static String VIEW_MYLISTING = "SELECT * FROM list_item WHERE seller_id=?";
     public static String VIEW_ORGLISTING = "SELECT * FROM list_item WHERE org_id=?";
     public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
@@ -59,7 +59,7 @@ public class UserControls {
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
 
         try {
-            this.viewListing.setBoolean(1,tf);
+            this.viewItems.setBoolean(1,tf);
             rs = this.viewItems.executeQuery();
 
             while(rs.next()) {
