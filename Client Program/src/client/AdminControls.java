@@ -170,15 +170,23 @@ public class AdminControls {
         return iaArr;
     }
 
-    public void addOrg(orgUnit o) {
+    public boolean addOrg(orgUnit o) {
         try {
-            this.addOrg.setString(1,o.getName());
-            this.addOrg.setInt(2,o.getCredits());
-            this.addOrg.execute();
+            if (getOrg(o.getName()) == null) {
+                this.addOrg.setString(1,o.getName());
+                this.addOrg.setInt(2,o.getCredits());
+                this.addOrg.execute();
+                return true;
+            }
+            else {
+                return false;
+            }
+
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void removeOrg(String name) {

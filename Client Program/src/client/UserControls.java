@@ -17,8 +17,8 @@ public class UserControls {
     public static String REMOVE_ITEM = "REMOVE FROM list_item WHERE id=?";
     public static String GET_ITEM = "SELECT * FROM list_item WHERE id=?";
     public static String VIEW_ITEMS = "SELECT * FROM list_item";
-    public static String VIEW_MYLISTING = "SELECT * FROM list_item where seller_id=?";
-    public static String VIEW_ORGLISTING = "";
+    public static String VIEW_MYLISTING = "SELECT * FROM list_item WHERE seller_id=?";
+    public static String VIEW_ORGLISTING = "SELECT * FROM list_item WHERE org_id=?";
     public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String BUY_ITEM = "UPDATE inventory SET quantity = ? WHERE org_id = ? AND type = ?";
     public static String EDIT_CREDIT = "UPDATE organisations SET credits = ? WHERE id=?";
@@ -28,7 +28,7 @@ public class UserControls {
     private PreparedStatement listItem;
     private PreparedStatement removeItem;
     private PreparedStatement getItem;
-    private PreparedStatement viewItem;
+    private PreparedStatement viewItems;
     private PreparedStatement viewListing;
     private PreparedStatement viewOrgListing;
     private PreparedStatement buyNewItem;
@@ -42,7 +42,7 @@ public class UserControls {
             this.listItem = this.connection.prepareStatement(LIST_ITEM);
             this.removeItem = this.connection.prepareStatement(REMOVE_ITEM);
             this.getItem = this.connection.prepareStatement(GET_ITEM);
-            this.viewItem = this.connection.prepareStatement(VIEW_ITEMS);
+            this.viewItems = this.connection.prepareStatement(VIEW_ITEMS);
             this.viewListing = this.connection.prepareStatement(VIEW_MYLISTING);
             this.viewOrgListing = this.connection.prepareStatement(VIEW_ORGLISTING);
             this.buyNewItem = this.connection.prepareStatement(BUY_ITEM_NEW);
@@ -60,14 +60,71 @@ public class UserControls {
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
 
         try {
-            rs = this.listItem.executeQuery();
+            rs = this.viewItems.executeQuery();
 
             while(rs.next()) {
+                Integer id = rs.getInt(1);
+                Integer org_id = rs.getInt(2);
+                Integer seller_id = rs.getInt(3);
+                Integer asset_id = rs.getInt(4);
+                Integer quantity = rs.getInt(5);
+                Integer credits = rs.getInt(5);
 
+                assetUnit aU = new assetUnit(id, org_id, seller_id, asset_id, quantity, credits);
+                listAssetUnit.add(aU);
             }
+        }
+        catch (SQLException e) {
 
+        }
+        return listAssetUnit;
+    }
 
+    public List<assetUnit> listMyListings(normalUser u) {
+        ResultSet rs = null;
+        List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
 
+        try {
+            this.viewListing.setInt(1, u.getID());
+            rs = this.viewListing.executeQuery();
+
+            while(rs.next()) {
+                Integer id = rs.getInt(1);
+                Integer org_id = rs.getInt(2);
+                Integer seller_id = rs.getInt(3);
+                Integer asset_id = rs.getInt(4);
+                Integer quantity = rs.getInt(5);
+                Integer credits = rs.getInt(5);
+
+                assetUnit aU = new assetUnit(id, org_id, seller_id, asset_id, quantity, credits);
+                listAssetUnit.add(aU);
+            }
+        }
+        catch (SQLException e) {
+
+        }
+        return listAssetUnit;
+    }
+
+    public List<assetUnit> listOrgListings(orgUnit o) {
+        ResultSet rs = null;
+        List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
+
+        try {
+            this.viewOrgListing.setInt(1, o.getID());
+            rs = this.viewOrgListing.executeQuery();
+
+            while(rs.next()) {
+                Integer id = rs.getInt(1);
+                Integer org_id = rs.getInt(2);
+                Integer seller_id = rs.getInt(3);
+                Integer asset_id = rs.getInt(4);
+                Integer quantity = rs.getInt(5);
+                Integer credits = rs.getInt(5);
+
+                assetUnit aU = new assetUnit(id, org_id, seller_id, asset_id, quantity, credits);
+                listAssetUnit.add(aU);
+            }
         }
         catch (SQLException e) {
 
