@@ -232,6 +232,8 @@ public class AdminControls {
         try {
             this.removeOrg.setString(1,name);
             this.removeOrg.executeUpdate();
+
+
         }
         catch (SQLException e) {
             e.printStackTrace();

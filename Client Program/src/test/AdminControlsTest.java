@@ -70,8 +70,7 @@ public class AdminControlsTest {
     @Test
     public void getOrg() {
         orgUnit o = new orgUnit();
-        o = testing.getOrg("Jaydens org");
-        System.out.println(o.getName());
+        o = testing.getOrg("Alexs org");
     }
 
     @Test

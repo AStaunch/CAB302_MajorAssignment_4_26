@@ -54,7 +54,7 @@ public class UserControls {
         }
     }
 
-    public List<assetUnit> listAsset(boolean tf) {
+    public List<assetUnit> viewListing(boolean tf) {
         ResultSet rs = null;
         List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
 

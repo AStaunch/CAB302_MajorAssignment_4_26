@@ -1,10 +1,7 @@
 package test;
 
 import client.UserControls;
-import common.assetUnit;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 class UserControlsTest {
     UserControls uc = new UserControls();
@@ -12,7 +9,7 @@ class UserControlsTest {
 
     @Test
     void listAsset() {
-        List<assetUnit> result = uc.listAsset(true);
+
     }
 
     @Test
