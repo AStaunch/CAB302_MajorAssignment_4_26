@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class AdminControls {
-    UserControls u = new UserControls();
     private Connection connection = DBConnection.getInstance();
     // User SQL
     public static String INSERT_USER = "INSERT INTO user (org_id, username, first_name, last_name, hash_pwd," +
@@ -321,7 +320,9 @@ public class AdminControls {
      */
     public boolean addUser(normalUser u) {
         try {
-            if (this.getUser(u.getUser()) == null){
+            if (this.getUser(u.getUser()) == null && u.getHash() != null && !u.getHash().equals("")
+                && !u.getUser().equals(""))
+            {
                 this.addUser.setInt(1, u.getOrgID());
                 this.addUser.setString(2, u.getUser());
                 this.addUser.setString(3, u.getFN());
@@ -375,6 +376,7 @@ public class AdminControls {
      * @return bool to see if it worked
      */
     public boolean removeUser(String username) {
+        UserControls u = new UserControls();
         try {
             if (this.getUser(username) != null) {
                 this.removeUser.setString(1, username);

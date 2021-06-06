@@ -20,7 +20,15 @@ public class AdminControlsTest {
 
     @Test
     public void login() {
+        // Testing if the expected password hash is correct
         assertEquals(testing.encode("Fish"), user1.getHash());
+        user1.setHash("");
+        user1.setUser("Not added");
+        assertEquals(false, testing.addUser(user1));
+        user1.setUser("");
+        user1.setHash(testing.encode("Fish"));
+        assertEquals(false, testing.addUser(user1));
+        user1.setUser("Username");
     }
 
     @Test
@@ -37,6 +45,8 @@ public class AdminControlsTest {
     public void testremoveuser(){
         assertEquals(true,testing.removeUser(user1.getUser()));
         assertEquals(false,testing.removeUser(user1.getUser()));
+        assertEquals(false,testing.removeUser("I am not in the database"));
+
 
     }
 
