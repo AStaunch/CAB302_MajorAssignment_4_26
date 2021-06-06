@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class adminGuiClass {
@@ -619,15 +620,15 @@ public class adminGuiClass {
             Integer num = Integer.parseInt(amount.getText());
             u.editCredit(unit, num, true);
             JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
-            amount.setText(num.toString());
+            cTField.setText(a.getOrg(searchTField.getText()).getCredits().toString());
         });
         JButton removeCredit = new JButton("Remove credit");
         removeCredit.addActionListener(e -> {
             orgUnit unit = a.getOrg(searchTField.getText());
             Integer num = Integer.parseInt(amount.getText());
-            if (u.editCredit(unit, num, true)){
-                JOptionPane.showMessageDialog(frame,"Adding credit successful!!!");
-                amount.setText(num.toString());
+            if (u.editCredit(unit, num, false)){
+                JOptionPane.showMessageDialog(frame,"Removing credit successful!!!");
+                cTField.setText(a.getOrg(searchTField.getText()).getCredits().toString());
             } else {
                 JOptionPane.showMessageDialog(frame,"Enter a number lower than current credit!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
@@ -662,10 +663,11 @@ public class adminGuiClass {
             cTField.setText("");
             frame.setTitle("Edit Org Credit");
             String searchThis = searchTField.getText();
+            //Boolean check = Arrays.stream(a.listOrg()).anyMatch(searchThis::equals);
             if(searchThis.isEmpty()){
                 JOptionPane.showMessageDialog(frame,"Enter a org name to search!!!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!(a.getOrg(searchThis) instanceof orgUnit)){
+            } else if (!(Arrays.stream(a.listOrg()).anyMatch(searchThis::equals))){
                 JOptionPane.showMessageDialog(frame,"Organisation is not in the list!!!",
                         "Warning",JOptionPane.WARNING_MESSAGE);
             } else {

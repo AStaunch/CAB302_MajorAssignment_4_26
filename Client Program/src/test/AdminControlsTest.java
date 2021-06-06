@@ -71,6 +71,7 @@ public class AdminControlsTest {
     public void getOrg() {
         orgUnit o = new orgUnit();
         o = testing.getOrg("Alexs org");
+        System.out.println(o.getName());
     }
 
     @Test
