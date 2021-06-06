@@ -139,7 +139,7 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] myListedAsset = uc.listAsset().toArray(new assetUnit[0]);
+        assetUnit[] myListedAsset = uc.listAsset(true).toArray(new assetUnit[0]);
         // TODO update to take in all a user/organisations listings
         String[] columnNames = new String[]{"Asset Listed","Listed Price"};
 
