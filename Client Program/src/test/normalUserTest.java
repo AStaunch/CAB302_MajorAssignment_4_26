@@ -12,12 +12,12 @@ public class normalUserTest {
     //                      Boolean isAdmin
     @BeforeEach
     public void initNormal(){
-        user1 = new normalUser(1, 1,"username","davethegiantslayer69","Tom","B",false);
+        user1 = new normalUser(1, 1,"username","davethegiantslayer","Tom","B",false);
     }
 
     @Test
     public void testUserName(){
-        assertEquals("Tom", user1.getFN());
+        assertEquals("davethegiantslayer", user1.getFN());
     }
     @Test
     public void testUserID(){
