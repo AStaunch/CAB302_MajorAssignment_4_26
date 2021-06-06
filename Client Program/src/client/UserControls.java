@@ -5,6 +5,8 @@ import common.InventoryAsset;
 import common.assetUnit;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserControls {
     AdminControls a = new AdminControls();
@@ -14,9 +16,8 @@ public class UserControls {
             "credit) VALUES (?,?,?,?,?)";
     public static String REMOVE_ITEM = "REMOVE FROM list_item WHERE id=?";
     public static String GET_ITEM = "SELECT * FROM list_item WHERE id=?";
-    public static String VIEW_ITEM = "";
-
-    public static String VIEW_MYLISTING = "";
+    public static String VIEW_ITEMS = "SELECT * FROM list_item";
+    public static String VIEW_MYLISTING = "SELECT * FROM list_item where seller_id=?";
     public static String VIEW_ORGLISTING = "";
     public static String BUY_ITEM_NEW = "INSERT INTO inventory (org_id, type, quantity) VALUES = (?,?,?)";
     public static String BUY_ITEM = "UPDATE inventory SET quantity = ? WHERE org_id = ? AND type = ?";
@@ -41,7 +42,7 @@ public class UserControls {
             this.listItem = this.connection.prepareStatement(LIST_ITEM);
             this.removeItem = this.connection.prepareStatement(REMOVE_ITEM);
             this.getItem = this.connection.prepareStatement(GET_ITEM);
-            this.viewItem = this.connection.prepareStatement(VIEW_ITEM);
+            this.viewItem = this.connection.prepareStatement(VIEW_ITEMS);
             this.viewListing = this.connection.prepareStatement(VIEW_MYLISTING);
             this.viewOrgListing = this.connection.prepareStatement(VIEW_ORGLISTING);
             this.buyNewItem = this.connection.prepareStatement(BUY_ITEM_NEW);
@@ -53,6 +54,27 @@ public class UserControls {
             var2.printStackTrace();
         }
     }
+
+    public List<assetUnit> listAsset() {
+        ResultSet rs = null;
+        List<assetUnit> listAssetUnit = new ArrayList<assetUnit>();
+
+        try {
+            rs = this.listItem.executeQuery();
+
+            while(rs.next()) {
+
+            }
+
+
+
+        }
+        catch (SQLException e) {
+
+        }
+        return listAssetUnit;
+    }
+
     public Boolean generalBuy(assetUnit u, normalUser user) {
         // Check for sufficient funds
         if (a.getOrgByID(user.getOrgID()).getCredits()>=u.getQTY())
@@ -105,9 +127,9 @@ public class UserControls {
     public void buyNewItem(assetUnit u, normalUser user) {
 
         try {
-            this.buyItem.setInt(1,user.getOrgID());
-            this.buyItem.setString(2,a.getInvAsset(u.getAsset()).getType());
-            this.buyItem.setInt(3, u.getQTY());
+            this.buyNewItem.setInt(1,user.getOrgID());
+            this.buyNewItem.setString(2,a.getInvAsset(u.getAsset()).getType());
+            this.buyNewItem.setInt(3, u.getQTY());
             this.listItem.execute();
 
             // Seller changes credits for sellers org
