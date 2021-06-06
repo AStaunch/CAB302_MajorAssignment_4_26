@@ -9,13 +9,25 @@ public class InventoryAsset implements asset {
 
     public InventoryAsset() {};
 
+    /**
+     * Constructs a new Inventory Asset
+     * @param id Unique ID of the Inventory Asset
+     * @param org_id Organisation ID of the organisation that owns this Asset
+     * @param type The Type of Asset this is
+     * @param quantity The Quantity of this asset in the system
+     */
     public InventoryAsset(Integer id, Integer org_id, String type, Integer quantity) {
         this.id = id;
         this.org_id = org_id;
         this.Type = type;
         this.quantity = quantity;
     }
-
+    /**
+     * Constructs a Inventory Asset, assigning a QTY to organisation
+     * @param org_id Organisation ID of the organisation that owns this Asset
+     * @param type The Type of Asset this is
+     * @param quantity The Quantity of this asset in the system
+     */
     public InventoryAsset(Integer org_id, String type, Integer quantity) {
         this.org_id = org_id;
         this.Type = type;
