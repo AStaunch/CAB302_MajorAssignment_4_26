@@ -10,13 +10,30 @@ public class assetUnit implements asset {
     private Integer asset_id;
     private Integer quantity;
     private Integer credits;
+    private boolean bs;
 
     public assetUnit() {};
+
     public assetUnit(Integer id, Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
-                     Integer credits) {
+                     Integer credits, boolean bs) {
+        this.id = id;
+        this.org_id = org_id;
+        this.seller_id = seller_id;
+        this.asset_id = asset_id;
+        this.quantity = quantity;
+        this.credits = credits;
+        this.bs = bs;
+
+
     }
     public assetUnit(Integer org_id, Integer seller_id, Integer asset_id, Integer quantity,
-                     Integer credits) {
+                     Integer credits, boolean bs) {
+        this.org_id = org_id;
+        this.seller_id = seller_id;
+        this.asset_id = asset_id;
+        this.quantity = quantity;
+        this.credits = credits;
+        this.bs = bs;
     }
 
     @Override

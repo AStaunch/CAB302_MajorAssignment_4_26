@@ -14,15 +14,15 @@ import java.awt.event.WindowEvent;
 public class userGuiClass {
     private JMenuBar mb;
     private JMenu home;
-    private UserControls uc;
-    private AdminControls ac;
-    private normalUser user;
+    private final UserControls uc;
+    private final AdminControls ac;
+    private final normalUser user;
 
 
     public userGuiClass(normalUser user){
         this.user = user;
         uc = new UserControls();
-        ac = new AdminControls();
+        ac = uc.a;
         normalUserFrame();
     }
 
@@ -118,12 +118,12 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit()};
+        assetUnit[] allListedAssets = new assetUnit[]{new assetUnit()};
         // TODO update to take in all a user/organisations listings]);
 
         String[] columnNames = new String[]{"Asset Listed","Listed Price", "Actions"};
 
-        JPanel table = createTable(columnNames, myListedAssetUnits, currentFrame);
+        JPanel table = createTable(columnNames, allListedAssets, currentFrame);
 
         tablePanel.add(table);
         currentFrame.add(tablePanel);
@@ -139,11 +139,11 @@ public class userGuiClass {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new FlowLayout());
 
-        assetUnit[] myListedAssetUnits = new assetUnit[]{new assetUnit()};
+        assetUnit[] myListedAsset = uc.listAsset().toArray(new assetUnit[0]);
         // TODO update to take in all a user/organisations listings
         String[] columnNames = new String[]{"Asset Listed","Listed Price"};
 
-        JPanel table = createTable(columnNames, myListedAssetUnits, currentFrame);
+        JPanel table = createTable(columnNames, myListedAsset, currentFrame);
 
         tablePanel.add(table);
         currentFrame.add(tablePanel);
@@ -179,9 +179,6 @@ public class userGuiClass {
         currentFrame.add(tablePanel);
         currentFrame.setVisible(true);
     }
-
-
-
 
     private void EnabledOnClose(JFrame currentFrame,JFrame previousFrame){
         previousFrame.setEnabled(false);
@@ -229,6 +226,7 @@ public class userGuiClass {
 
         return returnPanel;
     }
+
     private void ViewAsset(JFrame previousFrame, assetUnit unit){
         JFrame currentFrame = new JFrame("Electronic Asset Trading Platform");
         currentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -237,21 +235,113 @@ public class userGuiClass {
 
         EnabledOnClose(currentFrame, previousFrame);
 
+        JPanel mainPanel = new JPanel(new FlowLayout());
+        Container pane = currentFrame.getContentPane();
+        JPanel buyPanel = new JPanel(new BoxLayout(pane, BoxLayout.Y_AXIS));
+        JPanel sellPanel = new JPanel(new BoxLayout(pane, BoxLayout.Y_AXIS));
+        JPanel infoPanel = new JPanel(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+
+
+        //Asset Information
+        String assetName = ac.getInvAsset(unit.getID()).getType();
+        int quantityAvailable = ac.getInvAsset(unit.getID()).getQTY();
+        int quantityOwned = ac.getInvAssetTO(assetName, user.getOrgID()).getQTY();
+        int lowestPrice = 0;
+        //TODO
+
+        JLabel unitName = new JLabel(assetName);
+        JLabel unitQty = new JLabel("# Units up for sale: " + quantityAvailable );
+        JLabel unitStartPrice = new JLabel("Starting Price: " + lowestPrice);
+
+        infoPanel.add(unitName);
+        infoPanel.add(unitQty);
+        infoPanel.add(unitStartPrice);
+
+        //Buy Functions
+        //Type, Qty, Credits/unit
+        JTextField qtyBuy = new JTextField("Please Enter a Quantity to buy");
+        JTextField priceBuy = new JTextField("Please Enter a Price Per Unit to buy at");
+
         JButton buyButton = new JButton("Buy This");
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                uc.buyItem(unit, user);
+                int qtyBought = Integer.parseInt(qtyBuy.toString());
+                Boolean goodQty = quantityAvailable >= qtyBought && isInteger(qtyBuy.toString());
+
+                Boolean goodPrice = true;
+                //TODO
+                if (goodQty && goodPrice){
+                    uc.buyItem(unit, user);
+                }else if(!goodQty){
+
+                }else if(!goodPrice){
+
+                }
             }
         });
-        JButton sellButton = new JButton("Sell This");
+        buyPanel.add(qtyBuy);
+        buyPanel.add(priceBuy);
+        buyPanel.add(buyButton);
+
+        //Sell Functions
+        //Type, Qty, stockSold
+        JTextField qtySell = new JTextField("Please Enter a Quantity to buy");
+        JTextField priceSell = new JTextField("Please Enter a Price Per Unit to buy at");
+
+        JButton sellButton = new JButton("Buy This");
         sellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                uc.listItem(unit);
+                int qtySold = Integer.parseInt(qtySell.toString());
+                Boolean goodQty = quantityOwned >= qtySold && isInteger(qtySell.toString());
+
+                Boolean goodPrice = true;
+                //TODO
+                if (goodQty && goodPrice){
+                    uc.buyItem(unit, user);
+                }else if(!goodQty){
+
+                }else if(!goodPrice){
+
+                }
             }
         });
+        sellPanel.add(qtySell);
+        sellPanel.add(priceSell);
+        sellPanel.add(sellButton);
+
+        //Add To Main Panel
+        mainPanel.add(infoPanel);
+        mainPanel.add(buyPanel);
+        mainPanel.add(sellPanel);
+        currentFrame.add(mainPanel);
         currentFrame.setVisible(true);
+    }
+
+    public static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
+        int length = str.length();
+        if (length == 0) {
+            return false;
+        }
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) {
+                return false;
+            }
+            i = 1;
+        }
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 }
 //BUTTON RENDERER CLASS
@@ -337,3 +427,4 @@ class ButtonEditor extends DefaultCellEditor
         super.fireEditingStopped();
     }
 }
+

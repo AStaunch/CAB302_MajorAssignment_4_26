@@ -7,6 +7,21 @@ public class InventoryAsset implements asset {
 
     private Integer quantity;
 
+    public InventoryAsset() {};
+
+    public InventoryAsset(Integer id, Integer org_id, String type, Integer quantity) {
+        this.id = id;
+        this.org_id = org_id;
+        this.Type = type;
+        this.quantity = quantity;
+    }
+
+    public InventoryAsset(Integer org_id, String type, Integer quantity) {
+        this.org_id = org_id;
+        this.Type = type;
+        this.quantity = quantity;
+    }
+
     @Override
     public Integer getID() {return this.id;}
     @Override
